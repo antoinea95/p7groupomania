@@ -1,9 +1,11 @@
 const express = require('express');
 const helmet = require('helmet');
-const mongoSanitize = require('express-mongo-sanitize')
+const mongoSanitize = require('express-mongo-sanitize');
 require('./config/db');
+const path = require('path');
 
 const userRoute = require('./routes/user');
+const postRoute = require('./routes/post');
 
 const app = express();
 
@@ -23,6 +25,9 @@ app.use(express.json());
 
 
 app.use('/api/auth', userRoute);
+app.use('/api/posts/', postRoute)
+
+app.use('/images', express.static(path.join(__dirname, 'images')));
 
 
 module.exports = app;
