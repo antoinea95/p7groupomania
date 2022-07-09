@@ -1,6 +1,5 @@
 const Post = require('../models/post');
 const fs = require('fs');
-const { STATUS_CODES } = require('http');
 
 
 /////////////////////////////////////////////create post
@@ -10,7 +9,7 @@ exports.createPost = (req, res) => {
     const post =  new Post( req.file ? 
         {
             ...JSON.parse(req.body.post), 
-            imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+            imageUrl: `${req.protocol}://${req.get('host')}/images/posts/${req.file.filename}`
         } : 
         
         {
@@ -18,6 +17,7 @@ exports.createPost = (req, res) => {
             message: req.body.message,
             imageUrl: '',
             comments: [],
+            likes: 0,
             usersLiked: [],
 
         })
@@ -32,12 +32,22 @@ exports.createPost = (req, res) => {
     
     };
 
-/////////////////////////////////////////////get post
+/////////////////////////////////////////////get all post
 exports.getAllPosts = (req, res) => {
     Post.find()
         .then(posts => res.status(200).json(posts))
         .catch(error => res.status(400).json({error}))
 }
+
+/////////////////////////////////////////////get post
+exports.getOnePost = (req, res) => {
+
+    Post.findOne({_id: req.params.id})
+        .then(posts => res.status(200).json(posts))
+        .catch(error => res.status(400).json({error}))
+}
+
+
 
 /////////////////////////////////////////////update post
 exports.updatePost = (req, res) => {
@@ -46,8 +56,8 @@ exports.updatePost = (req, res) => {
     if(req.file) { 
         Post.findOne({_id: req.params.id})
             .then(post => {
-                const filename = sauce.imageUrl.split('/images')[1];
-                fs.unlink(`images/resized/${filename}`, (err) => {
+                const filename = post.imageUrl.split('/images/posts/')[1];
+                fs.unlink(`images/posts/${filename}`, (err) => {
                     if(err) {
                         throw err;
                     }
@@ -63,7 +73,7 @@ exports.updatePost = (req, res) => {
             const postObject = req.file ? 
             {
                 ...JSON.parse(req.body.post),
-                imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+                imageUrl: `${req.protocol}://${req.get('host')}/images/posts/${req.file.filename}`
             } : {...req.body};
 
             // if authentification is okay, we can update the post
@@ -81,32 +91,16 @@ exports.updatePost = (req, res) => {
 /////////////////////////////////////////////delete post
 exports.deletePost = (req, res) => {
 
-    if(req.file) { 
-        Post.findOne({_id: req.params.id})
-            .then(post => {
-                const filename = sauce.imageUrl.split('/images')[1];
-                fs.unlink(`images/resized/${filename}`, (err) => {
-                    if(err) {
-                        throw err;
-                    }
-                })
-            })
-            .catch(error => res.status(500).json({error}))
-    }
-
     Post.findOne({_id: req.params.id})
         .then(post => {
 
             if(post.userId === req.token.userId) {
-            //     const filename = post.imageUrl.split('/resized')[1];
-            //     fs.unlink(`images/resized/${filename}`, (error) => {
-            //         if(error) {
-            //             throw error
-            //         }
-            // })
-            Post.deleteOne({_id: req.params.id})
-                .then(() => res.status(200).json({message: 'Post supprimé'}))
-                .catch(error => res.status(400).json({error}))
+                const filename = post.imageUrl.split('/images/posts')[1];
+                fs.unlink(`images/posts/${filename}`, () => {
+                    Post.deleteOne({_id: req.params.id})
+                        .then(() => res.status(200).json({message: 'Post supprimé'}))
+                        .catch(error => res.status(400).json({error}))  
+                })
             }
 
              else {
@@ -114,6 +108,43 @@ exports.deletePost = (req, res) => {
             }
         })
         .catch(error => res.status(500).json({error}))
+};
+
+
+/////////////////////////////////////////////like post
+exports.likePost = (req, res) => {
+    Post.findOne({_id: req.params.id})
+        .then(post => {
+
+            const userId = req.body.userId;
+            const like = req.body.like;
+
+            const likeId = post.usersLiked.includes(userId);
+
+            switch(true) {
+
+                case like !== 0 && like !== 1:
+                   res.status(403).json({message: 'Non autorisé'});
+                    break;
+
+                case like === 1 && likeId:
+                    res.status(403).json({message: 'Non autorisé'});
+                    break;
+                    
+                case like === 1 && likeId === false:
+                    Post.updateOne({_id: req.params.id}, {$inc:{likes: +1}, $push:{usersLiked:userId}})
+                    .then(() => res.status(200).json({message: 'like envoyé'}))
+                    .catch(error => res.status(400).json({error}));
+                    break;
+
+                case like === 0 && likeId:
+                    Post.updateOne({_id: req.params.id}, {$inc:{likes: -1}, $pull:{usersLiked:userId}})
+                     
+                    break;
+            }
+        })
+        .catch(error => res.status(400).json({error}));
 }
+
 
 

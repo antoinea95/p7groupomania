@@ -10,16 +10,16 @@ const postSchema = mongoose.Schema({
     comments: 
         {type: [
             {
-                usersCommented: String,
-                commentsName: String,
+                commenterId: String,
+                commentName: String,
                 text: String,
-                timestamp: Number
+                timestamps: Number
             }
         ], require: true },
     likes: 
-        {type: Number},
+        {type: Number, default: 0, required: true},
     usersLiked:
-        [String]
+        {type: [String]}
 }, 
     {
         timestamps: true
