@@ -36,7 +36,7 @@ exports.updateComment = (req, res) => {
             newComments.push(updateComment);
 
             // if userId is equal to the commenterId update post
-            if(updateComment.commenterId === req.token.userId) {
+            if(updateComment.commenterId === req.token.userId || req.token.userRole === 'admin') {
 
                 Post.updateOne({_id: req.params.id}, {comments: newComments})
                     .then(() => res.status(200).json({message: 'commentaires modifié!'}))
@@ -62,7 +62,7 @@ exports.deleteComment = (req, res) => {
             const newComments = post.comments.filter((comments) => comments._id !== updateComment._id);
 
             // If userId is equal to commenterId update post
-            if(updateComment.commenterId === req.token.userId) {
+            if(updateComment.commenterId === req.token.userId || req.token.userRole === 'admin') {
             
                 Post.updateOne({_id: req.params.id}, {comments: newComments})
                     .then(() => res.status(200).json({message: 'commentaires supprimé!'}))

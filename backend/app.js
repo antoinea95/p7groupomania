@@ -1,8 +1,10 @@
 const express = require('express');
 const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
-require('./config/db');
 const path = require('path');
+
+
+require('./config/db');
 
 const userRoute = require('./routes/user');
 const postRoute = require('./routes/post');

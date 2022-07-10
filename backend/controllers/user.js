@@ -20,11 +20,17 @@ exports.getAllUsers = (req, res) => {
 exports.updateUser = (req, res) => {
      // find user in DB
      User.findOne({_id: req.params.id})
-     .then(() => {
+     .then(user => {
          // if authentification is okay, we can update the user
         if(req.params.id === req.token.userId) {
-             User.updateOne({_id: req.params.id}, {function: req.body.function, _id: req.params.id})
-                 .then(() => res.status(200).json({message: 'User modifié!'}))
+             User.updateOne({_id: req.params.id}, {
+                
+                firstName: req.body.firstName,
+                function: req.body.function, 
+                bio: req.body.bio
+            
+            })
+                 .then(() => res.status(200).json({message: 'User modifié!', user: user}))
                  .catch(error => res.status(400).json({error}));
          } 
          else {
@@ -46,7 +52,7 @@ exports.uploadImg = (req, res) => {
                     }
                 })
 
-                if(req.params.id === req.token.userId) {
+                if(req.params.id === req.token.userId ) {
                     User.updateOne({_id: req.params.id}, 
                         {imageUrl: `${req.protocol}://${req.get('host')}/images/users/${req.file.filename}`, 
                         _id: req.params.id})
@@ -63,7 +69,7 @@ exports.uploadImg = (req, res) => {
 ///////////////////////////////////////////////delete user's profile
 exports.deleteUser = (req, res) => {
 
-    if(req.params.id === req.token.userId) {
+    if(req.params.id === req.token.userId || req.token.userRole === 'admin') {
         User.deleteOne({_id: req.params.id})
             .then(() => res.status(200).json({message: 'User supprimé!'}))
             .catch(error => res.status(400).json({error}));

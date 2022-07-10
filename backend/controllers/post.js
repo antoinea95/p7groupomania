@@ -77,7 +77,7 @@ exports.updatePost = (req, res) => {
             } : {...req.body};
 
             // if authentification is okay, we can update the post
-            if(post.userId === req.token.userId) {
+            if(post.userId === req.token.userId || req.token.userRole === 'admin') {
                 Post.updateOne({_id: req.params.id}, {...postObject, _id: req.params.id})
                     .then(() => res.status(200).json({message: 'Post modifié!'}))
                     .catch(error => res.status(400).json({error}));
@@ -94,7 +94,7 @@ exports.deletePost = (req, res) => {
     Post.findOne({_id: req.params.id})
         .then(post => {
 
-            if(post.userId === req.token.userId) {
+            if(post.userId === req.token.userId || req.token.userRole === 'admin') {
                 const filename = post.imageUrl.split('/images/posts')[1];
                 fs.unlink(`images/posts/${filename}`, () => {
                     Post.deleteOne({_id: req.params.id})
