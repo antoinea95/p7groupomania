@@ -4,6 +4,7 @@ const router = express.Router();
 
 // import middlewares
 const auth = require('../middlewares/auth');
+const password = require('../middlewares/password')
 const multer = require('../middlewares/multer-users');
 
 // import user's controllers
@@ -11,11 +12,11 @@ const authUserCtrl = require('../controllers/auth-user');
 const userCtrl = require('../controllers/user');
 
 // user's signup & login
-router.post('/signup', authUserCtrl.signup);
+router.post('/signup', password, authUserCtrl.signup);
 router.post('/login', authUserCtrl.login);
 
 // update user's profile
-router.put('/user/:id', auth, multer, userCtrl.updateUser);
+router.put('/user/:id', auth, userCtrl.updateUser);
 router.put('/user/:id/upload', auth, multer, userCtrl.uploadImg);
 
 // get user
