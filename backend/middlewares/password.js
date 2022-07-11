@@ -15,7 +15,7 @@ passwordSchema
 // vérification
 module.exports = (req, res, next) => {
     if(passwordSchema.validate(req.body.password) === false) {
-        return res.status(400).json({ error: "le mot de passe n'est pas assez fort: "+ passwordSchema.validate(req.body.password, {list: true})});
+        return res.status(200).json({error: 'Le mot de passe est invalide'});
     }
     else {
         next();
