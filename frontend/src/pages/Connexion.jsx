@@ -1,18 +1,24 @@
 import React, { useState } from "react";
 import Form from "../components/Form";
-// import { useEffect } from "react";
+import typo from "../images/icon-left-font.svg"
+import logo from "../images/logo-left-font.svg"
 
 export default function Connexion() {
-
-    // defined if user is signup or login
-    const [isLogin, setIsLogin] = useState(false);
+   
 
     return(
 
-        <div>
-            <button onClick={() => setIsLogin(false)}> Créer un compte </button>
-            <button onClick={() => setIsLogin(true)} checked={isLogin}> Se connecter </button>
-            <Form isLogin={isLogin} />
-        </div>
+        <>
+        <header className="header--connexion">
+            <div className="header--connexion__img">
+                <img src={typo} alt='logo de groupomania' />
+            </div>
+        </header>
+        <main>
+            <img src={logo} alt='logo de groupomania' />
+            <Form/>
+        </main>
+        </>
+            
     )
 }

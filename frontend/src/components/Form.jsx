@@ -3,17 +3,18 @@ import {yupResolver} from '@hookform/resolvers/yup';
 import {useForm} from 'react-hook-form';
 import * as Yup from 'yup';
 import axios from "axios";
-import { useEffect } from "react";
 
 
-export default function Form(props) {
+export default function Form() {
 
-// get error backend
-const [signupError, setSignupError] = useState({})
-const [loginError, setLoginError] = useState({})
+    // control form to display
+const [isLogin, setIsLogin] = useState(false);
+
+// login after signup
+const [isSignup, setIsSignup] = useState(false)
 
 // Yup key for the firstName, if Login Form is on display, firstName is not required
-const firstName = !props.isLogin && 
+const firstName = !isLogin && 
 { firstName: Yup.string()
                 .required('Merci de renseigner votre prénom')
                 .matches('^[A-Za-zÀ-ÖØ-öø-ÿ\-\'\ ]{2,}$', 'Prénom invalide')
@@ -30,15 +31,17 @@ const ValidationSchema = Yup.object().shape({
 
     password: Yup.string()
         .required('Merci de renseigner un mot de passe')
-        .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{6,}$/ , "Le mot de passe doit contenir au minimume 6 caractères, 1 majuscule et 1 nombre")
+        .matches(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{6,}$/ , "Le mot de passe doit contenir au minimum 6 caractères, 1 majuscule et 1 nombre")
 
 })
 
+// validation form
 const {register, handleSubmit, formState, reset} = useForm({
     mode: "onBlur",
     resolver: yupResolver(ValidationSchema),
 })
 
+// stock errors
 const { errors } = formState;
 
     // Send signup's data with axios
@@ -52,8 +55,16 @@ const { errors } = formState;
                ...data
             }     
         })
-        .then(res => {setSignupError(res.data.errors)
-        console.log(res)})
+        .then(res => {
+            if(res.data.errors) { 
+                const errors = res.data.errors
+                const errorSmall = document.querySelector('.postError')
+                errorSmall.textContent = errors.email
+            } else {
+                setIsSignup(true)
+            }
+            
+                })
         .catch(err => console.log(err))  
 
         //reset()
@@ -70,95 +81,131 @@ const { errors } = formState;
                ...data
             }     
         })
-        .then(res => setLoginError(res.data))
-        .catch(err => console.log(err))  
+        .then(res => {
 
-        reset()
+            if(res.data.message) {
+                const errorSmall = document.querySelector('.postError');
+                const error = res.data;
+                errorSmall.textContent = error.message;
+            } else {
+                window.location = '/home'
+            }
+        })
+        .catch(err => console.log(err))  
     }
 
+    
+    // className for headers btn conditionnal
+    const btnSignup = !isLogin ? 'form--mode__btn form--mode__btn--clicked' : 'form--mode__btn'
+    const btnLogin = 
+    `
+    ${isLogin ? 'form--mode__btn form--mode__btn--clicked' : 'form--mode__btn'}
+    ${isSignup && 'form--mode__btn form--mode__btn form--mode__btn--isSignup'}`
     
 
     return (
 
-        !props.isLogin ?
+        <div className="form--container">
+
+            <div className="form--mode">
+                { !isSignup && <button onClick={() => setIsLogin(false)}  className={btnSignup} aria-label='inscription'> Inscription</button>}
+                <button onClick={() => setIsLogin(true)}  className={btnLogin} aria-label='connexion'> Connexion </button>
+            </div>
+
+            { !isLogin && !isSignup ?
+
+            <form onSubmit={handleSubmit(onSignUp)}  className='form'>
+
+                <div className="form--inputBloc">
+                    <label htmlFor='firstName' className='form--label'><i className="fa-solid fa-face-smile"></i></label>
+                    <input
+                        aria-required='true'
+                        className='form--input'
+                        type='firstName' 
+                        id="firstName" 
+                        placeholder="Prénom" 
+                        name='firstName'
+                        {...register('firstName')}
+                    />
+                </div>
+                <small className="form--error">{errors.firstName?.message}</small>
+
+                <div className="form--inputBloc">
+
+                    <label htmlFor='email' className='form--label'><i className="fa-solid fa-at"></i></label>
+                    <input 
+                        aria-required='true'
+                        className='form--input'
+                        type='email' 
+                        id="email" 
+                        placeholder="Email" 
+                        name='email' 
+                        {...register('email')}
+                    />
+                </div>
+                <small className='form--error'>{errors.email?.message}</small>
+
+                <div className="form--inputBloc">
+
+                    <label htmlFor='password' className='form--label'><i className="fa-solid fa-key"></i></label>
+                    <input 
+                        aria-required='true'
+                        className='form--input'
+                        type='password' 
+                        id="password" 
+                        placeholder="Mot de passe" 
+                        name='password' 
+                        {...register('password')} 
+                    />
+                </div>
+                <small className='form--error'>{errors.password?.message}</small>
 
 
-         <form onSubmit={handleSubmit(onSignUp)}>
-                <label htmlFor='firstName'> Prénom </label>
-                 <input 
-                type='firstName' 
-                id="firstName" 
-                placeholder="firstName" 
-                name='firstName'
-                {...register('firstName')}/>
 
-            <br/>
+                <button type="submit" className="form--submit"> Créer un compte </button>
+                <small className='form--error postError'></small>
 
-            <small>{errors.firstName?.message}</small>
-
-            <br/>
-
-            <label htmlFor='email'> Email </label>
-            <input type='email' 
-            id="email" 
-            placeholder="email" 
-            name='email' 
-            onChange={() => setSignupError({})}
-            {...register('email')}/>
-
-            <br/>
+                
+            </form> : 
             
-            <small>{errors.email?.message}</small>
+            <form onSubmit={handleSubmit(onLogin)} className='form'>
 
-            <br/>
+                <div className="form--inputBloc">
 
-            <label htmlFor='password'>Mot de passe</label>
-            <input type='password' 
-            id="password" 
-            placeholder="password" 
-            name='password' 
-            {...register('password')} 
-            />
-             <br/>
-            <small>{errors.password?.message}</small>
-           
-            <br/>
+                    <label htmlFor='email' className='form--label'><i className="fa-solid fa-at"></i></label>
+                    <input 
+                        aria-required='true'
+                        className='form--input'
+                        type='email' 
+                        id="email" 
+                        placeholder="Email" 
+                        name='email' 
+                        {...register('email')}
+                    />
+                </div>
+                <small className='form--error'>{errors.email?.message}</small>
 
-            <button type="submit"> Créer un compte </button>
-            <small>{signupError.email}</small>
+                <div className="form--inputBloc">
 
-            
-        </form> : 
-        
-        <form onSubmit={handleSubmit(onLogin)}>
-            <label htmlFor='email'> Email </label>
-            <input type='email' 
-            id="email" 
-            placeholder="email" 
-            name='email' 
-            {...register('email')}/>
+                    <label htmlFor='password' className='form--label'><i className="fa-solid fa-key"></i></label>
+                    <input 
+                        aria-required='true'
+                        className='form--input'
+                        type='password' 
+                        id="password" 
+                        placeholder="Mot de passe" 
+                        name='password' 
+                        {...register('password')} 
+                    />
 
-            <br/>
+                </div>
+                <small className='form--error'>{errors.password?.message}</small>
 
-            <small>{errors.email?.message}</small>
+                <button type="submit" className='form--submit'> Se connecter </button>
+                <small className='form--error postError'></small>
 
-            <br/>
+            </form> }
 
-            <label htmlFor='password'>Mot de passe</label>
-            <input type='password' 
-            id="password" 
-            placeholder="password" 
-            name='password' 
-            {...register('password')} 
-            />
-            <br/>
-            <small>{errors.password?.message}</small>
-
-            <br/>
-
-            <button type="submit"> Se connecter </button>
-            <small>{loginError.message}</small>
-
-        </form>
+        </div>
     )
 }
