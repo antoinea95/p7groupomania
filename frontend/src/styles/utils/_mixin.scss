@@ -1,0 +1,20 @@
+// flexbox
+@mixin flex($direction, $alignitems, $justifycontent) {
+    display: flex;
+    flex-direction: $direction;
+    align-items: $alignitems;
+    justify-content: $justifycontent;
+}
+
+// btn main style
+@mixin button ($bgcolor){
+
+    border: none;
+    font-family: 'Lato', sans-serif;
+    font-weight: 700;
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    background-color: $bgcolor; 
+    color: $tertiary;
+    cursor: pointer;
+}

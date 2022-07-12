@@ -1,0 +1,13 @@
+.header--connexion{
+    height: 12rem;
+
+    &__img {
+        margin-top: 3rem;
+        @include flex(row, center, center);
+        height: 100%;
+
+        img {
+            width: 60rem;
+        }
+    }
+}
