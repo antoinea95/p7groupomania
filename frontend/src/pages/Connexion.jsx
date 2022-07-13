@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import Form from "../components/Form";
+import FormConnexion from "../components/FormConnexion";
 import typo from "../images/icon-left-font.svg"
 import logo from "../images/logo-left-font.svg"
 
@@ -16,7 +16,7 @@ export default function Connexion() {
         </header>
         <main>
             <img src={logo} alt='logo de groupomania' />
-            <Form/>
+            <FormConnexion />
         </main>
         </>
             

@@ -11,62 +11,65 @@ main {
     }
 }
 
+.form--container {
+    background-color: $secondary;
+    border: 3px solid $tertiary;
+    box-shadow: -2px 5px 0px 1px $tertiary;
+    max-width: 70rem;
+    width: 80%;
+    margin: auto;
+    margin-top: 15rem; 
+    border-radius: 1rem;
+    overflow: hidden;
+    //padding: 3rem;
+}
 
-.form {
-    // container btn & forms
-    &--container {
-        background-color: $secondary;
-        border: 3px solid $tertiary;
-        box-shadow: -2px 5px 0px 1px $tertiary;
-        max-width: 70rem;
+//header btn change form
+.form--mode {
+    width: 100%;
+    border-bottom: 3px solid $tertiary;
+
+    &__btn {
         width: 50%;
-        margin: auto;
-        margin-top: 15rem; 
-        border-radius: 1rem;
-        overflow: hidden;
-        //padding: 3rem;
-    }
+        @include button(white);
+        padding: 1rem;
+        transition: $transition;
 
-    //header btn change form
-    &--mode {
-        width: 100%;
-        border-bottom: 3px solid $tertiary;
+        &:nth-child(1n + 2) {
 
-        &__btn {
-            width: 50%;
-            @include button(white);
-            padding: 1rem;
-            transition: $transition;
+            border-left: 3px solid $tertiary;
+        }
 
-            &:nth-child(1n + 2) {
+        &:hover {
+            background-color: $primary;
+            color: white;
+        }
 
-                border-left: 3px solid $tertiary;
-            }
+        &--clicked {
+            background-color: $primary;
+            color: white;
+        }
 
-            &:hover {
-                background-color: $primary;
-                color: white;
-            }
-
-            &--clicked {
-                background-color: $primary;
-                color: white;
-            }
-
-            &--isSignup {
-                background-color: $primary;
-                width: 100%;
-                color: white;
-            }
+        &--isSignup {
+            background-color: $primary;
+            width: 100%;
+            color: white;
         }
     }
+}
+
+
+.form--connexion{
+    // container btn & forms
+    
 
     // form
     padding: 2rem;
     @include flex(column, center, space-between);
     
 
-    &--inputBloc {
+    &__inputBloc {
+        @include flex(row, center, flex-start);
         position: relative;
         background-color: white;
         overflow: hidden;
@@ -74,19 +77,17 @@ main {
         border: 2px solid $tertiary;
         border-radius: 1rem;
         padding: 0.5rem;
-        width: 80%;
+        width: 95%;
+        max-width: 55rem;
     }
 
-    &--input {
-        position: absolute;
-        top: 0;
-        right: 0;
-        width: 90%;
+    &__input {
         height: 100%;
         border: none;
         padding: 0.5rem;
         font-weight: bold;
         font-size: 1.5rem;
+        width: 90%;
 
         &::placeholder {
             color: $tertiary;
@@ -101,13 +102,13 @@ main {
         }
     }
 
-    &--label {
-        width: 20%;
+    &__label {
         font-size: 2rem;
         padding-left: 1rem;
+        margin-right: 1rem;
     }
 
-    &--submit {
+    &__submit {
         @include button($secondary);
         padding: 1.1rem;
         margin: 1rem;
@@ -125,7 +126,7 @@ main {
         }
     }
 
-    &--error {
+    &__error {
         display: inline-block;
         font-weight: 700;
         color: $primary;
