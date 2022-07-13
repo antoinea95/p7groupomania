@@ -2,6 +2,8 @@ const express = require('express');
 const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 const path = require('path');
+const cookieParser = require('cookie-parser');
+const cors = require('cors')
 
 
 require('./config/db');
@@ -11,6 +13,7 @@ const postRoute = require('./routes/post');
 
 const app = express();
 
+app.use(cookieParser())
 app.use(helmet());
 
 /* Headers permettent d'accéder à l'API depuis n'importe quelle orgine, d'ajouter les headers mentionnées 
@@ -21,6 +24,14 @@ app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS');
   next();
 });
+
+const corsConfig = {
+  origin: true,
+  credentials: true,
+};
+
+app.use(cors(corsConfig));
+app.options('*', cors(corsConfig));
 
 app.use(mongoSanitize());
 app.use(express.json());

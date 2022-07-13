@@ -2,6 +2,7 @@
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const cryptoJs = require('crypto-js');
+const cookie = require('cookie-parser');
 
 // import user's schema
 const User = require('../models/user');
@@ -51,17 +52,42 @@ exports.login = (req, res) => {
                     }
 
                     // if password is ok, return user Id + token in response body
-                    return res.status(200).json({
-                        userId: user._id,
-                        token: jwt.sign(
+                
+                       const token = jwt.sign(
                             {userId: user._id, userRole: user.role},
                             process.env.TOKEN_KEY, 
-                            {expiresIn: '24h'}
-                        )
-                    })
+                            {expiresIn: '24h'})
+                   
+
+                        return res.cookie('jwt', token, {httpOnly: true})
+                        .status(200)
+                        .json({userId: user._id, token: token})
+                    
+                    
                 })
                 .catch(error => res.status(500).json({error}))
         })
         .catch(error => res.status(500).json({error}))
 };
+
+exports.logout = (req, res) => {
+    res.cookie('jwt', '', {maxAge: 1});
+    res.redirect('/');
+}
+
+
+exports.getToken = (req, res) => {
+
+    const token = req.cookies.jwt;
+    if(token) {
+    // get token
+    const decodedToken = jwt.verify(token, `${process.env.TOKEN_KEY}`)
+    const userId = decodedToken.userId
+    return res.status(200).json({userId: userId})
+
+    } else {
+        return res.status(403).json({message: 'No token '})
+    }
+   
+}
 
