@@ -1,0 +1,39 @@
+.form--post {
+    box-shadow: -2px 5px 0px 1px $tertiary;
+    max-width: 700px;
+    width: 90%;
+    @include blocStlye;
+
+    &__header {
+        @include flex(row, center, space-between);
+    }
+
+    &__text {
+        margin: 1rem;
+        border: none;
+        outline: none;
+        resize: none;
+        @include blocStlye;
+        width: 80%;
+        
+        &::placeholder {
+            @include placeHolder;
+            padding: 0.5rem;
+        }
+
+        &:focus {
+            height: 7rem;
+        }
+    }
+
+    &__btnImg {
+        @include flex(row, center, center);
+        width: 3rem;
+        height: 3rem;
+        @include blocStlye;
+    }
+
+    #file {
+        display: none;
+    }
+}

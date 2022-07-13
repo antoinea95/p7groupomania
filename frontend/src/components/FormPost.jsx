@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {yupResolver} from '@hookform/resolvers/yup';
 import {useForm} from 'react-hook-form';
 import * as Yup from 'yup';
@@ -11,18 +11,43 @@ export default function FormPost() {
 
 const userId = useContext(UserIdContext);
 
-const[file, setFile] = useState({selectedFile: null})
+const[file, setFile] = useState(null)
+const [fileDataURL, setFileDataURL] = useState(null)
 
+useEffect (() => {
+    let fileReader, isCancel = false;
+
+    if(file) {
+        fileReader = new FileReader();
+        fileReader.onload = (e) => {
+            const {result} = e.target;
+
+            if(result && !isCancel) {
+                setFileDataURL(result)
+            }
+        }
+
+        fileReader.readAsDataURL(file)
+    }
+
+    return () => {
+        isCancel = true;
+        if(fileReader && fileReader.readyState === 1) {
+            fileReader.abort();
+        }
+    }
+}, [file])
 
 // get user's file
 function handleFile(e) {
-    setFile({selectedFile: e.target.files[0]})
+    setFile(e.target.files[0])
 }
 
 function resetFile() {
   const input = document.querySelector('#file')
   input.value='';
-  setFile({selectedFile: null});
+  setFile(null);
+  setFileDataURL(null);
 }
 
     // Yup object for control form
@@ -43,13 +68,12 @@ const ValidationSchema = Yup.object().shape({
  // stock errors
  const { errors } = formState;
 
- console.log(file.selectedFile)
  const createPost = (data) => {
 
         const formData = new FormData()
         formData.append('userId', userId)
         formData.append('message', data.message)
-        {file !== null && formData.append('file', file.selectedFile)}
+        {file !== null && formData.append('file', file)}
 
 
         axios({
@@ -68,14 +92,38 @@ const ValidationSchema = Yup.object().shape({
 
         <form className="form--post" onSubmit={handleSubmit(createPost)}>
 
-            <textarea {...register('message')}></textarea>
-            <small>{errors.message?.message}</small>
-            <input type='file' id="file" onChange={handleFile}/>
-            <button type='button' onClick={resetFile}>delete file</button>
-            <label htmlFor="file" className="form--post__btnImg"></label>
-            <small>{errors.file?.message}</small>
+            <div className="form--post__header">
+                <textarea {...register('message')} 
+                className='form--post__text'
+                placeholder= "Quoi de neuf ?"
+                ></textarea>
+                <small className="form--post__error">{errors.message?.message}</small>
 
-            <button type="submit" >Créer post</button>
+                <input type='file' id="file" onChange={handleFile}/>
+            <label htmlFor="file" 
+            className="form--post__btnImg" 
+            aria-label='ajouter une image'> 
+                <i className="fa-regular fa-image"></i> 
+            </label>
+
+            {file !== null && <button className='form--post__deleteImg'
+            type='button' onClick={resetFile} 
+            aria-label='supprimer image'> 
+                <i className="fa-solid fa-trash"></i> 
+            </button> }
+
+            </div>
+
+            {fileDataURL ?
+                <div className="form--post__previewImg">
+                     <img src={fileDataURL} alt="preview" />
+                </div> : null }
+
+            
+          
+            <small className="form--post__error" >{errors.file?.message}</small>
+
+            <button type="submit" className="form--post__submit" >Publier</button>
 
         </form>
     )

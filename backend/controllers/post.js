@@ -22,7 +22,7 @@ exports.createPost = (req, res) => {
 
         // if(post.userId === req.token.userId) {
             post.save()
-                .then(() => res.status(201).json({message: 'post créé'}))
+                .then(() => res.status(201).json({message: req.body }))
                 .catch(error => res.status(400).json({error}))
         // } else {
         //     res.status(401).json({error: post.userId})
