@@ -4,31 +4,29 @@ const fs = require('fs');
 
 /////////////////////////////////////////////create post
 exports.createPost = (req, res) => {
-
     // if request have a file we need to parse request's body
     const post =  new Post( req.file ? 
         {
-            ...JSON.parse(req.body.post), 
+            ...req.body, 
             imageUrl: `${req.protocol}://${req.get('host')}/images/posts/${req.file.filename}`
         } : 
         
         {
             userId: req.body.userId,
             message: req.body.message,
-            imageUrl: '',
             comments: [],
             likes: 0,
             usersLiked: [],
 
         })
 
-        if(post.userId === req.token.userId) {
+        // if(post.userId === req.token.userId) {
             post.save()
-                .then(() => res.status(201).json({message: 'post créé !'}))
+                .then(() => res.status(201).json({message: 'post créé'}))
                 .catch(error => res.status(400).json({error}))
-        } else {
-            res.status(401).json({error:'utilisateur non valable'})
-        }
+        // } else {
+        //     res.status(401).json({error: post.userId})
+        // }
     
     };
 
