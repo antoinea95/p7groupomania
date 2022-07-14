@@ -13,6 +13,7 @@ const userId = useContext(UserIdContext);
 
 const[file, setFile] = useState(null)
 const [fileDataURL, setFileDataURL] = useState(null)
+const [imgErr, setImgErr] = useState({type: '', erreur:''})
 
 useEffect (() => {
     let fileReader, isCancel = false;
@@ -40,8 +41,19 @@ useEffect (() => {
 
 // get user's file
 function handleFile(e) {
-    setFile(e.target.files[0])
-}
+    const file = e.target.files[0]
+
+   if (file.size > 625000) {
+        setImgErr({type: 'format', message: 'Taille maximal: 5MB'});
+        return imgErr;
+    } else {
+        setFile(file)
+        setImgErr({type: '', message:''})
+    }
+    
+};
+
+console.log(imgErr)
 
 function resetFile() {
   const input = document.querySelector('#file')
@@ -82,8 +94,11 @@ const ValidationSchema = Yup.object().shape({
             withCredentials: true,
             data: formData
         })
-        .then((res) =>{ console.log(res) 
-            reset()})
+        .then(() => { 
+            setFile(null)
+            setFileDataURL(null)
+            reset()
+        })
         .catch(err => {throw err})
  }
 
@@ -97,9 +112,8 @@ const ValidationSchema = Yup.object().shape({
                 className='form--post__text'
                 placeholder= "Quoi de neuf ?"
                 ></textarea>
-                <small className="form--post__error">{errors.message?.message}</small>
 
-                <input type='file' id="file" onChange={handleFile}/>
+                <input type='file' id="file" onChange={handleFile}  accept='image/png, image/jpeg, image/jpg'/>
             <label htmlFor="file" 
             className="form--post__btnImg" 
             aria-label='ajouter une image'> 
@@ -114,14 +128,14 @@ const ValidationSchema = Yup.object().shape({
 
             </div>
 
+            <small className="form--post__error">{errors.message?.message}</small>
+
             {fileDataURL ?
                 <div className="form--post__previewImg">
                      <img src={fileDataURL} alt="preview" />
                 </div> : null }
 
-            
-          
-            <small className="form--post__error" >{errors.file?.message}</small>
+            <small className="form--post__error" >{imgErr.message}</small>
 
             <button type="submit" className="form--post__submit" >Publier</button>
 

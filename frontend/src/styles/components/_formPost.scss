@@ -1,20 +1,28 @@
 .form--post {
-    box-shadow: -2px 5px 0px 1px $tertiary;
-    max-width: 700px;
+    margin: 3rem auto;
+    @include flex (column, center, space-evenly);
+    box-shadow: -0.1rem 0.2rem 0 0.1rem $tertiary;
+    max-width: 70rem;
     width: 90%;
     @include blocStlye;
 
     &__header {
-        @include flex(row, center, space-between);
+        margin-top: 2rem;
+        width: 95%;
+        @include flex(row, center, space-evenly);
     }
 
     &__text {
-        margin: 1rem;
+        font-family: 'Lato', sans-serif;
+        font-size: 1.5rem;
+        font-weight: 700;
+        padding: 0.5rem;
+        height: 4rem;
         border: none;
         outline: none;
         resize: none;
         @include blocStlye;
-        width: 80%;
+        width: 85%;
         
         &::placeholder {
             @include placeHolder;
@@ -27,13 +35,39 @@
     }
 
     &__btnImg {
-        @include flex(row, center, center);
-        width: 3rem;
-        height: 3rem;
-        @include blocStlye;
+        @include btnPost;
     }
+
+    &__deleteImg {
+        @include btnPost;
+    }
+
+    &__submit {
+        @include btnSubmit;
+        margin-bottom: 2rem;
+    }
+
 
     #file {
         display: none;
+    }
+
+    &__error {
+        @include errorMsg;
+        margin: 0.2rem;
+    }
+
+    &__previewImg {
+        @include flex(row, center, center);
+        @include blocStlye;
+        margin-top: 1rem;
+        width: 94%;
+        overflow: hidden;
+        height: 30rem;
+
+        img {
+            object-fit: cover;
+            height: 30rem;
+        }
     }
 }
