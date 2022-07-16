@@ -51,18 +51,19 @@ exports.getOnePost = (req, res) => {
 exports.updatePost = (req, res) => {
 
     // delete old image if request contain a new one
-    if(req.file) { 
+   
         Post.findOne({_id: req.params.id})
             .then(post => {
-                const filename = post.imageUrl.split('/images/posts/')[1];
-                fs.unlink(`images/posts/${filename}`, (err) => {
+                if(req.file && post.imageUrl !== undefined) {
+                    const filename = post.imageUrl.split('/images/posts/')[1];
+                    fs.unlink(`images/posts/${filename}`, (err) => {
                     if(err) {
                         throw err;
                     }
-                })
+                }) }
             })
             .catch(error => res.status(500).json({error}))
-    }
+    
 
     // find post in DB
     Post.findOne({_id: req.params.id})
@@ -70,20 +71,20 @@ exports.updatePost = (req, res) => {
             //find object if there's a file or not in the request
             const postObject = req.file ? 
             {
-                ...JSON.parse(req.body.post),
+                ...req.body,
                 imageUrl: `${req.protocol}://${req.get('host')}/images/posts/${req.file.filename}`
             } : {...req.body};
 
             // if authentification is okay, we can update the post
             if(post.userId === req.token.userId || req.token.userRole === 'admin') {
                 Post.updateOne({_id: req.params.id}, {...postObject, _id: req.params.id})
-                    .then(() => res.status(200).json({message: 'Post modifié!'}))
+                    .then(() => res.status(200).json({message: req.body}))
                     .catch(error => res.status(400).json({error}));
             } else {
                 res.status(401).json({error: 'Non autorisé'});
             }
         })
-        .catch(error => res.status(500).json({error}))
+        .catch(error => res.status(500).json(req.body))
 };
 
 /////////////////////////////////////////////delete post
@@ -93,16 +94,19 @@ exports.deletePost = (req, res) => {
         .then(post => {
 
             if(post.userId === req.token.userId || req.token.userRole === 'admin') {
-                const filename = post.imageUrl.split('/images/posts')[1];
-                fs.unlink(`images/posts/${filename}`, () => {
+                
+
+                if(post.imageUrl) {
+                    const filename = post.imageUrl.split('/images/posts')[1];
+                    fs.unlink(`images/posts/${filename}`, (err) => { if(err) throw err });
+                }
                     Post.deleteOne({_id: req.params.id})
                         .then(() => res.status(200).json({message: 'Post supprimé'}))
                         .catch(error => res.status(400).json({error}))  
-                })
             }
 
              else {
-                res.status(401).json({error: 'Non autorisé'});
+                res.status(401).json({error: filename});
             }
         })
         .catch(error => res.status(500).json({error}))
@@ -137,7 +141,8 @@ exports.likePost = (req, res) => {
 
                 case like === 0 && likeId:
                     Post.updateOne({_id: req.params.id}, {$inc:{likes: -1}, $pull:{usersLiked:userId}})
-                     
+                    .then(() => res.status(200).json({message: 'like annulé'}))
+                    .catch(error => res.status(400).json({error}));
                     break;
             }
         })

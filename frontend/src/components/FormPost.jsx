@@ -4,12 +4,13 @@ import {useForm} from 'react-hook-form';
 import * as Yup from 'yup';
 import axios from "axios";
 import { useContext } from "react";
-import { UserIdContext } from "./Context";
+import { Context } from "./Context";
 import { useState } from "react";
 
-export default function FormPost() {
+export default function FormPost(props) {
 
-const userId = useContext(UserIdContext);
+const {userId, setAllPostsUpdate, setPostUpdate} = useContext(Context);
+
 
 const[file, setFile] = useState(null)
 const [fileDataURL, setFileDataURL] = useState(null)
@@ -53,8 +54,6 @@ function handleFile(e) {
     
 };
 
-console.log(imgErr)
-
 function resetFile() {
   const input = document.querySelector('#file')
   input.value='';
@@ -94,7 +93,8 @@ const ValidationSchema = Yup.object().shape({
             withCredentials: true,
             data: formData
         })
-        .then(() => { 
+        .then(() => {
+            setAllPostsUpdate(true)
             setFile(null)
             setFileDataURL(null)
             reset()
@@ -103,7 +103,7 @@ const ValidationSchema = Yup.object().shape({
  }
 
 
-    return (
+      return (
 
         <form className="form--post" onSubmit={handleSubmit(createPost)}>
 
@@ -113,7 +113,7 @@ const ValidationSchema = Yup.object().shape({
                 placeholder= "Quoi de neuf ?"
                 ></textarea>
 
-                <input type='file' id="file" onChange={handleFile}  accept='image/png, image/jpeg, image/jpg'/>
+                <input type='file' id="file" onChange={handleFile}  className='form--post__input' accept='image/png, image/jpeg, image/jpg'/>
             <label htmlFor="file" 
             className="form--post__btnImg" 
             aria-label='ajouter une image'> 
@@ -139,6 +139,6 @@ const ValidationSchema = Yup.object().shape({
 
             <button type="submit" className="form--post__submit" >Publier</button>
 
-        </form>
-    )
+        </form> )
+
 }

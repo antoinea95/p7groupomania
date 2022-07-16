@@ -10,13 +10,12 @@ exports.createComment = (req, res) => {
                 {
                     comments: {
                         commenterId: req.body.userId,
-                        commentName: req.body.commentName,
                         text: req.body.text,
                         timestamp: new Date().getTime(),
                     }
                 } 
             }) 
-            .then(() => res.status(200).json({message: post}))
+            .then(() => res.status(200).json({message: 'commentaire posté !'}))
             .catch(error => res.status(400).json({error}));  
         })
         .catch(error => res.status(500).json({error}))

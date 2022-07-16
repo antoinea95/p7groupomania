@@ -1,5 +1,6 @@
 //import de multer
 const multer = require('multer');
+const shortId = require('shortid');
 
 // mise en place d'un dictionnaire pour récupérer les extensions image
 const MIME_TYPES = {
@@ -14,7 +15,7 @@ const storage = multer.diskStorage ({
         callback(null, 'images/posts')
     },
     filename: (req, file, callback) => {
-        const name = file.originalname.split(' ').join('_');
+        const name = shortId.generate();
         const extension = MIME_TYPES[file.mimetype];
         callback(null, name + Date.now() + '.' + extension);
     }
