@@ -44,7 +44,7 @@ useEffect (() => {
 function handleFile(e) {
     const file = e.target.files[0]
 
-   if (file.size > 625000) {
+   if (file.size > 5242880) {
         setImgErr({type: 'format', message: 'Taille maximal: 5MB'});
         return imgErr;
     } else {
@@ -109,8 +109,7 @@ const ValidationSchema = Yup.object().shape({
 
         <div className="form--post__header">
             <textarea {...register('message')} 
-            className='form--post__text'
-            placeholder= "test put"
+            className='form--post__text form--post__textUpdate'
             defaultValue={props.message}
             ></textarea>
 
@@ -132,9 +131,14 @@ const ValidationSchema = Yup.object().shape({
         <small className="form--post__error">{errors.message?.message}</small>
 
         {fileDataURL ?
-            <div className="form--post__previewImg">
+            <div className="post--content__imgPreview">
                  <img src={fileDataURL} alt="preview" />
-            </div> :  props.imageUrl && <img src={props.imageUrl} alt="image du post" crossOrigin="anonymous"/>}
+            </div> :  
+            props.imageUrl &&  
+            <div className="post--content__imgPreview">
+                <img src={props.imageUrl} alt="image du post" crossOrigin="anonymous"/>
+            </div>
+        }
 
         <small className="form--post__error" >{imgErr.message}</small>
 

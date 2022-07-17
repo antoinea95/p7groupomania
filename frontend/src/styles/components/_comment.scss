@@ -1,0 +1,40 @@
+.form--comment {
+
+    @include flex(row, center, center);
+
+    &__input{
+        @include blocStlye;
+        margin: 1rem 0.3rem;
+        width: 80%;
+        height: 4rem;
+        padding: 1rem;
+
+        ::placeholder {
+            font-size: 1rem;
+        }
+    }
+
+    &__btn {
+        @include btnCrud($vertPale);
+    }
+}
+
+.comment {
+    margin: 1rem auto;
+    @include blocStlye;
+    border: 0.1rem solid $tertiary;
+    background-color: $violetPale;
+    width: 90%;
+
+    &--header {
+
+        @include flex(row, center, space-between);
+        @include headerUser;
+        @include headerBtn;
+
+    }
+
+    &--message {
+        margin: 1rem;
+    }
+}

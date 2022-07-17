@@ -2,7 +2,7 @@
     margin: 3rem auto;
     @include flex (column, center, space-evenly);
     box-shadow: -0.1rem 0.2rem 0 0.1rem $tertiary;
-    max-width: 70rem;
+    max-width: 50rem;
     width: 90%;
     @include blocStlye;
 
@@ -26,11 +26,11 @@
         
         &::placeholder {
             @include placeHolder;
-            padding: 0.5rem;
+            padding: 0.8rem;
         }
 
-        &:focus {
-            height: 7rem;
+        &Update {
+            width: 75%;
         }
     }
 

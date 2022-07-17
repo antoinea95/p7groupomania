@@ -12,7 +12,7 @@ const authUserCtrl = require('../controllers/auth-user');
 const userCtrl = require('../controllers/user');
 
 // user's signup & login
-router.post('/signup', password, authUserCtrl.signup);
+router.post('/signup', password, multer, authUserCtrl.signup);
 router.post('/login', authUserCtrl.login);
 router.get('/logout', auth, authUserCtrl.logout);
 

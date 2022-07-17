@@ -16,6 +16,7 @@ export default function Post(props) {
     const [isComment, setIsComment] = useState(false);
     const [isLiked, setIsLiked] = useState(false);
     const [isPut, setIsPut] = useState(false);
+    const [commentsNumber, setCommentsNumber] = useState(0)
 
     useEffect(() => {
 
@@ -28,9 +29,10 @@ export default function Post(props) {
             setPostUpdate(false)
             setIsPut(false)
             setPost(res.data)
+            setCommentsNumber(res.data.comments.length)
         })
         .catch(err => console.log(err))
-    }, [postUpdate])
+    }, [postUpdate, props.postId, setPostUpdate])
 
 
     
@@ -127,12 +129,20 @@ export default function Post(props) {
 
              <article className="post">
              <div className="post--header">
-                <img className="post--header__userImg" 
-                src={usersData.map(user => 
-                        {
-                        if(user._id === post.userId) return user.imageUrl
-                        })
-                } />
+
+                <div className="post--header__user">
+                <div className="post--header__userImg">
+
+                    <img src={usersData.map(user => 
+                            {
+                            if(user._id === post.userId) return user.imageUrl
+                            }).join('')
+                    }
+                    crossOrigin="anonymous"
+                    alt="photo"
+                    />
+
+                </div>
 
                 <h3 className="post--header__userName"> 
                     {usersData.map((user, role) => 
@@ -141,27 +151,43 @@ export default function Post(props) {
                         })
                     }
                 </h3>
+                </div>
 
                 { userId === post.userId &&
 
-                <>
-                <button className="post--header__modify" onClick={handlePut}> <i className="fa-solid fa-pencil"> </i> </button>
-                <button className="post--header__delete" onClick={handleDeletePost}> <i className="fa-solid fa-xmark"></i> </button> 
-                </>
+                <div className="post--header__btn">
+                    <button className="post--header__btnModify" onClick={handlePut}> <i className="fa-solid fa-pencil"> </i> </button>
+                    <button className="post--header__btnDelete" onClick={handleDeletePost}> <i className="fa-solid fa-xmark"></i> </button> 
+                </div>
 
                 }
 
 
             </div>
             <div className="post--content">
+            {post.imageUrl !== undefined && 
+
+                <div className="post--content__img">
+            
+                <img crossOrigin="anonymous"
+                src={post.imageUrl} 
+                alt='photo du post'/> 
+
+                </div>
+                
+            }
                 <p className="post--content__text">{post.message}</p>
-                <img crossOrigin="anonymous" className="post--content__img" src={post.imageUrl}/>
             </div>
             <div className="post--footer">
-                <button className="post--footer__comment" onClick={displayComment}> <i className="fa-solid fa-comment"></i> </button>
-                <span className="post--footer-likesNumber"></span>
-                <button className="post--footer__like" onClick={handleLikePost}> <i className="fa-solid fa-heart"></i> </button>
-                <span className="post--footer-likesNumber"> {post.likes} </span>
+
+                <div className="post--footer__bloc">
+                    <button className="post--footer__comment" onClick={displayComment}> {isComment ?<i className="fa-solid fa-message"></i> : <i className="fa-regular fa-message"></i> } </button>
+                    <span className="post--footer__number">{commentsNumber}</span>
+                </div>
+                <div className="post--footer__bloc">
+                    <button className="post--footer__like" onClick={handleLikePost}> {isLiked ? <i className="fa-solid fa-heart"></i> : <i class="fa-regular fa-heart"></i>} </button>
+                    <span className="post--footer__number">{post.likes}</span>
+                </div>
             </div>
            { isComment && <div className="post--comments">
 

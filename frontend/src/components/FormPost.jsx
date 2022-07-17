@@ -44,7 +44,7 @@ useEffect (() => {
 function handleFile(e) {
     const file = e.target.files[0]
 
-   if (file.size > 625000) {
+   if (file.size > 5242880) {
         setImgErr({type: 'format', message: 'Taille maximal: 5MB'});
         return imgErr;
     } else {

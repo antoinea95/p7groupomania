@@ -52,14 +52,14 @@ const { errors } = formState;
 
 
     return !props.isPut ? (
-        <form onSubmit={handleSubmit(postComment)}>
-            <input type='text' {...register('text')}/>
-            <button type="submit"> <i className="fa-solid fa-paper-plane"></i> </button>
+        <form onSubmit={handleSubmit(postComment)} className='form--comment'>
+            <input type='text' {...register('text')} className='form--comment__input' placeholder="Votre commentaire"/>
+            <button type="submit" className="form--comment__btn"> <i className="fa-solid fa-paper-plane"></i> </button>
         </form>
     ) :  (
-        <form onSubmit={handleSubmit(props.putComment)}>
-            <input type='text' {...register('text')} defaultValue={props.comment.text}/>
-            <button type="submit"> <i className="fa-solid fa-paper-plane"></i> </button>
+        <form onSubmit={handleSubmit(props.putComment)} className='form--comment'>
+            <input type='text' {...register('text')} defaultValue={props.comment.text} className='form--comment__input'/>
+            <button type="submit" className="form--comment__btn"> <i className="fa-solid fa-paper-plane"></i> </button>
         </form>
     )
 

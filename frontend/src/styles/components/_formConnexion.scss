@@ -26,17 +26,17 @@ main {
 //header btn change form
 .form--mode {
     width: 100%;
-    border-bottom: 3px solid $tertiary;
+    border-bottom: 0.1rem solid $tertiary;
 
     &__btn {
         width: 50%;
         @include button;
         padding: 1rem;
-        transition: $transition;
+        @include transition;
 
         &:nth-child(1n + 2) {
 
-            border-left: 3px solid $tertiary;
+            border-left: 0.1rem solid $tertiary;
         }
 
         &:hover {

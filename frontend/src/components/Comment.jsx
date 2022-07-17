@@ -57,19 +57,19 @@ export default function Comment(props) {
                         {props.users.map(user => {
                             if(user._id === props.comment.commenterId) {
                                 return (
-                            <div className="comment--header__profile" key={props.comment._id}>
-                                <img className="comment--header__profileImg" src={user.imageUrl} alt='photo de profil'/>
-                                <h4 className="comment--header__profileName"> {user.firstName }</h4>
+                            <div className="comment--header__user" key={props.comment._id}>
+                                <img className="comment--header__userImg" src={user.imageUrl} alt='photo de profil' crossOrigin="anonymous"/>
+                                <h4 className="comment--header__userName"> {user.firstName }</h4>
                             </div>
                                 )
                             }
                         })}
 
                         {userId === props.comment.commenterId && 
-                        <>
-                            <button className="post--header__modify" onClick={handlePut}> <i className="fa-solid fa-pencil"> </i> </button>
-                            <button className="post--header__delete" onClick={deleteComment}> <i className="fa-solid fa-xmark"></i> </button>
-                        </>
+                        <div className="comment--header__btn">
+                            <button className="comment--header__btnModify" onClick={handlePut}> <i className="fa-solid fa-pencil"> </i> </button>
+                            <button className="comment--header__btnDelete" onClick={deleteComment}> <i className="fa-solid fa-xmark"></i> </button>
+                        </div>
                         }
                 </div>
 

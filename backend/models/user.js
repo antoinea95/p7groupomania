@@ -12,7 +12,7 @@ const userSchema = mongoose.Schema({
     password: {type: String, required: true},
     firstName: {type: String, required: true},
     role: {type: String, default: 'basic', required: true},
-    imageUrl: {type: String, default: './'}, // add image by default
+    imageUrl: {type: String},
     function: {type: String},
     bio: {type: String, maxlenght: 1024}
 })

@@ -7,6 +7,11 @@
 }
 
 
+@mixin transition {
+    transition: all 200ms ease-in-out;
+}
+
+
 @mixin button {
 
     border: none;
@@ -26,38 +31,39 @@
     border: none;
     font-family: 'Lato', sans-serif;
     font-weight: 700;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
     text-transform: uppercase;
-    background-color: $vertPale; 
+    background-color: transparent; 
     color: $tertiary;
     cursor: pointer;
 
     padding: 1.1rem;
     margin: 1rem;
-    transition: $transition;
+    @include transition;
     @include blocStlye;
 
 
     &:hover {
 
-        box-shadow: 0px 5px 0px 3px $tertiary;
-        transform: translate(0, -5px);
+        background-color: $vertPale;
+        box-shadow: 0  0.4rem 0 0.1rem $tertiary;
+        transform: translate(0, -0.3rem);
     }
 
     &:active {
-        transform: translate(0, 3px);
+        transform: translate(0, 0.3rem);
         box-shadow: none;
     }
 }
 
 @mixin btnPost {
-    @include flex(row, center, center);
+        @include flex(row, center, center);
         width: 4rem;
         height: 4rem;
         @include blocStlye;
         cursor: pointer;
-        font-size: 2.3rem;
-        transition: $transition;
+        font-size: 2rem;
+        @include transition;
         color: $tertiary;
 
         &:hover {
@@ -71,10 +77,46 @@
         }
 }
 
-@mixin blocStlye {
-    border-radius: 1rem;
-    border: 0.3rem solid $tertiary;
+@mixin btnCrud($hoverColor) {
+    @include flex(row, center , center);
+    font-size: 1.8rem;
+    height: 4rem;
+    width: 4rem;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: $tertiary;
+    @include transition;
+
+    &:hover {
+        border-radius: 0.5rem;
+        border: 0.1px solid $tertiary;
+        box-shadow: -0.1rem 0.3rem 0 0.1rem $tertiary;
+        transform: translate(0, -0.3rem);
+        background-color: $hoverColor;
+    }
+
+    &:active {
+        background-color: transparent;
+        border-radius: 0;
+        border: none;
+        box-shadow: none;
+        transform: translate(0, 0.1rem);
+    }
+
+
+    
 }
+
+@mixin blocStlye {
+    border-radius: 0.5rem;
+    border: 0.1rem solid $tertiary;
+}
+
+@mixin blocShadow {
+    box-shadow: -0.1rem 0.2rem 0 0.1rem $tertiary;
+}
+
 
 @mixin placeHolder {
     color: $tertiary;
@@ -90,4 +132,46 @@
     color: $primary;
     font-size: 1.2rem;
     text-transform: uppercase;
+}
+
+@mixin headerUser {
+    &__user {
+        @include flex(row, center, flex-start);
+
+        &Img {
+            overflow: hidden;
+            border-radius: 50%;
+            width: 3rem;
+            height: 3rem;
+            border: 0.1rem solid;
+            margin: 0 1rem;
+        }
+
+        &Name {
+            font-weight: 700;
+        }
+    }
+}
+
+@mixin headerBtn {
+
+    &__btn {
+
+        @include flex(row, center, flex-end);
+        border-radius: 0.5rem;
+        width: 10rem;
+        height: 5rem;
+
+        &Modify {
+        @include btnCrud($vertPale);
+
+        }
+
+        &Delete {
+            @include btnCrud($secondary);
+            border-radius: 0.5rem;
+            
+        }
+    }
+
 }

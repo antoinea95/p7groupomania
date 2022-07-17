@@ -18,7 +18,8 @@ exports.signup = (req, res) => {
             const user = new User ({
                 email: cryptoJs.HmacSHA256(req.body.email, process.env.EMAIL_KEY).toString(),
                 password: hash,
-                firstName: req.body.firstName
+                firstName: req.body.firstName, 
+                imageUrl: `${req.protocol}://${req.get('host')}/images/users/defaultpicture.svg`
             });
 
             // save new user in db
