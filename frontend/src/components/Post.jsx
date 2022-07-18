@@ -5,6 +5,7 @@ import Comment from "./Comment";
 import axios from "axios";
 import FormUpdatePost from "./FormUpdatePost";
 import FormComment from "./FormComment";
+import { Link } from "react-router-dom";
 
 
 export default function Post(props) {
@@ -26,9 +27,19 @@ export default function Post(props) {
             withCredentials: true
         })
         .then(res => {
+
+            const post = res.data;
+            const postLiked = post.usersLiked.includes(userId);
+
+            if(postLiked) {
+                setIsLiked(true)
+            } else {
+                setIsLiked(false)
+            }
+            
             setPostUpdate(false)
             setIsPut(false)
-            setPost(res.data)
+            setPost(post)
             setCommentsNumber(res.data.comments.length)
         })
         .catch(err => console.log(err))
@@ -49,14 +60,6 @@ export default function Post(props) {
 
 
     function handleLikePost() {
-
-        const postLiked = post.usersLiked.includes(userId);
-
-        if(postLiked) {
-            setIsLiked(true)
-        } else {
-            setIsLiked(false)
-        }
 
       if (isLiked === true) {
 
@@ -143,20 +146,24 @@ export default function Post(props) {
                     />
 
                 </div>
-
-                <h3 className="post--header__userName"> 
+                
+        
                     {usersData.map((user, role) => 
                         {
-                        if(user._id === post.userId) return user.firstName  
+                        if(user._id === post.userId) 
+                        
+                        return (<Link to={`/profile/${user._id}`}>
+                           <h3 className="post--header__userName">{user.firstName}</h3>
+                        </Link> )
                         })
                     }
-                </h3>
+                
                 </div>
 
                 { userId === post.userId &&
 
                 <div className="post--header__btn">
-                    <button className="post--header__btnModify" onClick={handlePut}> <i className="fa-solid fa-pencil"> </i> </button>
+                    <button className="post--header__btnModify" onClick={handlePut}> <i className="fa-solid fa-pencil"></i> </button>
                     <button className="post--header__btnDelete" onClick={handleDeletePost}> <i className="fa-solid fa-xmark"></i> </button> 
                 </div>
 
@@ -189,7 +196,7 @@ export default function Post(props) {
                     <span className="post--footer__number">{post.likes}</span>
                 </div>
             </div>
-           { isComment && <div className="post--comments">
+           { isComment && <>
 
             { post.comments.map(comment => 
                 {return <Comment comment={comment} key={comment._id} users={usersData} postId={post._id} />}) 
@@ -197,7 +204,7 @@ export default function Post(props) {
 
             <FormComment postId={post._id} />
 
-            </div> }
+            </> }
         </article>
         
     )}

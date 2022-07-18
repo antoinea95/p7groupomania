@@ -1,0 +1,65 @@
+.user {
+  width: 90%;
+  max-width: 70rem;
+  margin: 3rem auto;
+  @include blocStlye;
+  @include blocShadow;
+
+  @include flex(row, center, flex-start);
+
+  &--card {
+
+    &__picture {
+        position: relative;
+        margin: 3rem;
+        @include flex(row, center, center);
+      }
+
+    &__input {
+      display: none;
+    }
+
+    &__label {
+        @include blocStlye;
+        @include btnPost;
+        width: 3rem;
+        height: 3rem;
+    }
+
+    &__submit {
+        position: absolute;
+        @include btnSubmit;
+        background-color: white;
+        height: 3rem;
+        width: 3rem;
+        bottom: -20%;
+    }
+
+    &__btn {
+        position: absolute;
+        right: -15%;
+        @include btnCrud($secondary);
+        opacity: 1;
+    }
+
+    &__img {
+      @include flex(row, center, center);
+      overflow: hidden;
+      width: 10rem;
+      height: 10rem;
+      border-radius: 50%;
+      border: 0.1rem solid $tertiary;
+
+      img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    &__name {
+        font-weight: 700;
+        font-size: 3rem;
+    }
+  }
+}

@@ -1,40 +1,48 @@
 .form--comment {
+  @include flex(row, center, center);
+  margin-top: 2rem;
+  width: 90%;
 
-    @include flex(row, center, center);
+  &__input {
+    @include blocStlye;
+    margin: 0 0.5rem;
+    width: 80%;
+    height: 3.3rem;
+    padding: 1rem;
 
-    &__input{
-        @include blocStlye;
-        margin: 1rem 0.3rem;
-        width: 80%;
-        height: 4rem;
-        padding: 1rem;
-
-        ::placeholder {
-            font-size: 1rem;
-        }
+    ::placeholder {
+      font-size: 1rem;
     }
+  }
 
-    &__btn {
-        @include btnCrud($vertPale);
-    }
+  &__btn {
+    @include btnCrud($vertPale);
+  }
+
+  &__error {
+    @include errorMsg;
+    margin: 1rem auto;
+  }
 }
 
 .comment {
-    margin: 1rem auto;
-    @include blocStlye;
-    border: 0.1rem solid $tertiary;
-    background-color: $violetPale;
-    width: 90%;
+  @include flex(column, center, center);
+  margin: 1rem auto;
+  @include blocStlye;
+  border: 0.1rem solid $tertiary;
+  background-color: $secondary;
+  width: 80%;
 
-    &--header {
+  &--header {
+    @include flex(row, center, space-between);
+    @include headerUser;
+    @include headerBtn;
+    margin-top: 0.5rem;
+    height: 4rem;
+    width: 95%;
+  }
 
-        @include flex(row, center, space-between);
-        @include headerUser;
-        @include headerBtn;
-
-    }
-
-    &--message {
-        margin: 1rem;
-    }
+  &--message {
+    margin: 1.5rem;
+  }
 }

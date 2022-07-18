@@ -46,11 +46,13 @@ exports.uploadImg = (req, res) => {
         User.findOne({_id: req.params.id})
             .then(user => {
                 const filename = user.imageUrl.split('/images/users/')[1];
+                if(req.file && filename !== 'defaultpicture.svg') {
                 fs.unlink(`images/users/${filename}`, (err) => {
                     if(err) {
                         throw err;
                     }
                 })
+                }
 
                 if(req.params.id === req.token.userId ) {
                     User.updateOne({_id: req.params.id}, 

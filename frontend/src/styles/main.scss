@@ -1,12 +1,14 @@
-@import './utils/variables';
-@import './utils/mixin';
+@import "./utils/variables";
+@import "./utils/mixin";
 
-@import './base/reset';
-@import './base/typography';
+@import "./base/reset";
+@import "./base/typography";
 
-@import './layout/body';
-@import './layout/header.scss';
-@import './components/formConnexion';
-@import './components/formPost';
-@import './components/post';
-@import './components/comment';
+@import "./components/formConnexion";
+@import "./components/formPost";
+@import "./components/post";
+@import "./components/comment";
+
+@import "./pages/connexion";
+@import "./pages/home";
+@import "./pages/profile";

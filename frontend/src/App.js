@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import Connexion from './pages/Connexion'
 import { Context } from "./components/Context";
 import axios from "axios";
+import UserProfile from "./pages/UserProfile";
 
 export default function App() {
 
@@ -14,14 +15,17 @@ export default function App() {
     const [postUpdate, setPostUpdate] = useState(false);
 
     useEffect(() => {
-        axios({
+    
+    async function getUserId() {
+        await axios({
             method: 'get',
             url: `${process.env.REACT_APP_API_URL}/auth/jwt`,
             withCredentials: true
         })
         .then((res) => setUserId(res.data.userId))
         .catch(err => console.log(err))
-    }, [userId])
+    }
+    getUserId()},[userId])
 
    
 
@@ -32,6 +36,7 @@ export default function App() {
             <Routes>
                 <Route exact path='/' element={<Connexion />} />
                 <Route exact path='/home' element={<Home />} />
+                <Route path="/profile/:id" element={<UserProfile />} />
             </Routes>
         </Router>
         </Context.Provider>
