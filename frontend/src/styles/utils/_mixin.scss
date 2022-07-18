@@ -52,11 +52,11 @@
 
 @mixin btnPost {
   @include flex(row, center, center);
-  width: 4rem;
-  height: 4rem;
+  width: 3.2rem;
+  height: 3.2rem;
   @include blocStlye;
   cursor: pointer;
-  font-size: 2rem;
+  font-size: 1.8rem;
   @include transition;
   color: $tertiary;
 
@@ -102,6 +102,16 @@
 
 @mixin blocShadow {
   box-shadow: -0.1rem 0.2rem 0 0.1rem $tertiary;
+}
+
+@mixin inputText {
+  @include blocStlye;
+  @include placeHolder;
+  width: 80%;
+  margin: 0.5rem;
+  height: 3.3rem;
+  padding: 1rem;
+  resize: none;
 }
 
 @mixin placeHolder {

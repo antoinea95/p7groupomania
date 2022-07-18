@@ -4,15 +4,7 @@
   width: 90%;
 
   &__input {
-    @include blocStlye;
-    margin: 0 0.5rem;
-    width: 80%;
-    height: 3.3rem;
-    padding: 1rem;
-
-    ::placeholder {
-      font-size: 1rem;
-    }
+    @include inputText;
   }
 
   &__btn {

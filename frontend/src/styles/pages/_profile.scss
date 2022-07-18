@@ -1,6 +1,6 @@
 .user {
   width: 90%;
-  max-width: 70rem;
+  max-width: 50rem;
   margin: 3rem auto;
   @include blocStlye;
   @include blocShadow;
@@ -8,58 +8,105 @@
   @include flex(row, center, flex-start);
 
   &--card {
+    position: relative;
+    padding: 3rem;
+    width: 100%;
+    border-left: 0.1rem solid $tertiary;
 
     &__picture {
-        position: relative;
-        margin: 3rem;
-        @include flex(row, center, center);
-      }
+      position: relative;
+      margin: 3rem 5rem 3rem 3rem;
+      @include flex(row, center, center);
 
-    &__input {
-      display: none;
-    }
-
-    &__label {
-        @include blocStlye;
-        @include btnPost;
-        width: 3rem;
-        height: 3rem;
-    }
-
-    &__submit {
+      &Submit {
         position: absolute;
         @include btnSubmit;
         background-color: white;
         height: 3rem;
         width: 3rem;
         bottom: -20%;
-    }
+      }
 
-    &__btn {
+      &Img {
+        @include flex(row, center, center);
+        overflow: hidden;
+        width: 10rem;
+        height: 10rem;
+        border-radius: 50%;
+        border: 0.1rem solid $tertiary;
+
+        img {
+          max-width: 100%;
+          max-height: 100%;
+          object-fit: cover;
+        }
+      }
+
+      &Btn {
         position: absolute;
         right: -15%;
         @include btnCrud($secondary);
         opacity: 1;
-    }
 
-    &__img {
-      @include flex(row, center, center);
-      overflow: hidden;
-      width: 10rem;
-      height: 10rem;
-      border-radius: 50%;
-      border: 0.1rem solid $tertiary;
+        &Label {
+          @include blocStlye;
+          @include btnPost;
+          width: 3rem;
+          height: 3rem;
+        }
 
-      img {
-        max-width: 100%;
-        max-height: 100%;
-        object-fit: cover;
       }
     }
 
+    &__input {
+      display: none;
+    }
+
     &__name {
+      font-weight: 700;
+      font-size: 3rem;
+    }
+
+    &__function {
+      font-weight: 500;
+      font-size: 2rem
+    }
+
+    &__bio {
+      margin: 2rem 0;
+    }
+
+    &__btn {
+      @include btnCrud($secondary);
+      margin: auto;
+    }
+
+
+    &__form {
+      @include flex(column, center, center);
+      padding: 1rem;
+      width: 100%;
+
+      &Input {
+        @include inputText;
+      }
+
+      &Text {
+        @include inputText;
+      }
+
+      &Label {
+        margin-top: 1rem;
+        text-transform: uppercase;
+        font-size: 1.2rem;
         font-weight: 700;
-        font-size: 3rem;
+      }
+
+      &Submit {
+        @include btnSubmit;
+      }
     }
   }
+
+  
 }

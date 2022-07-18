@@ -16,6 +16,7 @@
 
     @include headerUser;
     @include headerBtn;
+
   }
 
   &--content {
@@ -75,5 +76,15 @@
     &__like {
       @include btnCrud($secondary);
     }
+  }
+}
+
+#userLink {
+  color: $tertiary;
+  text-decoration: none;
+  @include transition;
+
+  &:hover {
+    transform: scale(1.1);
   }
 }

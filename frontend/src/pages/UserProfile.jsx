@@ -130,123 +130,142 @@ export default function UserProfile() {
       url: `${process.env.REACT_APP_API_URL}/auth/user/${profileId}/upload`,
       withCredentials: true,
       data: formData,
-    }).then((res) => {
-      setIsUserPut(true);
-      setIsPutPicture(false);
-      reset();
-      console.log(res);
-    });
+    })
+      .then((res) => {
+        setIsUserPut(true);
+        setIsPutPicture(false);
+        reset();
+        console.log(res);
+      })
+      .catch(() => setIsPutPicture(false));
   }
 
   return (
     <article className="user">
-         {isPutPicture ? (
-            <>
-              <form onSubmit={handleSubmit(putUserPicture)} className='user--card__picture'>
-                <input
-                  type="file"
-                  id="file"
-                  onChange={handleFile}
-                  className="user--card__input"
-                  accept="image/png, image/jpeg, image/jpg"
-                />
-                <label
-                  htmlFor="file"
-                  className="user--card__btn"
-                  aria-label="ajouter une image"
-                >
-                  <i className="fa-regular fa-image"></i>
-                </label>
-                <button type="submit" className="user--card__submit"><i className="fa-solid fa-paper-plane"></i></button>
-                {fileDataURL ? (
-                  <div className="user--card__img">
-                    <img src={fileDataURL} alt="preview" />
-                  </div>
-                ) : (
-                  <div className="user--card__img">
-                    <img
-                      src={user.imageUrl}
-                      alt="photo de profil"
-                      crossOrigin="anonymous"
-                    />
-                  </div>
-                )}
-              </form>
-            </>
-          ) : (
-            
-            user.imageUrl && (
-            <div className="user--card__picture">
-              <div className="user--card__img">
+      {isPutPicture ? (
+        <>
+          <form
+            onSubmit={handleSubmit(putUserPicture)}
+            className="user--card__picture"
+          >
+            <input
+              type="file"
+              id="file"
+              onChange={handleFile}
+              className="user--card__input"
+              accept="image/png, image/jpeg, image/jpg"
+            />
+            <label
+              htmlFor="file"
+              className="user--card__pictureBtn"
+              aria-label="ajouter une image"
+            >
+              <i className="fa-regular fa-image"></i>
+            </label>
+            <button type="submit" className="user--card__pictureSubmit">
+              <i className="fa-solid fa-paper-plane"></i>
+            </button>
+            {fileDataURL ? (
+              <div className="user--card__pictureImg">
+                <img src={fileDataURL} alt="preview" />
+              </div>
+            ) : (
+              <div className="user--card__pictureImg">
                 <img
                   src={user.imageUrl}
-                  alt="image du post"
+                  alt="photo de profil"
                   crossOrigin="anonymous"
                 />
               </div>
-               {userId === profileId && <>
+            )}
+          </form>
+        </>
+      ) : (
+        user.imageUrl && (
+          <div className="user--card__picture">
+            <div className="user--card__pictureImg">
+              <img
+                src={user.imageUrl}
+                alt="image du post"
+                crossOrigin="anonymous"
+              />
+            </div>
+            {userId === profileId && (
+              <>
                 <input
                   type="button"
                   onClick={handlePutPicture}
                   id="putPicture"
                   className="user--card__input"
                 />
-                <label htmlFor="putPicture" className="user--card__btn">
+                <label htmlFor="putPicture" className="user--card__pictureBtn">
                   <i className="fa-solid fa-pencil"></i>
                 </label>
               </>
-              }
-              </div>
-            )
-          )}
-      <form onSubmit={handleSubmit(putUser)}>
-        <div className="user--card">
-          {!isPutForm ? (
+            )}
+          </div>
+        )
+      )}
+
+      {isPutForm ? (
+        <form onSubmit={handleSubmit(putUser)} className="user--card__form">
+          <label className="user--card__formLabel" htmlFor="prenom">
+            Prénom
+          </label>
+          <input
+            id="prenom"
+            type="text"
+            {...register("firstName")}
+            defaultValue={user.firstName}
+            className="user--card__formInput"
+          />
+          <label className="user--card__formLabel" htmlFor="poste">
+            Poste
+          </label>
+          <input
+            id="poste"
+            type="text"
+            {...register("function")}
+            defaultValue={user.function}
+            className="user--card__formInput"
+          />
+          <label className="user--card__formLabel" htmlFor="bio">
+            Bio
+          </label>
+          <textarea
+            {...register("bio")}
+            defaultValue={user.bio}
+            className="user--card__formText"
+            id="bio"
+          />
+
+          <button type="submit" className="user--card__formSubmit">
+            {" "}
+            <i className="fa-solid fa-paper-plane"></i>{" "}
+          </button>
+        </form>
+      ) : (
+        <>
+          <div className="user--card">
             <h1 className="user--card__name">{user.firstName}</h1>
-          ) : (
-            <input
-              type="text"
-              {...register("firstName")}
-              defaultValue={user.firstName}
-            />
-          )}
-        </div>
-
-        <div className="user--content">
-          <div className="user--content__function">
-            <h2 className="user--content__title"> <i class="fa-solid fa-briefcase"></i> </h2>
-
-            {!isPutForm ? (
-              <p className="user--content__text">{user.function}</p>
-            ) : (
-              <input
-                type="text"
-                {...register("function")}
-                defaultValue={user.function}
-              />
-            )}
-          </div>
-
-          <div className="user--content__bio">
-            <h2 className="user--content__title"> <i class="fa-solid fa-user"></i> </h2>
-            {!isPutForm ? (
-              <p className="user--content__text">{user.bio}</p>
-            ) : (
-              <input type="text" {...register("bio")} defaultValue={user.bio} />
-            )}
-          </div>
-        </div>
-          {!isPutForm ? (
-              userId === profileId && <>
-                <input type="button" onClick={handlePutForm} id="putBtn" className="user--card__input"/>
+            <h2 className="user--card__function">{user.function}</h2>
+            <p className="user--card__bio">{user.bio}</p>
+            {userId === profileId && (
+              <>
+                <input
+                  type="button"
+                  onClick={handlePutForm}
+                  id="putBtn"
+                  className="user--card__input"
+                />
                 <label htmlFor="putBtn" className="user--card__btn">
                   <i className="fa-solid fa-pencil"></i>
                 </label>
-              </> 
-              ) : (<button type="submit"> envoyer</button>) 
-              
-            }
-      </form>
+              </>
+            )}
+          </div>
+        </>
+      )}
     </article>
   );
 }

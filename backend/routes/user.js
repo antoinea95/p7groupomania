@@ -14,7 +14,7 @@ const userCtrl = require('../controllers/user');
 // user's signup & login
 router.post('/signup', password, multer, authUserCtrl.signup);
 router.post('/login', authUserCtrl.login);
-router.get('/logout', auth, authUserCtrl.logout);
+router.get('/:id/logout', auth, authUserCtrl.logout);
 
 // update user's profile
 router.put('/user/:id', auth, userCtrl.updateUser);

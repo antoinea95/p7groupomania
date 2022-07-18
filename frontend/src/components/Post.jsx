@@ -136,14 +136,16 @@ export default function Post(props) {
                 <div className="post--header__user">
                 <div className="post--header__userImg">
 
-                    <img src={usersData.map(user => 
+                    {usersData.map(user => 
                             {
-                            if(user._id === post.userId) return user.imageUrl
-                            }).join('')
+                            if(user._id === post.userId) return <img src={user.imageUrl}
+                            crossOrigin="anonymous"
+                            alt="photo"
+                            key={user.imageUrl}
+                            />
+                            })
                     }
-                    crossOrigin="anonymous"
-                    alt="photo"
-                    />
+                    
 
                 </div>
                 
@@ -152,7 +154,7 @@ export default function Post(props) {
                         {
                         if(user._id === post.userId) 
                         
-                        return (<Link to={`/profile/${user._id}`}>
+                        return (<Link to={`/profile/${user._id}`} key={user._id} id='userLink'>
                            <h3 className="post--header__userName">{user.firstName}</h3>
                         </Link> )
                         })
@@ -192,7 +194,7 @@ export default function Post(props) {
                     <span className="post--footer__number">{commentsNumber}</span>
                 </div>
                 <div className="post--footer__bloc">
-                    <button className="post--footer__like" onClick={handleLikePost}> {isLiked ? <i className="fa-solid fa-heart"></i> : <i class="fa-regular fa-heart"></i>} </button>
+                    <button className="post--footer__like" onClick={handleLikePost}> {isLiked ? <i className="fa-solid fa-heart"></i> : <i className="fa-regular fa-heart"></i>} </button>
                     <span className="post--footer__number">{post.likes}</span>
                 </div>
             </div>

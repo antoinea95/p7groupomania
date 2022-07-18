@@ -4,6 +4,7 @@ import './styles/main.scss'
 
 import Home from "./pages/Home";
 import Connexion from './pages/Connexion'
+import Header from './components/Header'
 import { Context } from "./components/Context";
 import axios from "axios";
 import UserProfile from "./pages/UserProfile";
@@ -33,6 +34,7 @@ export default function App() {
         
         <Context.Provider value={{userId, allPostsUpdate, setAllPostsUpdate, postUpdate, setPostUpdate}}>
         <Router>
+           { userId && <Header/> }
             <Routes>
                 <Route exact path='/' element={<Connexion />} />
                 <Route exact path='/home' element={<Home />} />
