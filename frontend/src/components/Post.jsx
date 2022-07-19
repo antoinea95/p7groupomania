@@ -6,11 +6,12 @@ import axios from "axios";
 import FormUpdatePost from "./FormUpdatePost";
 import FormComment from "./FormComment";
 import { Link } from "react-router-dom";
+import Loading from "./Loading";
 
 
 export default function Post(props) {
 
-    const {userId, setAllPostsUpdate, postUpdate, setPostUpdate} = useContext(Context);
+    const {userId, userRole, setAllPostsUpdate, postUpdate, setPostUpdate, isLoading, setIsLoading} = useContext(Context);
 
     const [usersData, setUsersData] = useState([]);
     const [post, setPost] = useState({});
@@ -49,13 +50,18 @@ export default function Post(props) {
     
 
     useEffect(() => {
+        setIsLoading(true)
         axios({
             method: 'get',
             url: `${process.env.REACT_APP_API_URL}/auth/user`,
             withCredentials: true
         })
-        .then(res => setUsersData(res.data))
-        .catch(err => console.log(err))
+        .then(res => {
+            setIsLoading(false)
+            setUsersData(res.data)})
+        .catch(err => {
+            setIsLoading(false)
+            console.log(err)})
     }, [])
 
 
@@ -122,7 +128,7 @@ export default function Post(props) {
 
         
 
-            { return (isPut ?
+            { return  isLoading ? <Loading /> : (isPut ?
 
              <FormUpdatePost 
              postId={post._id}
@@ -139,7 +145,6 @@ export default function Post(props) {
                     {usersData.map(user => 
                             {
                             if(user._id === post.userId) return <img src={user.imageUrl}
-                            crossOrigin="anonymous"
                             alt="photo"
                             key={user.imageUrl}
                             />
@@ -162,12 +167,12 @@ export default function Post(props) {
                 
                 </div>
 
-                { userId === post.userId &&
+                { userId === post.userId || userRole === 'admin' ? 
 
                 <div className="post--header__btn">
                     <button className="post--header__btnModify" onClick={handlePut}> <i className="fa-solid fa-pencil"></i> </button>
                     <button className="post--header__btnDelete" onClick={handleDeletePost}> <i className="fa-solid fa-xmark"></i> </button> 
-                </div>
+                </div> : null
 
                 }
 
@@ -178,7 +183,7 @@ export default function Post(props) {
 
                 <div className="post--content__img">
             
-                <img crossOrigin="anonymous"
+                <img
                 src={post.imageUrl} 
                 alt='photo du post'/> 
 

@@ -76,9 +76,19 @@
       margin: 2rem 0;
     }
 
-    &__btn {
-      @include btnCrud($secondary);
+    &__update{
+
+      @include flex(row, center, space-around);
+      max-width: 10rem;
+      width: 90%;
       margin: auto;
+
+      &Btn {
+
+        @include btnCrud($secondary);
+
+      }
+    
     }
 
 
@@ -100,6 +110,10 @@
         text-transform: uppercase;
         font-size: 1.2rem;
         font-weight: 700;
+      }
+
+      &Error {
+        @include errorMsg;
       }
 
       &Submit {

@@ -27,10 +27,10 @@ export default function NavBar(props) {
     }
 
     return(
-        <ul>
-            <li><Link to={`/profile/${userId}`} id='linkProfile'><img src={props.user.imageUrl} crossOrigin='anonymous'/></Link></li>
+        <ul className="header--navbar">
+            <li><Link to={`/profile/${userId}`} id='linkProfile'><i className="fa-solid fa-user-gear"></i></Link></li>
             <li><Link to={`/home`} id='linkHome'><i className="fa-solid fa-house"></i></Link></li>
-            <li><button onClick={logOut}><i className="fa-solid fa-right-from-bracket"></i></button></li>
+            <li><button onClick={logOut} id='linkLogout'><i className="fa-solid fa-right-from-bracket"></i></button></li>
         </ul>
     )
 }

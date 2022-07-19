@@ -84,7 +84,8 @@ exports.getToken = (req, res) => {
     // get token
     const decodedToken = jwt.verify(token, `${process.env.TOKEN_KEY}`)
     const userId = decodedToken.userId
-    return res.status(200).json({userId: userId})
+    const userRole = decodedToken.userRole;
+    return res.status(200).json({userId: userId, userRole: userRole})
 
     } else {
         return res.status(403).json({message: 'No token '})

@@ -19,6 +19,7 @@ router.get('/:id/logout', auth, authUserCtrl.logout);
 // update user's profile
 router.put('/user/:id', auth, userCtrl.updateUser);
 router.put('/user/:id/upload', auth, multer, userCtrl.uploadImg);
+router.delete('/user/:id', auth, userCtrl.deleteUser);
 
 // get user
 router.get('/user', auth, userCtrl.getAllUsers);

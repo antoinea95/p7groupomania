@@ -27,7 +27,7 @@ export default function Header() {
         <header className="header">
 
             <div className="header--welcome">
-            <img src={logo} alt='groupomania logo' />
+            <img src={logo} alt='groupomania logo' className="header--welcome__logo"/>
             <p className="header--welcome__user"> Bienvenue {user.firstName}</p>
             </div>
 

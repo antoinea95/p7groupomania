@@ -5,7 +5,7 @@ import { Context } from "./Context";
 import FormComment from "./FormComment";
 
 export default function Comment(props) {
-  const { userId, setPostUpdate } = useContext(Context);
+  const { userId, userRole, setPostUpdate } = useContext(Context);
   const [isPut, setIsPut] = useState(false);
 
   function handlePut() {
@@ -54,7 +54,6 @@ export default function Comment(props) {
                   className="comment--header__userImg"
                   src={user.imageUrl}
                   alt="photo de profil"
-                  crossOrigin="anonymous"
                 />
                 <h4 className="comment--header__userName"> {user.firstName}</h4>
               </div>
@@ -62,7 +61,7 @@ export default function Comment(props) {
           }
         })}
 
-        {userId === props.comment.commenterId && (
+        {userId === props.comment.commenterId || userRole === 'admin' ? (
           <div className="comment--header__btn">
             <button className="comment--header__btnModify" onClick={handlePut}>
               {" "}
@@ -75,8 +74,8 @@ export default function Comment(props) {
               {" "}
               <i className="fa-solid fa-xmark"></i>{" "}
             </button>
-          </div>
-        )}
+          </div> 
+        ) : null }
       </div>
 
       {isPut ? (

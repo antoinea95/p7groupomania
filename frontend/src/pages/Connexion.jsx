@@ -11,8 +11,8 @@ export default function Connexion() {
           <img src={typo} alt="logo de groupomania" />
         </div>
       </header>
-      <main>
-        <img src={logo} alt="logo de groupomania" />
+      <main className="main--connexion">
+        <img src={logo} alt="logo de groupomania" className="main--connexion__img"/>
         <FormConnexion />
       </main>
     </>

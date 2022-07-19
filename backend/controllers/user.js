@@ -1,5 +1,6 @@
 const User = require('../models/user');
 const fs = require('fs');
+const cookie = require('cookie-parser');
 
 //////////////////////////////////////////////////////get user
 exports.getUser = (req, res) => {
@@ -71,10 +72,28 @@ exports.uploadImg = (req, res) => {
 ///////////////////////////////////////////////delete user's profile
 exports.deleteUser = (req, res) => {
 
+
+    User.findOne({_id: req.params.id})
+    .then(user => {
+        const filename = user.imageUrl.split('/images/users/')[1];
+        if(req.file && filename !== 'defaultpicture.svg') {
+        fs.unlink(`images/users/${filename}`, (err) => {
+            if(err) {
+                throw err;
+            }
+        })
+        }
+    })
+    .catch(err => res.status(500).json({err}))
+
     if(req.params.id === req.token.userId || req.token.userRole === 'admin') {
         User.deleteOne({_id: req.params.id})
-            .then(() => res.status(200).json({message: 'User supprimé!'}))
+            .then(() => {
+                res.clearCookie('jwt');
+                res.redirect('/');
+            })
             .catch(error => res.status(400).json({error}));
+        
             
     } else {
         res.status(401).json({error: 'Non autorisé'});

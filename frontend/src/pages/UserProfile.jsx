@@ -7,10 +7,12 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import * as Yup from "yup";
 import { yupResolver } from "@hookform/resolvers/yup";
-import { useSearchParams } from "react-router-dom";
+import Post from '../components/Post'
+import cookie from 'js-cookie'
+import Loading from "../components/Loading";
 
 export default function UserProfile() {
-  const { userId } = useContext(Context);
+  const { userId, userRole, setIsLoading, isLoading } = useContext(Context);
   const [user, setUser] = useState({});
   const [isUserPut, setIsUserPut] = useState(false);
   const [isPutForm, setIsPutForm] = useState(false);
@@ -21,6 +23,7 @@ export default function UserProfile() {
   const [imgErr, setImgErr] = useState({ type: "", erreur: "" });
 
   const [profileId, setProfileId] = useState(null);
+  const [userPost, setUserPost] = useState([])
 
   useEffect(() => {
     const url = new URL(window.location.href);
@@ -36,18 +39,34 @@ export default function UserProfile() {
     }).then((res) => {
       setIsUserPut(false);
       setUser(res.data);
-    });
+    })
+    .catch(err => console.log(err) )
   }, [profileId, isUserPut]);
+
+  useEffect(() => {
+    axios({
+      method: "get",
+      url: `${process.env.REACT_APP_API_URL}/posts`,
+      withCredentials: true,
+    }).then((res) => {
+      const post = res.data
+      const userPost = post.filter(post => post.userId === profileId)
+      setUserPost(userPost);
+    })
+    .catch(err => console.log(err));
+  }, [profileId]);
+
+
 
   // Yup object for control form
   const ValidationSchema = Yup.object().shape({
     firstName: Yup.string()
-      .min(1, "Le poste n'est pas renseigné")
+      .min(1, "Votre prénom n'est pas renseigné")
       .matches("^[A-Za-zÀ-ÖØ-öø-ÿ-' ]{2,}$", "Prénom invalide"),
 
     function: Yup.string().max(50, "max 50 carac."),
 
-    bio: Yup.string().max(500, "Votre desription est trop longue"),
+    bio: Yup.string().max(500, "Votre desription est trop longue (500 carac. mac)"),
   });
 
   // validation form
@@ -60,6 +79,9 @@ export default function UserProfile() {
   const { errors } = formState;
 
   function putUser(data) {
+
+    setIsLoading(true)
+
     axios({
       method: "put",
       url: `${process.env.REACT_APP_API_URL}/auth/user/${profileId}`,
@@ -68,6 +90,7 @@ export default function UserProfile() {
         ...data,
       },
     }).then((res) => {
+      setIsLoading(false)
       setIsUserPut(true);
       setIsPutForm(false);
       reset();
@@ -140,7 +163,49 @@ export default function UserProfile() {
       .catch(() => setIsPutPicture(false));
   }
 
+  const removeCookie = (key) => {
+    if(window !== "undefined") {
+        cookie.remove(key, {expires: 1});
+    }
+}
+
+
+function deleteAllPostsUser() {
+
+  userPost.map(post => {
+    axios({
+      method: "delete",
+      url: `${process.env.REACT_APP_API_URL}/posts/${post._id}`,
+      withCredentials: true,
+    })
+    .then((res) => console.log(res))
+    .catch(err => console.log(err))
+  })
+}
+
+  function deleteUser() {
+
+    deleteAllPostsUser(); 
+
+    axios({
+      method: "delete",
+      url: `${process.env.REACT_APP_API_URL}/auth/user/${userId}`,
+      withCredentials: true,
+    })
+    .then((res) => {
+      removeCookie('jwt')
+      console.log(res)})
+    
+    window.location = '/'
+  }
+
+  const userPostElement = userPost.map((post) => {
+    return <Post key={post._id} postId={post._id} />;
+  });
+
   return (
+
+    <main>
     <article className="user">
       {isPutPicture ? (
         <>
@@ -174,23 +239,21 @@ export default function UserProfile() {
                 <img
                   src={user.imageUrl}
                   alt="photo de profil"
-                  crossOrigin="anonymous"
                 />
               </div>
             )}
           </form>
         </>
       ) : (
-        user.imageUrl && (
+        user.imageUrl && ( isLoading ? <Loading /> :
           <div className="user--card__picture">
             <div className="user--card__pictureImg">
               <img
                 src={user.imageUrl}
                 alt="image du post"
-                crossOrigin="anonymous"
               />
             </div>
-            {userId === profileId && (
+            {userId === profileId || userRole==='admin' ?(
               <>
                 <input
                   type="button"
@@ -202,7 +265,7 @@ export default function UserProfile() {
                   <i className="fa-solid fa-pencil"></i>
                 </label>
               </>
-            )}
+            ): null}
           </div>
         )
       )}
@@ -219,6 +282,7 @@ export default function UserProfile() {
             defaultValue={user.firstName}
             className="user--card__formInput"
           />
+          <small className="user--card__formError"> {errors.firstName?.message}</small>
           <label className="user--card__formLabel" htmlFor="poste">
             Poste
           </label>
@@ -229,6 +293,7 @@ export default function UserProfile() {
             defaultValue={user.function}
             className="user--card__formInput"
           />
+           <small className="user--card__formError"> {errors.function?.message}</small>
           <label className="user--card__formLabel" htmlFor="bio">
             Bio
           </label>
@@ -238,34 +303,42 @@ export default function UserProfile() {
             className="user--card__formText"
             id="bio"
           />
+           <small className="user--card__formError"> {errors.firstName?.bio}</small>
 
           <button type="submit" className="user--card__formSubmit">
             {" "}
             <i className="fa-solid fa-paper-plane"></i>{" "}
           </button>
         </form>
-      ) : (
+      ) : ( isLoading ? <Loading /> :
         <>
           <div className="user--card">
             <h1 className="user--card__name">{user.firstName}</h1>
             <h2 className="user--card__function">{user.function}</h2>
             <p className="user--card__bio">{user.bio}</p>
-            {userId === profileId && (
-              <>
+            {userId === profileId || userRole==='admin' ? (
+              <div className="user--card__update">
                 <input
                   type="button"
                   onClick={handlePutForm}
                   id="putBtn"
                   className="user--card__input"
                 />
-                <label htmlFor="putBtn" className="user--card__btn">
+                <label htmlFor="putBtn" className="user--card__updateBtn">
                   <i className="fa-solid fa-pencil"></i>
                 </label>
-              </>
-            )}
+                <button onClick={deleteUser} className="user--card__updateBtn"> <i className="fa-solid fa-trash"></i> </button>
+              </div>
+            ): null }
           </div>
         </>
       )}
+
     </article>
+    <div>
+      {userPostElement}
+    </div>
+      </main>
+    
   );
 }
