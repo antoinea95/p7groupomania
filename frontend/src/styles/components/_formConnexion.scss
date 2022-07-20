@@ -1,23 +1,18 @@
 //background
 .main--connexion {
   &__img {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 60rem;
+    width: 40rem;
     z-index: -100;
-    opacity: 0.5;
   }
 }
 
 .form--container {
-  background-color: white;
+  background-color: transparent;
   box-shadow: -0.1rem 0.2rem 0 0.1rem $tertiary;
   max-width: 70rem;
   width: 80%;
   margin: auto;
-  margin-top: 15rem;
+  margin-top: 10rem;
   overflow: hidden;
   @include blocStlye;
 }
@@ -25,12 +20,19 @@
 //header btn change form
 .form--mode {
   width: 100%;
-  border-bottom: 0.1rem solid $tertiary;
 
   &__btn {
+    border: none;
+    font-family: "Lato", sans-serif;
+    font-weight: 700;
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    background-color: white;
+    color: $tertiary;
+    cursor: pointer;
     width: 50%;
-    @include button;
     padding: 1rem;
+    border-bottom: 0.1rem solid $tertiary;
     @include transition;
 
     &:nth-child(1n + 2) {

@@ -1,10 +1,10 @@
 .form--post {
   margin: 3rem auto;
   @include flex(column, center, space-evenly);
-  box-shadow: -0.1rem 0.2rem 0 0.1rem $tertiary;
+  @include blocStlye;
   max-width: 50rem;
   width: 90%;
-  @include blocStlye;
+ 
 
   &__header {
     margin-top: 2rem;
@@ -31,7 +31,7 @@
   &__submit {
     @include btnSubmit;
     height: 3.2rem;
-    margin-bottom: 2rem;
+    margin: 2rem 0;
   }
 
   &__input {
@@ -44,16 +44,6 @@
   }
 
   &__previewImg {
-    @include flex(row, center, center);
-    @include blocStlye;
-    margin-top: 1rem;
-    width: 94%;
-    overflow: hidden;
-    height: 30rem;
-
-    img {
-      object-fit: cover;
-      height: 30rem;
-    }
+    @include displayImg;
   }
 }

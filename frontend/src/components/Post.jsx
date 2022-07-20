@@ -50,17 +50,14 @@ export default function Post(props) {
     
 
     useEffect(() => {
-        setIsLoading(true)
         axios({
             method: 'get',
             url: `${process.env.REACT_APP_API_URL}/auth/user`,
             withCredentials: true
         })
         .then(res => {
-            setIsLoading(false)
             setUsersData(res.data)})
         .catch(err => {
-            setIsLoading(false)
             console.log(err)})
     }, [])
 
@@ -103,15 +100,18 @@ export default function Post(props) {
 
 
     function handleDeletePost() {
+
         axios({
             method: 'delete',
             url: `${process.env.REACT_APP_API_URL}/posts/${post._id}`,
             withCredentials: true
         })
         .then(() => {
+            setPostUpdate(true)
             setAllPostsUpdate(true)
         })
     }
+
 
     function handlePut() {
         setIsPut(prevPut => !prevPut)
@@ -179,6 +179,7 @@ export default function Post(props) {
 
             </div>
             <div className="post--content">
+            <p className="post--content__text">{post.message}</p>
             {post.imageUrl !== undefined && 
 
                 <div className="post--content__img">
@@ -190,7 +191,6 @@ export default function Post(props) {
                 </div>
                 
             }
-                <p className="post--content__text">{post.message}</p>
             </div>
             <div className="post--footer">
 
@@ -203,15 +203,15 @@ export default function Post(props) {
                     <span className="post--footer__number">{post.likes}</span>
                 </div>
             </div>
-           { isComment && <>
+           { isComment && <div className="post--comment">
 
             { post.comments.map(comment => 
-                {return <Comment comment={comment} key={comment._id} users={usersData} postId={post._id} />}) 
+                {return  <Comment comment={comment} key={comment._id} users={usersData} postId={post._id} />}) 
             }
 
             <FormComment postId={post._id} />
 
-            </> }
+            </div> }
         </article>
         
     )}

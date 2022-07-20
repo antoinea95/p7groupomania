@@ -3,25 +3,26 @@
   max-width: 50rem;
   margin: 3rem auto;
   @include blocStlye;
-  @include blocShadow;
 
   @include flex(row, center, flex-start);
 
   &--card {
     position: relative;
-    padding: 3rem;
+    padding: 5rem;
     width: 100%;
     border-left: 0.1rem solid $tertiary;
 
     &__picture {
+
       position: relative;
-      margin: 3rem 5rem 3rem 3rem;
       @include flex(row, center, center);
+      padding: 4rem;
 
       &Submit {
         position: absolute;
         @include btnSubmit;
         background-color: white;
+        top: 65%;
         height: 3rem;
         width: 3rem;
         bottom: -20%;
@@ -44,15 +45,16 @@
 
       &Btn {
         position: absolute;
-        right: -15%;
-        @include btnCrud($secondary);
+        top: 0;
+        right: 0;
+        @include btnCrud;
+        border-left: 0.1rem solid $tertiary;
+        border-bottom: 0.1rem solid $tertiary;
         opacity: 1;
 
         &Label {
           @include blocStlye;
-          @include btnPost;
-          width: 3rem;
-          height: 3rem;
+          @include btnPost;         
         }
 
       }
@@ -76,16 +78,18 @@
       margin: 2rem 0;
     }
 
-    &__update{
-
-      @include flex(row, center, space-around);
+    &__update {
+      position: absolute;
+      right: 0;
+      top: 0;
+      @include flex(row, center, center);
       max-width: 10rem;
-      width: 90%;
-      margin: auto;
 
       &Btn {
-
-        @include btnCrud($secondary);
+        @include btnCrud;
+        border-bottom: 0.1rem solid $tertiary;
+        border-left: 0.1rem solid $tertiary;
+       
 
       }
     

@@ -12,7 +12,7 @@ import cookie from 'js-cookie'
 import Loading from "../components/Loading";
 
 export default function UserProfile() {
-  const { userId, userRole, setIsLoading, isLoading } = useContext(Context);
+  const { userId, userRole, setIsLoading, isLoading, allPostsUpdate} = useContext(Context);
   const [user, setUser] = useState({});
   const [isUserPut, setIsUserPut] = useState(false);
   const [isPutForm, setIsPutForm] = useState(false);
@@ -49,12 +49,13 @@ export default function UserProfile() {
       url: `${process.env.REACT_APP_API_URL}/posts`,
       withCredentials: true,
     }).then((res) => {
+
       const post = res.data
       const userPost = post.filter(post => post.userId === profileId)
       setUserPost(userPost);
     })
     .catch(err => console.log(err));
-  }, [profileId]);
+  }, [profileId, allPostsUpdate]);
 
 
 
@@ -254,17 +255,17 @@ function deleteAllPostsUser() {
               />
             </div>
             {userId === profileId || userRole==='admin' ?(
-              <>
+              <div className="user--card__pictureBtn">
                 <input
                   type="button"
                   onClick={handlePutPicture}
                   id="putPicture"
                   className="user--card__input"
                 />
-                <label htmlFor="putPicture" className="user--card__pictureBtn">
+                <label htmlFor="putPicture" >
                   <i className="fa-solid fa-pencil"></i>
                 </label>
-              </>
+              </div>
             ): null}
           </div>
         )

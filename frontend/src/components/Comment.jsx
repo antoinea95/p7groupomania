@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
 import { useContext } from "react";
+import { Link } from "react-router-dom";
 import { Context } from "./Context";
 import FormComment from "./FormComment";
 
@@ -55,7 +56,9 @@ export default function Comment(props) {
                   src={user.imageUrl}
                   alt="photo de profil"
                 />
-                <h4 className="comment--header__userName"> {user.firstName}</h4>
+                <Link to={`/profile/${user._id}`} key={user._id} id='userLink'>
+                           <h3 className="post--header__userName">{user.firstName}</h3>
+                </Link>
               </div>
             );
           }

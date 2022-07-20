@@ -26,10 +26,11 @@ export default function NavBar(props) {
         window.location = '/';
     }
 
+
     return(
         <ul className="header--navbar">
-            <li><Link to={`/profile/${userId}`} id='linkProfile'><i className="fa-solid fa-user-gear"></i></Link></li>
             <li><Link to={`/home`} id='linkHome'><i className="fa-solid fa-house"></i></Link></li>
+            <li><Link to={`/profile/${userId}`} id='linkProfile'><i className="fa-solid fa-user-gear"></i></Link></li>
             <li><button onClick={logOut} id='linkLogout'><i className="fa-solid fa-right-from-bracket"></i></button></li>
         </ul>
     )

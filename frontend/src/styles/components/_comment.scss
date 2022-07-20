@@ -1,14 +1,14 @@
 .form--comment {
   @include flex(row, center, center);
   margin-top: 2rem;
-  width: 90%;
+  width: 100%;
 
   &__input {
     @include inputText;
   }
 
   &__btn {
-    @include btnCrud($vertPale);
+    @include btnPost;
   }
 
   &__error {
@@ -23,15 +23,16 @@
   @include blocStlye;
   border: 0.1rem solid $tertiary;
   background-color: $secondary;
-  width: 80%;
+  width: 89%;
 
   &--header {
     @include flex(row, center, space-between);
+    background-color: $primary;
     @include headerUser;
     @include headerBtn;
-    margin-top: 0.5rem;
+    border-bottom: 0.1rem solid $tertiary;
     height: 4rem;
-    width: 95%;
+    width: 100%;
   }
 
   &--message {

@@ -21,6 +21,7 @@ export default function Home() {
       withCredentials: true,
     })
       .then((res) => {
+        setIsLoading(false)
         setAllPostsUpdate(false);
         const posts = res.data;
         const postsSort = posts.reverse()
