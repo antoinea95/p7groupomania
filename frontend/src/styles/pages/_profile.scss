@@ -1,61 +1,60 @@
+.main--user {
+
+  @include flex (column, center, flex-start);
+}
+
+
+
 .user {
-  width: 90%;
-  max-width: 50rem;
-  margin: 3rem auto;
+  width: 50%;
+  max-width: 70rem;
+  margin: 13rem auto 3rem auto;
   @include blocStlye;
 
-  @include flex(row, center, flex-start);
+  @include flex(row, center, space-between);
 
   &--card {
+    @include flex(column, center, center);
+    text-align: center;
     position: relative;
-    padding: 5rem;
-    width: 100%;
-    border-left: 0.1rem solid $tertiary;
+    width: 50%;
 
     &__picture {
-
+      width: 50%;
       position: relative;
-      @include flex(row, center, center);
-      padding: 4rem;
 
       &Submit {
         position: absolute;
         @include btnSubmit;
         background-color: white;
-        top: 65%;
+        top: 78%;
+        left: 40%;
         height: 3rem;
         width: 3rem;
-        bottom: -20%;
       }
 
       &Img {
-        @include flex(row, center, center);
-        overflow: hidden;
-        width: 10rem;
-        height: 10rem;
         border-radius: 50%;
-        border: 0.1rem solid $tertiary;
-
+        width: 15rem;
+        height: 15rem;
+        overflow: hidden;
+        
         img {
-          max-width: 100%;
-          max-height: 100%;
           object-fit: cover;
         }
       }
 
       &Btn {
         position: absolute;
-        top: 0;
+        cursor: pointer;
+        top: 20%;
         right: 0;
-        @include btnCrud;
-        border-left: 0.1rem solid $tertiary;
-        border-bottom: 0.1rem solid $tertiary;
-        opacity: 1;
+        @include btnSubmit;
+        background-color: white;
+        width: 3rem;
+        height: 3rem;
 
-        &Label {
-          @include blocStlye;
-          @include btnPost;         
-        }
+       
 
       }
     }
@@ -75,6 +74,7 @@
     }
 
     &__bio {
+      overflow-wrap: break-word;
       margin: 2rem 0;
     }
 
@@ -86,10 +86,10 @@
       max-width: 10rem;
 
       &Btn {
-        @include btnCrud;
-        border-bottom: 0.1rem solid $tertiary;
-        border-left: 0.1rem solid $tertiary;
-       
+        @include btnSubmit;
+        margin: 0.5rem;
+        width: 2rem;
+        height: 2rem;
 
       }
     
@@ -98,8 +98,7 @@
 
     &__form {
       @include flex(column, center, center);
-      padding: 1rem;
-      width: 100%;
+      width: 50%;
 
       &Input {
         @include inputText;
@@ -110,7 +109,7 @@
       }
 
       &Label {
-        margin-top: 1rem;
+        margin-top: 0.5rem;
         text-transform: uppercase;
         font-size: 1.2rem;
         font-weight: 700;
@@ -122,8 +121,19 @@
 
       &Submit {
         @include btnSubmit;
+        margin-top: 0;
       }
     }
+  }
+
+  &--post {
+
+    margin: 13rem auto 3rem auto;
+    border-radius: 0.5rem;
+    border: 0.1rem solid $tertiary;
+    max-height: 50rem;
+    width: 50%;
+    overflow: scroll;
   }
 
   

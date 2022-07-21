@@ -10,9 +10,10 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import Post from '../components/Post'
 import cookie from 'js-cookie'
 import Loading from "../components/Loading";
+import { useParams } from "react-router-dom";
 
 export default function UserProfile() {
-  const { userId, userRole, setIsLoading, isLoading, allPostsUpdate} = useContext(Context);
+  const { userId, userRole, setIsLoading, isLoading, allPostsUpdate, setAllPostsUpdate, postUpdate, setPostUpdate} = useContext(Context);
   const [user, setUser] = useState({});
   const [isUserPut, setIsUserPut] = useState(false);
   const [isPutForm, setIsPutForm] = useState(false);
@@ -21,17 +22,16 @@ export default function UserProfile() {
   const [file, setFile] = useState(null);
   const [fileDataURL, setFileDataURL] = useState(null);
   const [imgErr, setImgErr] = useState({ type: "", erreur: "" });
-
   const [profileId, setProfileId] = useState(null);
-  const [userPost, setUserPost] = useState([])
+  const [userPost, setUserPost] = useState([]);
+
+  let {id} = useParams();
+  console.log(id)
 
   useEffect(() => {
-    const url = new URL(window.location.href);
-    const id = url.href.split("/profile/")[1];
+
     setProfileId(id);
-  }, []);
 
-  useEffect(() => {
     axios({
       method: "get",
       url: `${process.env.REACT_APP_API_URL}/auth/user/${profileId}`,
@@ -41,9 +41,10 @@ export default function UserProfile() {
       setUser(res.data);
     })
     .catch(err => console.log(err) )
-  }, [profileId, isUserPut]);
+  }, [id, profileId, isUserPut]);
 
   useEffect(() => {
+
     axios({
       method: "get",
       url: `${process.env.REACT_APP_API_URL}/posts`,
@@ -52,10 +53,11 @@ export default function UserProfile() {
 
       const post = res.data
       const userPost = post.filter(post => post.userId === profileId)
-      setUserPost(userPost);
+      const userPostSort = userPost.reverse()
+      setUserPost(userPostSort);
     })
     .catch(err => console.log(err));
-  }, [profileId, allPostsUpdate]);
+  }, [profileId, allPostsUpdate, isUserPut]);
 
 
 
@@ -90,13 +92,13 @@ export default function UserProfile() {
       data: {
         ...data,
       },
-    }).then((res) => {
-      setIsLoading(false)
+    }).then(() => {
       setIsUserPut(true);
+      setIsLoading(false);
       setIsPutForm(false);
       reset();
-      console.log(res);
     });
+
   }
 
   function handlePutForm() {
@@ -155,11 +157,10 @@ export default function UserProfile() {
       withCredentials: true,
       data: formData,
     })
-      .then((res) => {
+      .then(() => {
         setIsUserPut(true);
         setIsPutPicture(false);
         reset();
-        console.log(res);
       })
       .catch(() => setIsPutPicture(false));
   }
@@ -201,12 +202,12 @@ function deleteAllPostsUser() {
   }
 
   const userPostElement = userPost.map((post) => {
-    return <Post key={post._id} postId={post._id} />;
+    return <Post key={post._id} postId={post._id} userPut={isUserPut}/>;
   });
 
   return (
 
-    <main>
+    <main className="main--user">
     <article className="user">
       {isPutPicture ? (
         <>
@@ -336,9 +337,10 @@ function deleteAllPostsUser() {
       )}
 
     </article>
-    <div>
-      {userPostElement}
-    </div>
+    { userPost.length > 0 && 
+      <div className="user--post">
+        {userPostElement}
+      </div>}
       </main>
     
   );

@@ -1,43 +1,55 @@
 .post {
   @include blocStlye;
+  @include flex (column, center, center);
   max-width: 50rem;
   width: 90%;
-  margin-left: auto;
-  margin-right: auto;
-  margin-top: 3rem;
+  margin: 3rem auto;
  
 
   &--header {
     @include flex(row, center, space-between);
-    border-bottom: 0.1rem solid $tertiary;
+    border-radius: 1rem 1rem 0 0;
+    box-shadow: 0 0.3rem 2rem -0.8rem rgba($color: black, $alpha: 0.1);
+    margin-bottom: 2rem;
     width: 100%;
-    height: 4rem;
+    padding: 0 2rem;
+    height: 5rem;
 
+    &__user {
 
-    @include headerUser;
-    @include headerBtn;
+      @include flex (row, center, space-between);
+
+      &Img {
+        @include profilePic;
+      }
+
+      &Name {
+        margin-left: 1rem;
+        font-weight: 900;
+      }
+    }
+
+    &__btn {
+
+      @include flex(row, center, space-between);
+      width: 10%;
+
+      &Modify, &Delete {
+        @include btnPost;
+        font-size: 1.5rem;
+      }
+    }
 
   }
 
   &--content {
     @include flex(column, center, space-between);
-    margin: 3rem 0;
 
     &__img,
     &__imgPreview {
-      width: 40rem;
-      height: 40rem;
-      overflow: hidden;
-      border: 0.1rem solid $tertiary;
-      border-bottom: 0.1rem solid $tertiary;
-      background-color: white;
-      @include blocShadow;
-      @include flex(column, center, space-between);
+      @include displayImg;
 
       img {
-        
-        width: 100%;
-        height: 100%;
         object-fit: cover;
       }
 
@@ -47,6 +59,7 @@
     }
 
     &__text {
+      margin: 1rem 0;
       font-weight: 700;
       font-size: 1.5rem;
       color: $tertiary;
@@ -56,14 +69,16 @@
 
   &--footer {
     @include flex(row, center, flex-start); 
+    border-radius: 0 0 1rem 1rem;
+    box-shadow: 0 -0.3rem 2rem -0.8rem rgba($color: black, $alpha: 0.1);
+    margin-top: 2rem;
+    padding: 0 1rem;
     width: 100%;
-    border-top: 0.1rem solid $tertiary;
-    height: 4rem;
+    height: 5rem;
 
     &__bloc {
       @include flex(row, center, space-between);
-      border-right: 0.1rem solid $tertiary;
-      padding-right: 1rem;
+      margin: 1rem;
     }
 
     &__number {
@@ -71,19 +86,20 @@
       font-size: 1.5rem;
     }
 
-    &__comment {
+    &__comment,  &__like {
       @include btnPost;
+      margin-right: 0.5rem;
+
+      &Filled {
+        color: $primary;
+      }
     }
 
-    &__like {
-      @include btnPost;
-    }
   }
 
   &--comment {
     width: 100%;
-    padding: 1rem;
-    border-top: 0.1rem solid $tertiary;
+    @include flex(column, center, space-between);
   }
 }
 

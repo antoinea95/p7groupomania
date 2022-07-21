@@ -15,6 +15,20 @@ const {userId, setAllPostsUpdate, setPostUpdate} = useContext(Context);
 const[file, setFile] = useState(null)
 const [fileDataURL, setFileDataURL] = useState(null)
 const [imgErr, setImgErr] = useState({type: '', erreur:''})
+const [user, setUser] = useState('');
+
+useEffect(() => {
+    axios({
+        method: 'get',
+        url: `${process.env.REACT_APP_API_URL}/auth/user/${userId}`,
+        withCredentials: true
+    })
+    .then(res => {
+        setUser(res.data)})
+    .catch(err => {
+        console.log(err)})
+}, [userId])
+
 
 useEffect (() => {
     let fileReader, isCancel = false;
@@ -108,9 +122,10 @@ const ValidationSchema = Yup.object().shape({
         <form className="form--post" onSubmit={handleSubmit(createPost)}>
 
             <div className="form--post__header">
+                <img src={user.imageUrl} className='form--post__img' alt='Photo de profil'/>
                 <textarea {...register('message')} 
                 className='form--post__text'
-                placeholder= "Quoi de neuf ?"
+                placeholder= {`Quoi de neuf ${user.firstName} ?`}
                 ></textarea>
 
                 <input type='file' id="file" onChange={handleFile}  className='form--post__input' accept='image/png, image/jpeg, image/jpg'/>

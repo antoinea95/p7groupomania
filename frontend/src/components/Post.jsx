@@ -59,7 +59,7 @@ export default function Post(props) {
             setUsersData(res.data)})
         .catch(err => {
             console.log(err)})
-    }, [])
+    }, [props.userPut])
 
 
     function handleLikePost() {
@@ -195,11 +195,11 @@ export default function Post(props) {
             <div className="post--footer">
 
                 <div className="post--footer__bloc">
-                    <button className="post--footer__comment" onClick={displayComment}> {isComment ?<i className="fa-solid fa-message"></i> : <i className="fa-regular fa-message"></i> } </button>
+                    <button className="post--footer__comment" onClick={displayComment}> {isComment ?<i className="fa-solid fa-message post--footer__commentFilled"></i> : <i className="fa-regular fa-message"></i> } </button>
                     <span className="post--footer__number">{commentsNumber}</span>
                 </div>
                 <div className="post--footer__bloc">
-                    <button className="post--footer__like" onClick={handleLikePost}> {isLiked ? <i className="fa-solid fa-heart"></i> : <i className="fa-regular fa-heart"></i>} </button>
+                    <button className="post--footer__like" onClick={handleLikePost}> {isLiked ? <i className="fa-solid fa-heart post--footer__likeFilled"></i> : <i className="fa-regular fa-heart"></i>} </button>
                     <span className="post--footer__number">{post.likes}</span>
                 </div>
             </div>

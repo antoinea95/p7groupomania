@@ -1,6 +1,6 @@
 .form--comment {
   @include flex(row, center, center);
-  margin-top: 2rem;
+  margin: 1rem;
   width: 100%;
 
   &__input {
@@ -13,29 +13,55 @@
 
   &__error {
     @include errorMsg;
-    margin: 1rem auto;
+    margin-bottom: 1rem;
   }
 }
 
 .comment {
   @include flex(column, center, center);
+  box-shadow: 0 0 1rem -0.3rem rgba($color: black, $alpha: 0.1);
   margin: 1rem auto;
-  @include blocStlye;
-  border: 0.1rem solid $tertiary;
-  background-color: $secondary;
-  width: 89%;
+  width: 100%;
 
   &--header {
     @include flex(row, center, space-between);
-    background-color: $primary;
-    @include headerUser;
-    @include headerBtn;
-    border-bottom: 0.1rem solid $tertiary;
-    height: 4rem;
+    box-shadow: 0 0.3rem 2rem -0.8rem rgba($color: black, $alpha: 0.1);
     width: 100%;
+    padding: 0 1rem;
+    height: 4rem;
+
+    &__user {
+
+      @include flex (row, center, space-between);
+
+      &Img {
+        width: 2rem;
+        height: 2rem;
+        overflow: hidden;
+      }
+
+      &Name {
+        margin-left: 1rem;
+        font-weight: 900;
+      }
+    }
+
+    &__btn {
+
+      @include flex(row, center, space-between);
+      width: 10%;
+
+      &Modify, &Delete {
+        @include btnPost;
+        font-size: 1.2rem;
+      }
+    }
+
   }
 
   &--message {
-    margin: 1.5rem;
+    width: 100%;
+    padding: 1rem;
+    font-weight: 700;
   }
 }

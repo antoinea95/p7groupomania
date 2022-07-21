@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, matchRoutes } from "react-router-dom";
 import './styles/main.scss'
 
 import Home from "./pages/Home";
@@ -46,7 +46,7 @@ export default function App() {
             <Routes>
                 <Route exact path='/' element={<Connexion />} />
                 <Route exact path='/home' element={<Home />} />
-                <Route path="/profile/:id" element={<UserProfile />} />
+                <Route exact path="/profile/:id" element={<UserProfile />} />
             </Routes>
         </Router>
         </Context.Provider>

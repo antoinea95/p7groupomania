@@ -1,7 +1,10 @@
 .header {
+    background-color: $secondary;
     height: 8rem;
     padding: 0 2rem;
-    position: relative;
+    position: fixed;
+    top: 0;
+    width: 100%;
     @include flex(row, center, space-between);
     border-bottom: 0.3rem solid $tertiary;
 
@@ -16,6 +19,7 @@
 
         &__user {
             @include flex(row, center, center);
+            text-align: center;
             width: 50%;
             position: absolute;
             left: 50%;
@@ -31,12 +35,16 @@
         width: 30%;
         max-width: 12rem;
         border: 0.1rem solid $tertiary;
-        border-left: none;
+        border-radius: 0.5rem;
 
         #linkProfile, #linkHome, #linkLogout {
             @include btnCrud;
             color: $tertiary;
             border-left: 0.1rem solid $tertiary;
+        }
+
+        #linkHome {
+            border: none;
         }
     }
 }

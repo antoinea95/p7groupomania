@@ -1,15 +1,19 @@
 .form--post {
-  margin: 3rem auto;
   @include flex(column, center, space-evenly);
   @include blocStlye;
+  margin-top: 13rem; 
   max-width: 50rem;
   width: 90%;
  
 
   &__header {
-    margin-top: 2rem;
-    width: 95%;
-    @include flex(row, center, space-evenly);
+    margin: 2rem 0;
+    width: 90%;
+    @include flex(row, center, space-between);
+  }
+
+  &__img {
+   @include profilePic;
   }
 
   &__text {
@@ -20,18 +24,13 @@
     }
   }
 
-  &__btnImg {
-    @include btnPost;
-  }
-
-  &__deleteImg {
-    @include btnPost;
+  &__btnImg, &__deleteImg{
+    @include btnPost; 
+    margin-right: 0.5rem;
   }
 
   &__submit {
     @include btnSubmit;
-    height: 3.2rem;
-    margin: 2rem 0;
   }
 
   &__input {
