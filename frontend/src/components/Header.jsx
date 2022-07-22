@@ -5,8 +5,9 @@ import { Context } from "./Context";
 import cookie from 'js-cookie'
 import { useEffect } from "react";
 import { useState } from "react";
-import logo from '../images/icon-left-font-monochrome-black.svg'
+import logo from '../images/icon-left-font-monochrome-red.svg'
 import NavBar from "./NavBar";
+import { Link } from "react-router-dom";
 
 export default function Header() {
 
@@ -26,9 +27,9 @@ export default function Header() {
 
         <header className="header">
 
-            <div className="header--welcome__logo">
+            <Link to={'/home'} className="header--welcome__logo">
             <img src={logo} alt='groupomania logo'/>
-            </div>
+            </Link>
             <div className="header--welcome__user">
             <p className="header--welcome__user"> Bienvenue {user.firstName}</p>
             </div>

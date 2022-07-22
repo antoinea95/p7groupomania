@@ -109,6 +109,11 @@
   @include transition;
 
   &:hover {
-    transform: scale(1.1);
+    color: $primary;
+    transform: scale(1.3);
+  }
+
+  &:active {
+    transform: scale(1);
   }
 }

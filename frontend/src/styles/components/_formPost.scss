@@ -1,7 +1,7 @@
 .form--post {
   @include flex(column, center, space-evenly);
   @include blocStlye;
-  margin-top: 13rem; 
+  margin-top: 12rem;
   max-width: 50rem;
   width: 90%;
  
@@ -44,5 +44,6 @@
 
   &__previewImg {
     @include displayImg;
+    margin-top: 0.5rem;
   }
 }

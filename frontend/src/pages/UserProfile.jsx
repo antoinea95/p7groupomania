@@ -245,6 +245,8 @@ function deleteAllPostsUser() {
               </div>
             )}
           </form>
+          <small className="user--card__formError"> {imgErr.message}</small>
+
         </>
       ) : (
         user.imageUrl && ( isLoading ? <Loading /> :
@@ -256,14 +258,14 @@ function deleteAllPostsUser() {
               />
             </div>
             {userId === profileId || userRole==='admin' ?(
-              <div className="user--card__pictureBtn">
+              <div>
                 <input
                   type="button"
                   onClick={handlePutPicture}
                   id="putPicture"
                   className="user--card__input"
                 />
-                <label htmlFor="putPicture" >
+                <label htmlFor="putPicture" className="user--card__pictureLabel">
                   <i className="fa-solid fa-pencil"></i>
                 </label>
               </div>
@@ -315,22 +317,23 @@ function deleteAllPostsUser() {
       ) : ( isLoading ? <Loading /> :
         <>
           <div className="user--card">
-            <h1 className="user--card__name">{user.firstName}</h1>
-            <h2 className="user--card__function">{user.function}</h2>
-            <p className="user--card__bio">{user.bio}</p>
-            {userId === profileId || userRole==='admin' ? (
-              <div className="user--card__update">
-                <input
+
+            <div className="user--card__header">
+            <h1 className="user--card__headerName">{user.firstName}</h1>
+            { userId === profileId || userRole==='admin' ? <><input
                   type="button"
                   onClick={handlePutForm}
                   id="putBtn"
                   className="user--card__input"
                 />
-                <label htmlFor="putBtn" className="user--card__updateBtn">
+                <label htmlFor="putBtn" className="user--card__headerBtn">
                   <i className="fa-solid fa-pencil"></i>
-                </label>
-                <button onClick={deleteUser} className="user--card__updateBtn"> <i className="fa-solid fa-trash"></i> </button>
-              </div>
+                </label></> : null}
+            </div>
+            <h2 className="user--card__function">{user.function}</h2>
+            <p className="user--card__bio">{user.bio}</p>
+            {userId === profileId || userRole==='admin' ? (
+              <button onClick={deleteUser} className="user--card__deleteBtn"> <i className="fa-solid fa-trash"></i> </button>
             ): null }
           </div>
         </>
@@ -339,6 +342,7 @@ function deleteAllPostsUser() {
     </article>
     { userPost.length > 0 && 
       <div className="user--post">
+        <h2 className="user--post__title">Les posts de {user.firstName}</h2>
         {userPostElement}
       </div>}
       </main>
