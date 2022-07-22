@@ -1,6 +1,10 @@
 .main--user {
   padding: 0 3rem;
   @include flex (row, flex-start, flex-start);
+
+  @include mobileScreen {
+    @include flex(column, center, space-between);
+  }
 }
 
 
@@ -11,6 +15,10 @@
   @include blocStlye;
   margin: 13rem auto 3rem auto;
   @include flex(column, center, space-between);
+
+  @include tabletScreen {
+    width: 90%
+  }
 
   &--card {
     @include flex(column, center, center);
@@ -149,8 +157,16 @@
     margin: 13rem auto 3rem auto;
     border-radius: 0.5rem;
     max-height: 50rem;
-    width: 50%;
     overflow: scroll;
+
+    @include tabletScreen {
+      width: 100%
+    }
+
+    @include mobileScreen {
+      margin: 3rem auto;
+    }
+    
   }
 
   

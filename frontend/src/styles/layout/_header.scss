@@ -9,24 +9,38 @@
     @include flex(row, center, space-between);
     box-shadow: 0 0.2rem 1.5rem 0 rgba($color: black, $alpha: 0.1);
 
+    @include mobileScreen {
+        @include flex(column, center, space-between);
+        height: 10rem;
+    }
+
     &--welcome {
-        margin: 1rem auto;
-        width: 100%;
-        @include flex (column, flex-start, space-between);
+        @include flex (column, flex-start, center);
+
+        @include mobileScreen {
+            width: 100%;
+            @include flex(row, center, space-between);
+            margin-top: 2rem;
+        }
 
         &__logo {
-            width: 17%;
+            @include flex(row, center, center);
+            width: 15rem;
+            margin-bottom: 0.5rem;
+
+            @include mobileScreen {
+                margin-bottom: 0;
+            }
         }
 
         &__user {
-            @include flex(row, center, center);
-            text-align: center;
-            width: 50%;
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
             font-weight: 700;
             text-transform: uppercase;
+
+            @include mobileScreen {
+                transform: none;
+                position: initial;
+            }
         }
     }
 
@@ -36,13 +50,30 @@
         width: 30%;
         max-width: 12rem;
 
+        @include mobileScreen {
+            margin: 1rem;
+        }
+
        &__link {
+            width: 33%;
             @include btnPost;
             color: $tertiary;
+            padding: 2.2rem;
+
+            @include mobileScreen {
+                &:hover {
+                    transform: scale(1);
+                }
+            }
         }
     }
 }
 
 .link--active {
     color: $primary;
+
+    @include mobileScreen {
+
+    border-bottom: 0.2rem solid $primary;
+    }
 }

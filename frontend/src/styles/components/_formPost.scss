@@ -14,10 +14,19 @@
 
   &__img {
    @include profilePic;
+   margin-left: 0.5rem;
+
+   @include mobileScreen {
+    margin-left: 1rem;
+}
   }
 
   &__text {
     @include inputText;
+
+    @include mobileScreen {
+      width: 70%
+  }
 
     &Update {
       width: 75%;
@@ -27,6 +36,10 @@
   &__btnImg, &__deleteImg{
     @include btnPost; 
     margin-right: 0.5rem;
+
+    @include mobileScreen {
+      margin-right: 1rem;
+  }
   }
 
   &__submit {

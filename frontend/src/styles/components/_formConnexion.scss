@@ -1,15 +1,9 @@
-//background
-.main--connexion {
-  &__img {
-    width: 40rem;
-    z-index: -100;
-  }
-}
+
 
 .form--container {
   background-color: transparent;
-  max-width: 70rem;
-  width: 80%;
+  max-width: 60rem;
+  width: 90%;
   margin: auto;
   margin-top: 10rem;
   overflow: hidden;
@@ -70,6 +64,10 @@
     @include inputText;
     margin: 1rem 0;
     width: 70%;
+
+    @include mobileScreen {
+      width: 80%;
+    }
   }
 
   &__label {

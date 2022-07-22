@@ -6,6 +6,19 @@
   justify-content: $justifycontent;
 }
 
+@mixin mobileScreen {
+  @media screen and (max-width: 600px) {
+    @content 
+  }
+}
+
+@mixin tabletScreen {
+  @media screen and (max-width: 769px) {
+    @content 
+  }
+}
+
+
 @mixin transition {
   transition: all 200ms ease-in-out;
 }
