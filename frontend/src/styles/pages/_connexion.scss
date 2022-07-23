@@ -1,5 +1,6 @@
 .header--connexion {
     height: 12rem;
+    animation: displayComponent 300ms ease-in-out;
   
     &__img {
       margin-top: 3rem;

@@ -10,14 +10,15 @@
 
 
 .user {
-  width: 40%;
-  max-width: 70rem;
+  width: 45%;
+  max-width: 40rem;
   @include blocStlye;
   margin: 13rem auto 3rem auto;
   @include flex(column, center, space-between);
+  animation: displayComponent 300ms ease-in-out;
 
   @include tabletScreen {
-    width: 90%
+    width: 50%
   }
 
   &--card {
@@ -158,6 +159,7 @@
     border-radius: 0.5rem;
     max-height: 50rem;
     overflow: scroll;
+    width: 50%;
 
     @include tabletScreen {
       width: 100%

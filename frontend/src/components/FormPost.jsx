@@ -6,10 +6,11 @@ import axios from "axios";
 import { useContext } from "react";
 import { Context } from "./Context";
 import { useState } from "react";
+import Loading from "./Loading";
 
 export default function FormPost(props) {
 
-const {userId, setAllPostsUpdate, setPostUpdate} = useContext(Context);
+const {userId, setAllPostsUpdate, isLoading, setIsLoading} = useContext(Context);
 
 
 const[file, setFile] = useState(null)
@@ -18,13 +19,16 @@ const [imgErr, setImgErr] = useState({type: '', erreur:''})
 const [user, setUser] = useState('');
 
 useEffect(() => {
+    
     axios({
         method: 'get',
         url: `${process.env.REACT_APP_API_URL}/auth/user/${userId}`,
         withCredentials: true
     })
     .then(res => {
-        setUser(res.data)})
+        setUser(res.data)
+
+    })
     .catch(err => {
         console.log(err)})
 }, [userId])

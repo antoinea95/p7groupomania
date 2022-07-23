@@ -4,8 +4,8 @@ import logo from '../images/logo-left-font.svg'
 export default function Loading() {
 
     return (
-        <div>
-            <img src={logo}/>
+        <div className='loader'>
+            <img src={logo} alt='logo de groupomania'/>
         </div>
     )
 }

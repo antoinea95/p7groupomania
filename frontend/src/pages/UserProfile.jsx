@@ -13,7 +13,7 @@ import Loading from "../components/Loading";
 import { useParams } from "react-router-dom";
 
 export default function UserProfile() {
-  const { userId, userRole, setIsLoading, isLoading, allPostsUpdate, setAllPostsUpdate, postUpdate, setPostUpdate} = useContext(Context);
+  const { userId, userRole, setIsLoading, isLoading, allPostsUpdate, setAllPostsUpdate} = useContext(Context);
   const [user, setUser] = useState({});
   const [isUserPut, setIsUserPut] = useState(false);
   const [isPutForm, setIsPutForm] = useState(false);
@@ -26,11 +26,11 @@ export default function UserProfile() {
   const [userPost, setUserPost] = useState([]);
 
   let {id} = useParams();
-  console.log(id)
 
   useEffect(() => {
 
     setProfileId(id);
+    setIsLoading(true);
 
     axios({
       method: "get",
@@ -39,12 +39,12 @@ export default function UserProfile() {
     }).then((res) => {
       setIsUserPut(false);
       setUser(res.data);
+      setIsLoading(false)
     })
     .catch(err => console.log(err) )
   }, [id, profileId, isUserPut]);
 
   useEffect(() => {
-
     axios({
       method: "get",
       url: `${process.env.REACT_APP_API_URL}/posts`,
@@ -54,7 +54,8 @@ export default function UserProfile() {
       const post = res.data
       const userPost = post.filter(post => post.userId === profileId)
       const userPostSort = userPost.reverse()
-      setUserPost(userPostSort);
+        setUserPost(userPostSort);
+        setAllPostsUpdate(false)
     })
     .catch(err => console.log(err));
   }, [profileId, allPostsUpdate, isUserPut]);
@@ -83,8 +84,6 @@ export default function UserProfile() {
 
   function putUser(data) {
 
-    setIsLoading(true)
-
     axios({
       method: "put",
       url: `${process.env.REACT_APP_API_URL}/auth/user/${profileId}`,
@@ -94,7 +93,6 @@ export default function UserProfile() {
       },
     }).then(() => {
       setIsUserPut(true);
-      setIsLoading(false);
       setIsPutForm(false);
       reset();
     });
@@ -206,7 +204,8 @@ function deleteAllPostsUser() {
   });
 
   return (
-
+    
+   isLoading ? <Loading /> :
     <main className="main--user">
     <article className="user">
       {isPutPicture ? (
@@ -249,7 +248,7 @@ function deleteAllPostsUser() {
 
         </>
       ) : (
-        user.imageUrl && ( isLoading ? <Loading /> :
+        user.imageUrl && ( 
           <div className="user--card__picture">
             <div className="user--card__pictureImg">
               <img
@@ -314,7 +313,7 @@ function deleteAllPostsUser() {
             <i className="fa-solid fa-paper-plane"></i>{" "}
           </button>
         </form>
-      ) : ( isLoading ? <Loading /> :
+      ) : (
         <>
           <div className="user--card">
 
@@ -339,13 +338,13 @@ function deleteAllPostsUser() {
         </>
       )}
 
-    </article>
-    { userPost.length > 0 && 
+    </article> 
+    { userPost.length > 0 ?
       <div className="user--post">
         <h2 className="user--post__title">Les posts de {user.firstName}</h2>
         {userPostElement}
-      </div>}
-      </main>
+      </div> : null}
+      </main> 
     
   );
 }

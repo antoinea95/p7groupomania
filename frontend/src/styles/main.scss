@@ -1,5 +1,6 @@
 @import "./utils/variables";
 @import "./utils/mixin";
+@import "./utils/keyframes";
 
 @import "./base/reset";
 @import "./base/typography";
@@ -8,9 +9,11 @@
 @import "./components/formPost";
 @import "./components/post";
 @import "./components/comment";
+@import "./components/loader";
 
 @import "./layout/header";
 
 @import "./pages/connexion";
 @import "./pages/home";
 @import "./pages/profile";
+@import "./pages/error";

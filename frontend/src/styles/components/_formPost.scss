@@ -4,6 +4,12 @@
   margin-top: 12rem;
   max-width: 50rem;
   width: 90%;
+  animation: displayComponent 300ms ease-in-out;
+
+  &__update {
+    margin: 3rem auto;
+    animation: none;
+  }
  
 
   &__header {

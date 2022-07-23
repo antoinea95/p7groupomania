@@ -1,0 +1,20 @@
+.page--error {
+    @include flex(column, center, center);
+    margin-top: 13rem;
+
+    img{
+        width: 30%;
+    }
+
+    &__title {
+        font-size: 30rem;
+        font-weight: 900;
+        color: $primary;
+    }
+
+    &__text {
+
+        font-size: 2rem;
+        font-weight: 700;
+    }
+}

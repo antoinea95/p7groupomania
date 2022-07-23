@@ -9,6 +9,7 @@
   overflow: hidden;
   @include blocStlye;
   @include blocShadow;
+  animation: displayComponent 300ms ease-in-out;
 }
 
 //header btn change form

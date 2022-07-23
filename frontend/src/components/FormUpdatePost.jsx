@@ -8,7 +8,7 @@ import { Context } from "./Context";
 import { useState } from "react";
 
 export default function FormUpdatePost(props) {
-  const { setPostUpdate } = useContext(Context);
+  const { setPostUpdate, setIsLoading } = useContext(Context);
 
   const [file, setFile] = useState(null);
   const [fileDataURL, setFileDataURL] = useState(null);
@@ -101,7 +101,7 @@ export default function FormUpdatePost(props) {
   };
 
   return (
-    <form className="form--post" onSubmit={handleSubmit(updatePost)}>
+    <form className="form--post form--post__update" onSubmit={handleSubmit(updatePost)}>
       <div className="form--post__header">
         <textarea
           {...register("message")}

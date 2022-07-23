@@ -14,31 +14,32 @@ export default function Home() {
   const [allPosts, setAllPosts] = useState([]);
 
   useEffect(() => {
-    setIsLoading(true)
+
     axios({
       method: "get",
       url: "http://localhost:3000/api/posts",
       withCredentials: true,
     })
       .then((res) => {
-        setIsLoading(false)
         setAllPostsUpdate(false);
         const posts = res.data;
         const postsSort = posts.reverse()
         setAllPosts(postsSort);
+        
       })
       .catch((err) => {
         console.log(err)});
   }, [allPostsUpdate]);
 
+  console.log(isLoading)
+
   const post = allPosts.map((post) => {
     return <Post key={post._id} postId={post._id} />;
   });
 
-  return (
-    <>
+  return  <main> 
       <FormPost />
       {post}
-    </>
-  );
+    </main>
+  ;
 }

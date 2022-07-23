@@ -8,7 +8,9 @@ import Header from './components/Header'
 import { Context } from "./components/Context";
 import axios from "axios";
 import UserProfile from "./pages/UserProfile";
+import Error from "./pages/Error";
 import Loading from "./components/Loading";
+
 
 export default function App() {
 
@@ -37,16 +39,15 @@ export default function App() {
 
    const logPath = '/'
    const url = window.location.pathname
-
     return (
         
         <Context.Provider value={{userId, userRole, allPostsUpdate, setAllPostsUpdate, postUpdate, setPostUpdate, isLoading, setIsLoading}}>
         <Router>
-           { url !== logPath && <Header/>}
             <Routes>
                 <Route exact path='/' element={<Connexion />} />
-                <Route exact path='/home' element={<Home />} />
-                <Route exact path="/profile/:id" element={<UserProfile />} />
+                <Route exact path='/home' element={<> <Header/> <Home /></>} />
+                <Route exact path="/profile/:id" element={<><Header /><UserProfile /></>} />
+                <Route path="*"  element={<Error/>}/>
             </Routes>
         </Router>
         </Context.Provider>

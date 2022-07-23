@@ -22,6 +22,7 @@ export default function Post(props) {
 
     useEffect(() => {
 
+        setIsLoading(true)
         axios({
             method: 'get',
             url: `${process.env.REACT_APP_API_URL}/posts/${props.postId}`,
@@ -42,6 +43,7 @@ export default function Post(props) {
             setIsPut(false)
             setPost(post)
             setCommentsNumber(res.data.comments.length)
+            setIsLoading(false)
         })
         .catch(err => console.log(err))
     }, [postUpdate, props.postId, setPostUpdate])
@@ -106,7 +108,8 @@ export default function Post(props) {
             url: `${process.env.REACT_APP_API_URL}/posts/${post._id}`,
             withCredentials: true
         })
-        .then(() => {
+        .then((res) => {
+            console.log(res)
             setPostUpdate(true)
             setAllPostsUpdate(true)
         })
@@ -122,13 +125,9 @@ export default function Post(props) {
     function displayComment() {
         setIsComment(prevIsComment => !prevIsComment);
     }
-
-
-    
-
         
 
-            { return  isLoading ? <Loading /> : (isPut ?
+            { return (isPut ?
 
              <FormUpdatePost 
              postId={post._id}
