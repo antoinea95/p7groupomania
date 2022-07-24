@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 
+// connexion à la base de donnée mongoDB
 mongoose
     .connect(`mongodb+srv://${process.env.MONGODB_URL}`,
     { useNewUrlParser: true,

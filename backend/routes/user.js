@@ -1,34 +1,29 @@
-// import express and Router
-const express= require('express');
+const express = require("express");
 const router = express.Router();
 
-// import middlewares
-const auth = require('../middlewares/auth');
-const password = require('../middlewares/password')
-const multer = require('../middlewares/multer-users');
+// import des middlewares
+const auth = require("../middlewares/auth");
+const password = require("../middlewares/password");
+const multer = require("../middlewares/multer-users");
 
-// import user's controllers
-const authUserCtrl = require('../controllers/auth-user');
-const userCtrl = require('../controllers/user');
+// import des controllers
+const authUserCtrl = require("../controllers/auth-user");
+const userCtrl = require("../controllers/user");
 
-// user's signup & login
-router.post('/signup', password, multer, authUserCtrl.signup);
-router.post('/login', authUserCtrl.login);
-router.get('/:id/logout', auth, authUserCtrl.logout);
+// connexion de l'utilisation
+router.post("/signup", password, multer, authUserCtrl.signup);
+router.post("/login", authUserCtrl.login);
+router.get("/:id/logout", auth, authUserCtrl.logout);
 
-// update user's profile
-router.put('/user/:id', auth, userCtrl.updateUser);
-router.put('/user/:id/upload', auth, multer, userCtrl.uploadImg);
-router.delete('/user/:id', auth, userCtrl.deleteUser);
+// Modification du profil de l'utilisateur
+router.put("/user/:id", auth, userCtrl.updateUser);
+router.put("/user/:id/upload", auth, multer, userCtrl.uploadImg);
+router.put("/user/:id/delete", auth, multer, userCtrl.deleteImg);
+router.delete("/user/:id", auth, userCtrl.deleteUser);
 
-// get user
-router.get('/user', auth, userCtrl.getAllUsers);
-router.get('/user/:id', auth, userCtrl.getUser);
-router.get('/jwt', auth, authUserCtrl.getToken);
-
-
-
-
-
+// Routes get
+router.get("/user", auth, userCtrl.getAllUsers);
+router.get("/user/:id", auth, userCtrl.getUser);
+router.get("/jwt", auth, authUserCtrl.getToken);
 
 module.exports = router;

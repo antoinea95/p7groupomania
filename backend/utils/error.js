@@ -1,15 +1,12 @@
- 
- module.exports.signupErrors = (err) => {
-    let errors = {
-        email: '', 
-        password: '',
-        firstName: ''
-    }
-
-    if(err.message.includes('email')) {
-        errors.email = "Votre email est incorrect ou déjà utilisé"
-    }
-
-    return errors
- }
-
+// Gestion de l'affichage des erreurs
+module.exports.signupErrors = (err) => {
+  let errors = {
+    email: "",
+    password: "",
+    firstName: "",
+  };
+  if (err.message.includes("email")) {
+    errors.email = "Votre email est incorrect ou déjà utilisé";
+  }
+  return errors;
+};
