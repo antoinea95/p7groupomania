@@ -6,14 +6,17 @@ import { Context } from "./Context";
 import FormComment from "./FormComment";
 
 export default function Comment(props) {
+
+  // import du context
   const { userId, userRole, setPostUpdate } = useContext(Context);
+
+  //Etat qui permet d'afficher ou de masquer les commentaires du post
   const [isPut, setIsPut] = useState(false);
 
   function handlePut() {
     setIsPut((prevIsPut) => !prevIsPut);
   }
 
-  console.log(isPut);
 
   function deleteComment() {
     axios({

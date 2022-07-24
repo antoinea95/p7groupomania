@@ -24,25 +24,27 @@ export default function UserProfile() {
   const [imgErr, setImgErr] = useState({ type: "", erreur: "" });
   const [profileId, setProfileId] = useState(null);
   const [userPost, setUserPost] = useState([]);
-
   let {id} = useParams();
+  
 
-  useEffect(() => {
 
-    setProfileId(id);
+
+
+  useEffect( () => {
+  
     setIsLoading(true);
-
-    axios({
-      method: "get",
-      url: `${process.env.REACT_APP_API_URL}/auth/user/${profileId}`,
-      withCredentials: true,
-    }).then((res) => {
-      setIsUserPut(false);
-      setUser(res.data);
+    async function getUserInfo() {
+      setProfileId(id)
+      try {
+      const res = await axios.get(`${process.env.REACT_APP_API_URL}/auth/user/${profileId}`, {withCredentials:true})
+      setUser(res.data)
       setIsLoading(false)
-    })
-    .catch(err => console.log(err) )
-  }, [id, profileId, isUserPut]);
+      } catch(err) {
+        console.log(err)
+      }
+      
+  }
+    getUserInfo()}, [id, profileId, isUserPut]);
 
   useEffect(() => {
     setIsLoading(true)

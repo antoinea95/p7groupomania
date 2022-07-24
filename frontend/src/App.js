@@ -23,17 +23,14 @@ export default function App() {
     useEffect(() => {
     
     async function getUserToken() {
-        await axios({
-            method: 'get',
-            url: `${process.env.REACT_APP_API_URL}/auth/jwt`,
-            withCredentials: true
-        })
-        .then((res) => {
+
+        try {
+            const res =  await  axios.get(`${process.env.REACT_APP_API_URL}/auth/jwt`, {withCredentials: true})
             setUserId(res.data.userId)
             setUserRole(res.data.userRole)
-        })
-        .catch(err => 
-            {console.log(err)})
+        } catch (err) {
+            console.log(err)
+        }
     }
     getUserToken()},[userId, userRole, isLoading])
 
