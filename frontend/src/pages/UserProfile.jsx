@@ -45,6 +45,7 @@ export default function UserProfile() {
   }, [id, profileId, isUserPut]);
 
   useEffect(() => {
+    setIsLoading(true)
     axios({
       method: "get",
       url: `${process.env.REACT_APP_API_URL}/posts`,
@@ -55,7 +56,8 @@ export default function UserProfile() {
       const userPost = post.filter(post => post.userId === profileId)
       const userPostSort = userPost.reverse()
         setUserPost(userPostSort);
-        setAllPostsUpdate(false)
+        setAllPostsUpdate(false);
+        setIsLoading(false);
     })
     .catch(err => console.log(err));
   }, [profileId, allPostsUpdate, isUserPut]);
@@ -163,7 +165,25 @@ export default function UserProfile() {
       .catch(() => setIsPutPicture(false));
   }
 
-  const removeCookie = (key) => {
+  function deleteUserPicture() {
+
+    axios({
+      method: "put",
+      url: `${process.env.REACT_APP_API_URL}/auth/user/${profileId}/delete`,
+      withCredentials: true,
+    })
+      .then(() => {
+        setIsUserPut(true);
+        setIsPutPicture(false);
+        reset();
+      })
+      .catch(() => setIsPutPicture(false));
+
+  }
+
+
+
+  function removeCookie(key) {
     if(window !== "undefined") {
         cookie.remove(key, {expires: 1});
     }
@@ -189,7 +209,7 @@ function deleteAllPostsUser() {
 
     axios({
       method: "delete",
-      url: `${process.env.REACT_APP_API_URL}/auth/user/${userId}`,
+      url: `${process.env.REACT_APP_API_URL}/auth/user/${profileId}`,
       withCredentials: true,
     })
     .then((res) => {
@@ -199,15 +219,17 @@ function deleteAllPostsUser() {
     window.location = '/'
   }
 
+  console.log(isLoading)
+
   const userPostElement = userPost.map((post) => {
     return <Post key={post._id} postId={post._id} userPut={isUserPut}/>;
   });
 
   return (
-    
-   isLoading ? <Loading /> :
     <main className="main--user">
+    {isLoading ? <Loading /> :
     <article className="user">
+      
       {isPutPicture ? (
         <>
           <form
@@ -231,6 +253,8 @@ function deleteAllPostsUser() {
             <button type="submit" className="user--card__pictureSubmit">
               <i className="fa-solid fa-paper-plane"></i>
             </button>
+            <input type="button" onClick={deleteUserPicture}  id='deleteImg' className="user--card__input"/>
+            <label htmlFor="deleteImg" className='user--card__pictureDelete'aria-label="Suppression de la photo de profile"><i className="fa-solid fa-trash"></i></label>
             {fileDataURL ? (
               <div className="user--card__pictureImg">
                 <img src={fileDataURL} alt="preview" />
@@ -256,7 +280,7 @@ function deleteAllPostsUser() {
                 alt="image du post"
               />
             </div>
-            {userId === profileId || userRole==='admin' ?(
+            {userId === profileId ?(
               <div>
                 <input
                   type="button"
@@ -319,7 +343,7 @@ function deleteAllPostsUser() {
 
             <div className="user--card__header">
             <h1 className="user--card__headerName">{user.firstName}</h1>
-            { userId === profileId || userRole==='admin' ? <><input
+            { userId === profileId ? <><input
                   type="button"
                   onClick={handlePutForm}
                   id="putBtn"
@@ -338,12 +362,13 @@ function deleteAllPostsUser() {
         </>
       )}
 
-    </article> 
+    </article>} 
     { userPost.length > 0 ?
-      <div className="user--post">
-        <h2 className="user--post__title">Les posts de {user.firstName}</h2>
-        {userPostElement}
-      </div> : null}
+      isLoading ? <Loading /> : <div className="user--post">
+      <h2 className="user--post__title">Les posts de {user.firstName}</h2>
+      {userPostElement}
+    </div> : null}
+     
       </main> 
     
   );

@@ -11,14 +11,14 @@
 
 .user {
   width: 45%;
-  max-width: 40rem;
+  max-width: 50rem;
   @include blocStlye;
   margin: 13rem auto 3rem auto;
   @include flex(column, center, space-between);
   animation: displayComponent 300ms ease-in-out;
 
-  @include tabletScreen {
-    width: 50%
+  @include mobileScreen {
+    width: 90%;
   }
 
   &--card {
@@ -40,6 +40,13 @@
         position: absolute;
         @include btnSubmit;
         bottom: -2rem;
+      }
+
+      &Delete {
+        @include btnPost;
+        position: absolute;
+        left: 0;
+        top: 0;
       }
 
       &Img {
@@ -161,11 +168,8 @@
     overflow: scroll;
     width: 50%;
 
-    @include tabletScreen {
-      width: 100%
-    }
-
     @include mobileScreen {
+      width: 100%;
       margin: 3rem auto;
     }
     

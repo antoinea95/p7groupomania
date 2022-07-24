@@ -19,7 +19,7 @@ const [imgErr, setImgErr] = useState({type: '', erreur:''})
 const [user, setUser] = useState('');
 
 useEffect(() => {
-    
+
     axios({
         method: 'get',
         url: `${process.env.REACT_APP_API_URL}/auth/user/${userId}`,
@@ -27,6 +27,7 @@ useEffect(() => {
     })
     .then(res => {
         setUser(res.data)
+
 
     })
     .catch(err => {

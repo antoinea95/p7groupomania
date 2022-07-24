@@ -21,8 +21,6 @@ export default function Post(props) {
     const [commentsNumber, setCommentsNumber] = useState(0)
 
     useEffect(() => {
-
-        setIsLoading(true)
         axios({
             method: 'get',
             url: `${process.env.REACT_APP_API_URL}/posts/${props.postId}`,
@@ -43,7 +41,6 @@ export default function Post(props) {
             setIsPut(false)
             setPost(post)
             setCommentsNumber(res.data.comments.length)
-            setIsLoading(false)
         })
         .catch(err => console.log(err))
     }, [postUpdate, props.postId, setPostUpdate])
@@ -58,7 +55,8 @@ export default function Post(props) {
             withCredentials: true
         })
         .then(res => {
-            setUsersData(res.data)})
+            setUsersData(res.data)
+        })
         .catch(err => {
             console.log(err)})
     }, [props.userPut])

@@ -8,7 +8,7 @@ import { Context } from "./Context";
 import { useState } from "react";
 
 export default function FormUpdatePost(props) {
-  const { setPostUpdate, setIsLoading } = useContext(Context);
+  const { setPostUpdate, setAllPostsUpdate } = useContext(Context);
 
   const [file, setFile] = useState(null);
   const [fileDataURL, setFileDataURL] = useState(null);
@@ -91,6 +91,7 @@ export default function FormUpdatePost(props) {
     })
       .then(() => {
         setPostUpdate(true);
+        setAllPostsUpdate(true);
         setFile(null);
         setFileDataURL(null);
         reset();

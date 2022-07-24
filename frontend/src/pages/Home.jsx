@@ -14,7 +14,7 @@ export default function Home() {
   const [allPosts, setAllPosts] = useState([]);
 
   useEffect(() => {
-
+    setIsLoading(true)
     axios({
       method: "get",
       url: "http://localhost:3000/api/posts",
@@ -25,6 +25,7 @@ export default function Home() {
         const posts = res.data;
         const postsSort = posts.reverse()
         setAllPosts(postsSort);
+        setIsLoading(false)
         
       })
       .catch((err) => {
@@ -39,7 +40,7 @@ export default function Home() {
 
   return  <main> 
       <FormPost />
-      {post}
+      {isLoading ? <Loading /> : post.length === 0 ? <p className="home--message__post"> Aucun post à afficher</p> : post}
     </main>
   ;
 }
