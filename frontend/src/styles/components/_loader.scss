@@ -1,25 +1,25 @@
+// animation loading spinner
 @keyframes spinner {
-    
-    0% {
-        opacity: 0;
-        transform: rotate(-180deg);
-    }
+  0% {
+    opacity: 0;
+    transform: rotate(-180deg);
+  }
 
-    50% {
-        opacity: 1;
-        transform: rotate(0deg);
-    }
+  50% {
+    opacity: 1;
+    transform: rotate(0deg);
+  }
 
-    100% {
-        opacity: 0;
-        transform: rotate(180deg);
-    }
+  100% {
+    opacity: 0;
+    transform: rotate(180deg);
+  }
 }
 
-
+// style du component Loading
 .loader {
-    margin: 10rem auto;
-    width: 40rem;
-    opacity: 1;
-    animation: spinner 2s infinite backwards;
+  margin: 10rem auto;
+  width: 40rem;
+  opacity: 1;
+  animation: spinner 2s infinite backwards;
 }

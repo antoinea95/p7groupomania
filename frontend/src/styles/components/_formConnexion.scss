@@ -1,5 +1,4 @@
-
-
+// bloc qui contient les formulaires
 .form--container {
   background-color: transparent;
   max-width: 60rem;
@@ -12,10 +11,11 @@
   animation: displayComponent 300ms ease-in-out;
 }
 
-//header btn change form
+//style des onglets du container
 .form--mode {
   width: 100%;
 
+  // style principal des onglets
   &__btn {
     border: none;
     font-family: "Lato", sans-serif;
@@ -34,11 +34,13 @@
       color: white;
     }
 
+    // lorsque l'onglet est sélectionné changement du background
     &--clicked {
       background-color: $primary;
       color: white;
     }
 
+    // lorsque l'utilisateur s'est inscrit, l'onglet 'connexion' s'aggrandi
     &--isSignup {
       background-color: $primary;
       width: 100%;
@@ -47,16 +49,15 @@
   }
 }
 
+// style du formulaire
 .form--connexion {
-  // container btn & forms
-
-  // form
   padding: 2rem;
   @include flex(column, center, space-between);
 
+  // bloc contenant le label et l'input
   &__inputBloc {
     position: relative;
-    @include flex (row, center, center);
+    @include flex(row, center, center);
     width: 100%;
   }
 
@@ -77,7 +78,7 @@
   }
 
   &__submit {
-    @include btnSubmit;
+    @include mainBtn;
   }
 
   &__error {

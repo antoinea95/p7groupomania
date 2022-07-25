@@ -1,11 +1,14 @@
+// réglage de la font-size à 10px pour que 1rem = 10px
 html {
-  font-size: 10px; // 1rem = 10px
-  
+  font-size: 10px;
+
+  // réduction des proportions lors de l'affichage mobile
   @include mobileScreen {
     font-size: 9px;
   }
 }
 
+// définition du style principal du body
 body {
   font-family: "Lato", sans-serif;
   font-size: 1.5rem;

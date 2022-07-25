@@ -66,7 +66,7 @@ export default function UserProfile() {
         setIsLoading(false);
       })
       .catch((err) => console.log(err));
-  }, [id, profileId, isUserPut]);
+  }, [id, profileId, isUserPut, setIsLoading]);
 
   // requête pour récupérer les posts de l'utilisateur
   useEffect(() => {
@@ -89,7 +89,7 @@ export default function UserProfile() {
         setIsLoading(false);
       })
       .catch((err) => console.log(err));
-  }, [profileId, allPostsUpdate, isUserPut]);
+  }, [profileId, allPostsUpdate, setAllPostsUpdate, setIsLoading, isUserPut]);
 
   // Objet Yup permet de contrôler les saisies du formulaire
   const ValidationSchema = Yup.object().shape({
@@ -396,8 +396,8 @@ export default function UserProfile() {
           ) : (
             <>
               <section className="user--card">
-                <div className="user--card__header">
-                  <h1 className="user--card__headerName">{user.firstName}</h1>
+                <div className="user--card__title">
+                  <h1 className="user--card__titleName">{user.firstName}</h1>
                   {userId === profileId ? (
                     <>
                       <input
@@ -408,7 +408,7 @@ export default function UserProfile() {
                       />
                       <label
                         htmlFor="putBtn"
-                        className="user--card__headerBtn"
+                        className="user--card__titleBtn"
                         aria-label="modifier votre profil"
                       >
                         <i className="fa-solid fa-pencil"></i>

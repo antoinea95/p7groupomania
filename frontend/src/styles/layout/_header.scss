@@ -1,79 +1,80 @@
+// style du header de la page
 .header {
-    height: 8rem;
-    padding: 0 2rem;
-    top: 0;
-    width: 100%;
-    position: fixed;
-    z-index: 100;
-    background-color: white;
-    @include flex(row, center, space-between);
-    box-shadow: 0 0.2rem 1.5rem 0 rgba($color: black, $alpha: 0.1);
+  height: 8rem;
+  padding: 0 2rem;
+  top: 0;
+  width: 100%;
+  position: fixed;
+  z-index: 100;
+  background-color: white;
+  @include flex(row, center, space-between);
+  box-shadow: 0 0.2rem 1.5rem 0 rgba($color: black, $alpha: 0.1);
+
+  @include mobileScreen {
+    @include flex(column, center, space-between);
+    height: 10rem;
+  }
+
+  //logo et message de bienvenue
+  &--welcome {
+    @include flex(column, flex-start, center);
 
     @include mobileScreen {
-        @include flex(column, center, space-between);
-        height: 10rem;
+      width: 100%;
+      @include flex(row, center, space-between);
+      margin-top: 2rem;
     }
 
-    &--welcome {
-        @include flex (column, flex-start, center);
+    &__logo {
+      @include flex(row, center, center);
+      width: 15rem;
+      margin-bottom: 0.5rem;
 
-        @include mobileScreen {
-            width: 100%;
-            @include flex(row, center, space-between);
-            margin-top: 2rem;
-        }
-
-        &__logo {
-            @include flex(row, center, center);
-            width: 15rem;
-            margin-bottom: 0.5rem;
-
-            @include mobileScreen {
-                margin-bottom: 0;
-            }
-        }
-
-        &__user {
-            font-weight: 700;
-            text-transform: uppercase;
-
-            @include mobileScreen {
-                transform: none;
-                position: initial;
-            }
-        }
+      @include mobileScreen {
+        margin-bottom: 0;
+      }
     }
 
-    &--navbar {
+    &__user {
+      font-weight: 700;
+      text-transform: uppercase;
 
-        @include flex(row, center, space-between);
-        width: 30%;
-        max-width: 12rem;
-
-        @include mobileScreen {
-            margin: 1rem;
-        }
-
-       &__link {
-            width: 33%;
-            @include btnPost;
-            color: $tertiary;
-            padding: 2.2rem;
-
-            @include mobileScreen {
-                &:hover {
-                    transform: scale(1);
-                }
-            }
-        }
+      @include mobileScreen {
+        transform: none;
+        position: initial;
+      }
     }
+  }
+  // barre de navigation
+  &--navbar {
+    @include flex(row, center, space-between);
+    width: 30%;
+    max-width: 12rem;
+
+    @include mobileScreen {
+      margin: 1rem;
+    }
+
+    &__link {
+      width: 33%;
+      @include secondaryBtn;
+      color: $tertiary;
+      padding: 2.2rem;
+
+      @include mobileScreen {
+        &:hover {
+          transform: scale(1);
+        }
+      }
+    }
+  }
 }
 
+// style lorsque le lien de la navigation est actif
 .link--active {
-    color: $primary;
+  color: $primary;
 
-    @include mobileScreen {
-
+  @include mobileScreen {
     border-bottom: 0.2rem solid $primary;
-    }
+  }
 }

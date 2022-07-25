@@ -1,3 +1,4 @@
+// formulaire du commentaire
 .form--comment {
   @include flex(row, center, center);
   margin: 1rem;
@@ -8,7 +9,7 @@
   }
 
   &__btn {
-    @include btnPost;
+    @include secondaryBtn;
   }
 
   &__error {
@@ -17,48 +18,51 @@
   }
 }
 
+// style d'un commentaire
 .comment {
   @include flex(column, center, center);
   box-shadow: 0 0 1rem -0.3rem rgba($color: black, $alpha: 0.1);
   margin: 1rem auto;
   width: 100%;
 
+  // en-tête du commentaire
   &--header {
     @include flex(row, center, space-between);
-   // box-shadow: 0 0.3rem 2rem -0.8rem rgba($color: black, $alpha: 0.1);
     width: 100%;
     padding: 0 1rem;
     height: 4rem;
 
     &__user {
+      @include flex(row, center, space-between);
 
-      @include flex (row, center, space-between);
-
+      // photo de profil
       &Img {
         @include profilePic;
         width: 2rem;
         height: 2rem;
       }
 
+      // nom de l'utilisateur
       &Name {
         margin-left: 1rem;
         font-weight: 900;
       }
     }
 
+    // style des boutons pour modifier et supprimer le commentaire
     &__btn {
-
       @include flex(row, center, space-between);
       width: 10%;
 
-      &Modify, &Delete {
-        @include btnPost;
+      &Modify,
+      &Delete {
+        @include secondaryBtn;
         font-size: 1.2rem;
       }
     }
-
   }
 
+  // style du texte du commentaire
   &--message {
     width: 100%;
     padding: 1rem;

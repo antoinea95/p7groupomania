@@ -1,14 +1,14 @@
+// répartition des blocs sur la page
 .main--user {
   padding: 0 3rem;
-  @include flex (row, flex-start, flex-start);
+  @include flex(row, flex-start, flex-start);
 
   @include mobileScreen {
     @include flex(column, center, space-between);
   }
 }
 
-
-
+// card de l'utilisateur
 .user {
   width: 45%;
   max-width: 50rem;
@@ -29,6 +29,7 @@
     padding: 2rem;
     width: 100%;
 
+    // style de la photo de profil
     &__picture {
       width: 15rem;
       height: 14rem;
@@ -36,44 +37,48 @@
       margin: 2rem;
       @include flex(row, center, center);
 
+      // bouton d'envoie de la nouvelle photo de profil
       &Submit {
         position: absolute;
-        @include btnSubmit;
+        @include mainBtn;
         bottom: -2rem;
       }
 
+      // bouton qui supprime la photo de profil
       &Delete {
-        @include btnPost;
+        @include secondaryBtn;
         position: absolute;
         left: 0;
         top: 0;
       }
 
+      // style de la photo de profil
       &Img {
         border-radius: 50%;
         width: 13rem;
         height: 13rem;
         overflow: hidden;
-        
+
         img {
           object-fit: cover;
         }
       }
 
+      // bouton permettant d'afficher le formulaire pour modifier la photo
       &Btn {
-        @include btnPost;
+        @include secondaryBtn;
         position: absolute;
         right: 0;
         top: 0;
-
       }
 
+      // bouton permettant de sélectionner une photo
       &Label {
         position: absolute;
         cursor: pointer;
         top: 0;
         right: 0;
-        @include btnPost;
+        @include secondaryBtn;
         font-size: 1.3rem;
       }
     }
@@ -82,7 +87,8 @@
       display: none;
     }
 
-    &__header {
+    // prénom de l'utilisateur et bouton pour afficher le formulaire
+    &__title {
       @include flex(row, center, center);
       padding: 0.7rem 2rem;
       position: relative;
@@ -93,35 +99,34 @@
       }
 
       &Btn {
-        @include btnPost;
+        @include secondaryBtn;
         font-size: 1.3rem;
         position: absolute;
         top: 0;
         right: 0;
       }
-   
     }
 
+    // fonction de l'utilisateur
     &__function {
       font-weight: 500;
-      font-size: 2rem
+      font-size: 2rem;
     }
 
+    // description de l'utilisateur
     &__bio {
       width: 100%;
       overflow-wrap: break-word;
       margin: 2rem 0;
     }
 
-      &__deleteBtn {
-        @include btnSubmit;
-        font-size: 1.3rem;
+    // bouton de suppression du compte
+    &__deleteBtn {
+      @include mainBtn;
+      font-size: 1.3rem;
+    }
 
-      }
-    
-    
-
-
+    // formulaire de modification des informations de l'utilisateur
     &__form {
       @include flex(column, center, center);
       width: 100%;
@@ -148,14 +153,14 @@
       }
 
       &Submit {
-        @include btnSubmit;
+        @include mainBtn;
         margin-top: 0;
       }
     }
   }
 
+  // bloc affichant les posts de l'utilisateurs
   &--post {
-
     &__title {
       font-size: 1.8rem;
       font-weight: 900;
@@ -172,8 +177,5 @@
       width: 100%;
       margin: 3rem auto;
     }
-    
   }
-
-  
 }

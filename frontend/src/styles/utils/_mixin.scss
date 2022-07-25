@@ -6,45 +6,37 @@
   justify-content: $justifycontent;
 }
 
+// style des blocs
+@mixin blocStlye {
+  @include blocShadow;
+  border-radius: 1rem;
+  border-radius: 1rem;
+  margin: 3rem auto;
+}
+
+@mixin blocShadow {
+  box-shadow: 0 0 1rem 0 rgba($color: black, $alpha: 0.1);
+}
+
+// media query
 @mixin mobileScreen {
   @media screen and (max-width: 600px) {
-    @content 
+    @content;
   }
 }
 
 @mixin tabletScreen {
   @media screen and (max-width: 769px) {
-    @content 
+    @content;
   }
 }
-
 
 @mixin transition {
   transition: all 200ms ease-in-out;
 }
 
-@mixin btnPost {
-  @include flex(row, center, center);
-  width: 2rem; 
-  height: 2rem;
-  @include transition;
-  background-color: transparent;
-  cursor: pointer;
-  border: none;
-  font-size: 1.8rem;
-
-    &:hover {
-      transform: scale(1.3);
-      color: $primary;
-    }
-
-    &:active {
-      transform: scale(1);
-    }
-}
-
-// btn main style
-@mixin btnSubmit {
+// bouton principal
+@mixin mainBtn {
   border: 0.2rem solid $primary;
   font-family: "Lato", sans-serif;
   font-weight: 700;
@@ -72,46 +64,28 @@
   }
 }
 
-@mixin btnCrud {
-  font-size: 1.8rem;
-  cursor: pointer;
+// bouton secondaire
+@mixin secondaryBtn {
   @include flex(row, center, center);
-  border: none;
-  background-color: transparent;
-  width: 4rem;
-  height: 4rem;
+  width: 2rem;
+  height: 2rem;
   @include transition;
+  background-color: transparent;
+  cursor: pointer;
+  border: none;
+  font-size: 1.8rem;
 
   &:hover {
-    background-color: $primary;
-    color: white;
-    border: 0.1rem solid $tertiary;
-    border-radius: 0.5rem;
-    box-shadow: -0.1rem 0.3rem 0 0.1rem $tertiary;
-    transform: translate(0, -0.3rem);
+    transform: scale(1.3);
+    color: $primary;
   }
 
   &:active {
-    background-color: transparent;
-    border: none;
-    border-radius: 0;
-    border-left: 0.1rem solid $tertiary;
-    box-shadow: none;
-    transform: translate(0, 0rem);
+    transform: scale(1);
   }
 }
 
-@mixin blocShadow {
-  box-shadow: 0 0 1rem 0 rgba($color: black, $alpha: 0.1);
-}
-
-@mixin blocStlye {
-  @include blocShadow;
-  border-radius: 1rem;
-  border-radius: 1rem;
-  margin: 3rem auto;
-}
-
+// style des formulaires
 @mixin inputText {
   @include placeHolder;
   @include flex(row, center, flex-start);
@@ -140,6 +114,7 @@
   text-transform: uppercase;
 }
 
+// style de la photo de profil
 @mixin profilePic {
   overflow: hidden;
   border-radius: 50%;
@@ -147,40 +122,9 @@
   height: 3rem;
 }
 
-@mixin headerUser {
-  &__user {
-    @include flex(row, center, flex-start);
-
-    &Img {
-    }
-
-    &Name {
-      font-weight: 900;
-      text-transform: uppercase;
-    }
-  }
-}
-
-@mixin headerBtn {
-  &__btn {
-    @include flex(row, center, space-around);
-    border-radius: 0.5rem;
-
-    &Modify {
-      @include btnCrud;
-      border-left: 0.1rem solid $tertiary;
-
-    }
-
-    &Delete {
-      @include btnCrud;
-      border-left: 0.1rem solid $tertiary;
-    }
-  }
-}
-
+// affichage des images
 @mixin displayImg {
-    @include flex (row, center, flex-start);
-    height: 40rem;
-    overflow: hidden;
+  @include flex(row, center, flex-start);
+  height: 40rem;
+  overflow: hidden;
 }

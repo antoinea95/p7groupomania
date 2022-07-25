@@ -1,11 +1,11 @@
+// style des posts
 .post {
   @include blocStlye;
-  @include flex (column, center, center);
+  @include flex(column, center, center);
   max-width: 50rem;
   width: 90%;
   margin: 3rem auto;
   animation: displayComponent 300ms ease-in-out;
- 
 
   &--header {
     @include flex(row, center, space-between);
@@ -16,9 +16,9 @@
     padding: 0 2rem;
     height: 5rem;
 
+    // style de l'entête du post et des informations de l'utilisateur
     &__user {
-
-      @include flex (row, center, space-between);
+      @include flex(row, center, space-between);
 
       &Img {
         @include profilePic;
@@ -27,22 +27,42 @@
       &Name {
         margin-left: 1rem;
         font-weight: 900;
+        @include transition;
+
+        a {
+          color: $tertiary;
+          text-decoration: none;
+
+          &:hover {
+            color: $primary;
+          }
+        }
+
+        &:hover {
+          color: $primary;
+          transform: scale(1.2);
+        }
+
+        &:active {
+          transform: scale(1);
+        }
       }
     }
 
+    // style des boutons pour modifier ou supprimer le post
     &__btn {
-
       @include flex(row, center, space-between);
       width: 10%;
 
-      &Modify, &Delete {
-        @include btnPost;
+      &Modify,
+      &Delete {
+        @include secondaryBtn;
         font-size: 1.5rem;
       }
     }
-
   }
 
+  // contenu du post
   &--content {
     @include flex(column, center, space-between);
 
@@ -68,8 +88,9 @@
     }
   }
 
+  // pied de page du post, bouton like et commentaire
   &--footer {
-    @include flex(row, center, flex-start); 
+    @include flex(row, center, flex-start);
     border-radius: 0 0 1rem 1rem;
     box-shadow: 0 -0.3rem 2rem -0.8rem rgba($color: black, $alpha: 0.1);
     margin-top: 2rem;
@@ -87,34 +108,21 @@
       font-size: 1.5rem;
     }
 
-    &__comment,  &__like {
-      @include btnPost;
+    &__comment,
+    &__like {
+      @include secondaryBtn;
       margin-right: 0.5rem;
 
+      // lorsque l'utilisateur clique sur le bouton like ou comment celui ci se rempli
       &Filled {
         color: $primary;
       }
     }
-
   }
 
+  // ajustement du bloc où sont affichés les commentaires
   &--comment {
     width: 100%;
     @include flex(column, center, space-between);
-  }
-}
-
-#userLink {
-  color: $tertiary;
-  text-decoration: none;
-  @include transition;
-
-  &:hover {
-    color: $primary;
-    transform: scale(1.3);
-  }
-
-  &:active {
-    transform: scale(1);
   }
 }

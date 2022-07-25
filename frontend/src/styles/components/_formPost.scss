@@ -1,3 +1,5 @@
+//formulaire pour ajouter ou modifier un post
+
 .form--post {
   @include flex(column, center, space-evenly);
   @include blocStlye;
@@ -6,11 +8,11 @@
   width: 90%;
   animation: displayComponent 300ms ease-in-out;
 
+  // ajustement lorsque le formulaire s'affiche dans un post modifié
   &__update {
     margin: 3rem auto;
     animation: none;
   }
- 
 
   &__header {
     margin: 2rem 0;
@@ -19,37 +21,38 @@
   }
 
   &__img {
-   @include profilePic;
-   margin-left: 0.5rem;
+    @include profilePic;
+    margin-left: 0.5rem;
 
-   @include mobileScreen {
-    margin-left: 1rem;
-}
+    @include mobileScreen {
+      margin-left: 1rem;
+    }
   }
 
   &__text {
     @include inputText;
 
     @include mobileScreen {
-      width: 70%
-  }
+      width: 70%;
+    }
 
     &Update {
       width: 75%;
     }
   }
 
-  &__btnImg, &__deleteImg{
-    @include btnPost; 
+  &__btnImg,
+  &__deleteImg {
+    @include secondaryBtn;
     margin-right: 0.5rem;
 
     @include mobileScreen {
       margin-right: 1rem;
-  }
+    }
   }
 
   &__submit {
-    @include btnSubmit;
+    @include mainBtn;
   }
 
   &__input {
