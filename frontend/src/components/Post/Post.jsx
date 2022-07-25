@@ -166,14 +166,14 @@ export default function Post(props) {
             {usersData.map((user) => {
               if (user._id === post.userId)
                 return (
-                  <h3 className="post--header__userName"  key={user._id}>
+                  <h2 className="post--header__userName"  key={user._id}>
                     <Link
                       to={`/profile/${user._id}`}
                       id="userLink"
                     >
                       {user.firstName}
                     </Link>
-                  </h3>
+                  </h2>
                 );
             })}
           </div>

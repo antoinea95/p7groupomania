@@ -76,10 +76,15 @@ export default function Comment(props) {
         })}
         {userId === props.comment.commenterId || userRole === "admin" ? (
           <div className="comment--header__btn">
-            <button className="comment--header__btnModify" onClick={handlePut}>
+            <button 
+               aria-label="modifer le commentaire"
+              className="comment--header__btnModify"
+              onClick={handlePut}
+              >
               <i className="fa-solid fa-pencil"> </i>
             </button>
             <button
+              aria-label="supprimer le commentaire"
               className="comment--header__btnDelete"
               onClick={deleteComment}
             >

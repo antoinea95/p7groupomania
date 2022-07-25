@@ -52,12 +52,17 @@
     // style des boutons pour modifier ou supprimer le post
     &__btn {
       @include flex(row, center, space-between);
-      width: 10%;
+      max-width: 5rem;
+      width: 20%;
 
       &Modify,
       &Delete {
         @include secondaryBtn;
         font-size: 1.5rem;
+
+          @include mobileScreen {
+            font-size: 1.7rem;
+          }
       }
     }
   }

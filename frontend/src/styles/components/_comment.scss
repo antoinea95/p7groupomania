@@ -52,12 +52,17 @@
     // style des boutons pour modifier et supprimer le commentaire
     &__btn {
       @include flex(row, center, space-between);
-      width: 10%;
+      max-width: 4.5rem;
+      width: 30%;
 
       &Modify,
       &Delete {
         @include secondaryBtn;
         font-size: 1.2rem;
+
+        @include mobileScreen {
+          font-size: 1.5rem;
+        }
       }
     }
   }

@@ -69,9 +69,9 @@ export default function FormComment(props) {
           placeholder="Votre commentaire"
         />
         <button
+          aria-label="mettre à jour le commentaire"
           type="submit"
           className="form--comment__btn"
-          aria-label="bouton de validation du formulaire"
         >
           <i className="fa-solid fa-paper-plane"></i>
         </button>
