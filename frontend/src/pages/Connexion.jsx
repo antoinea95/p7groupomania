@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
+
 import FormConnexion from "../components/FormConnexion";
-import typo from "../images/icon-left-font.svg";
 import logo from "../images/icon-left-font-monochrome-black.svg";
 
 export default function Connexion() {
+
+  // affichage de la page de connexion et du component FormConnexion
   return (
     <>
       <header className="header--connexion">

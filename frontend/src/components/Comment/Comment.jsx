@@ -1,23 +1,23 @@
+import React, { useState, useContext} from "react";
 import axios from "axios";
-import React, { useState } from "react";
-import { useContext } from "react";
 import { Link } from "react-router-dom";
-import { Context } from "./Context";
+
+import { Context } from "../Context";
 import FormComment from "./FormComment";
 
 export default function Comment(props) {
-
   // import du context
   const { userId, userRole, setPostUpdate } = useContext(Context);
 
-  //Etat qui permet d'afficher ou de masquer les commentaires du post
+  //Etat qui permet d'afficher le formulaire pour modifier le commentaire
   const [isPut, setIsPut] = useState(false);
 
+  // fonction qui permet d'afficher et de masquer le formulaire de modification du commentaire
   function handlePut() {
     setIsPut((prevIsPut) => !prevIsPut);
   }
 
-
+  // requête axios pour supprimer le commentaire
   function deleteComment() {
     axios({
       method: "delete",
@@ -26,11 +26,15 @@ export default function Comment(props) {
       data: {
         commentId: props.comment._id,
       },
-    }).then(() => {
-      setPostUpdate(true);
-    });
+    })
+      .then(() => {
+        // mise à jour du post
+        setPostUpdate(true);
+      })
+      .catch((err) => console.log(err));
   }
 
+  // requête pour la modification d'un commentaire
   function putComment(data) {
     axios({
       method: "put",
@@ -40,11 +44,13 @@ export default function Comment(props) {
         commentId: props.comment._id,
         text: data.text,
       },
-    }).then((res) => {
-      console.log(res);
-      setPostUpdate(true);
-      setIsPut(false);
-    });
+    })
+      .then(() => {
+        // mise à jour du post
+        setPostUpdate(true);
+        setIsPut(false);
+      })
+      .catch((err) => console.log(err));
   }
 
   return (
@@ -59,31 +65,30 @@ export default function Comment(props) {
                   src={user.imageUrl}
                   alt="photo de profil"
                 />
-                <Link to={`/profile/${user._id}`} key={user._id} id='userLink'>
-                           <h3 className="post--header__userName">{user.firstName}</h3>
-                </Link>
+                <h3 className="post--header__userName">
+                  <Link to={`/profile/${user._id}`} id="userLink">
+                    {user.firstName}
+                  </Link>
+                </h3>
               </div>
             );
           }
         })}
-
-        {userId === props.comment.commenterId || userRole === 'admin' ? (
+        {userId === props.comment.commenterId || userRole === "admin" ? (
           <div className="comment--header__btn">
             <button className="comment--header__btnModify" onClick={handlePut}>
-              {" "}
-              <i className="fa-solid fa-pencil"> </i>{" "}
+              <i className="fa-solid fa-pencil"> </i>
             </button>
             <button
               className="comment--header__btnDelete"
               onClick={deleteComment}
             >
-              {" "}
-              <i className="fa-solid fa-xmark"></i>{" "}
+              <i className="fa-solid fa-xmark"></i>
             </button>
-          </div> 
-        ) : null }
+          </div>
+        ) : null}
       </div>
-
+      {/* si l'utilisateur clique sur le bouton modifié, modification de l'état isPut et affichage du component formComment*/}
       {isPut ? (
         <FormComment
           isPut={isPut}

@@ -1,24 +1,25 @@
 import React, { useState } from "react";
+import axios from "axios";
+
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import * as Yup from "yup";
-import axios from "axios";
 
 export default function FormConnexion() {
-  // control form to display
+  // état qui permet de contrôler le formulaire à afficher
   const [isLogin, setIsLogin] = useState(false);
 
-  // login after signup
+  // état qui permet d'afficher le formulaire de connexion une fois l'inscription validée
   const [isSignup, setIsSignup] = useState(false);
 
-  // Yup key for the firstName, if Login Form is on display, firstName is not required
+  // contrôle et validation de la clé firstName seulement lors de l'inscription
   const firstName = !isLogin && {
     firstName: Yup.string()
       .required("Merci de renseigner votre prénom")
       .matches("^[A-Za-zÀ-ÖØ-öø-ÿ-' ]{2,}$", "Prénom invalide"),
   };
 
-  // Yup object for control form
+  // Schéma Yup qui permet de contrôler le formulaire
   const ValidationSchema = Yup.object().shape({
     ...firstName,
 
@@ -34,17 +35,17 @@ export default function FormConnexion() {
       ),
   });
 
-  // validation form
-  const { register, handleSubmit, formState, reset } = useForm({
+  // UseForm permet de gérer la validation du formulaire
+  const { register, handleSubmit, formState} = useForm({
     mode: "onBlur",
     resolver: yupResolver(ValidationSchema),
   });
 
-  // stock errors
+  // stockage des erreurs
   const { errors } = formState;
 
-  // Send signup's data with axios
-  const onSignUp = (data) => {
+  // Requête pour l'inscription de l'utilisateur
+function onSignUp(data) {
     axios({
       method: "post",
       url: `${process.env.REACT_APP_API_URL}/auth/signup`,
@@ -55,10 +56,15 @@ export default function FormConnexion() {
     })
       .then((res) => {
         if (res.data.errors) {
+          // récupération et affichage des erreurs générées par la requête
           const errors = res.data.errors;
           const errorSmall = document.querySelector(".postError");
           errorSmall.textContent = errors.email;
         } else {
+          // si l'inscription est validée, modification des états pour afficher le formulaire de connexion
+          // réinitialisation des erreurs
+          const errorSmall = document.querySelector(".postError");
+          errorSmall.textContent = "";
           setIsSignup(true);
           setIsLogin(true);
         }
@@ -66,8 +72,8 @@ export default function FormConnexion() {
       .catch((err) => console.log(err));
   };
 
-  // send login's data with axios
-  const onLogin = (data) => {
+  // requête pour la connexion de l'utilisateur
+function onLogin(data) {
     axios({
       method: "post",
       url: "http://localhost:3000/api/auth/login",
@@ -78,10 +84,12 @@ export default function FormConnexion() {
     })
       .then((res) => {
         if (res.data.message) {
+          // récupération et affichage des erreurs générées par la requête
           const errorSmall = document.querySelector(".postError");
           const error = res.data;
           errorSmall.textContent = error.message;
         } else {
+          // si la connexion est validée, l'utilisateur est redirigée vers la page d'accueil
           window.location = "/home";
         }
       })
@@ -90,7 +98,7 @@ export default function FormConnexion() {
       });
   };
 
-  // className for headers btn conditionnal
+  // className qui s'applique selon les états du composants
   const btnSignup = !isLogin
     ? "form--mode__btn form--mode__btn--clicked"
     : "form--mode__btn";
@@ -107,7 +115,6 @@ export default function FormConnexion() {
             className={btnSignup}
             aria-label="inscription"
           >
-            {" "}
             Inscription
           </button>
         )}
@@ -116,12 +123,11 @@ export default function FormConnexion() {
           className={btnLogin}
           aria-label="connexion"
         >
-          {" "}
-          Connexion{" "}
+          Connexion
         </button>
       </div>
 
-      {/* { !isLogin && !isSignup ? */}
+      {/* Modification de la fonction submit selon l'état de isLogin*/}
 
       <form
         onSubmit={isLogin ? handleSubmit(onLogin) : handleSubmit(onSignUp)}
@@ -138,7 +144,7 @@ export default function FormConnexion() {
                 className="form--connexion__input"
                 type="firstName"
                 id="firstName"
-                placeholder="Prénom"
+                placeholder="Prénom*"
                 name="firstName"
                 {...register("firstName")}
               />
@@ -158,7 +164,7 @@ export default function FormConnexion() {
             className="form--connexion__input"
             type="email"
             id="email"
-            placeholder="Email"
+            placeholder="Email*"
             name="email"
             {...register("email")}
           />
@@ -176,7 +182,7 @@ export default function FormConnexion() {
             className="form--connexion__input"
             type="password"
             id="password"
-            placeholder="Mot de passe"
+            placeholder="Mot de passe*"
             name="password"
             {...register("password")}
           />
@@ -187,13 +193,11 @@ export default function FormConnexion() {
 
         {!isLogin ? (
           <button type="submit" className="form--connexion__submit">
-            {" "}
-            Créer un compte{" "}
+            Créer un compte
           </button>
         ) : (
           <button type="submit" className="form--connexion__submit">
-            {" "}
-            Se connecter{" "}
+            Se connecter
           </button>
         )}
         <small className="form--connexion__error postError"></small>

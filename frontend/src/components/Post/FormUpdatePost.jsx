@@ -1,19 +1,27 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useContext} from "react";
+import axios from "axios";
+
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import * as Yup from "yup";
-import axios from "axios";
-import { useContext } from "react";
-import { Context } from "./Context";
-import { useState } from "react";
+
+import { Context } from "../Context";
+
 
 export default function FormUpdatePost(props) {
-  const { setPostUpdate, setAllPostsUpdate } = useContext(Context);
+  // import context
+  const {setPostUpdate, setAllPostsUpdate } = useContext(Context);
 
+  // permet de stocker l'image de l'utilisateur
   const [file, setFile] = useState(null);
+
+  // permet d'afficher une preview de l'image de l'utilisateur
   const [fileDataURL, setFileDataURL] = useState(null);
+
+  // permet de stocker les erreurs liées à l'image sélectionnée par l'utilisateur
   const [imgErr, setImgErr] = useState({ type: "", erreur: "" });
 
+  // useEffect qui permet d'afficher une preview de l'image selectionné par l'utilisateur
   useEffect(() => {
     let fileReader,
       isCancel = false;
@@ -39,7 +47,7 @@ export default function FormUpdatePost(props) {
     };
   }, [file]);
 
-  // get user's file
+  // gestion et validation du fichier de l'utilisateur
   function handleFile(e) {
     const file = e.target.files[0];
 
@@ -52,6 +60,7 @@ export default function FormUpdatePost(props) {
     }
   }
 
+  // fonction qui permet de supprimer le fichier selectionné par l'utilisateur
   function resetFile() {
     const input = document.querySelector("#file");
     input.value = "";
@@ -59,7 +68,7 @@ export default function FormUpdatePost(props) {
     setFileDataURL(null);
   }
 
-  // Yup object for control form
+  // Objet Yup qui permet de contrôler le formulaire
   const ValidationSchema = Yup.object().shape({
     message: Yup.string()
       .max(1024, "Votre message est trop long")
@@ -67,16 +76,17 @@ export default function FormUpdatePost(props) {
       .required("Merci de saisir votre message"),
   });
 
-  // validation form
+  // useForm pour gérer la validation du formulaire
   const { register, handleSubmit, formState, reset } = useForm({
     mode: "onBlur",
     resolver: yupResolver(ValidationSchema),
   });
 
-  // stock errors
+  // stockage des erreurs
   const { errors } = formState;
 
-  const updatePost = (data) => {
+  // requête pour la modification du post
+  function updatePost(data) {
     const formData = new FormData();
     formData.append("message", data.message);
     {
@@ -99,10 +109,13 @@ export default function FormUpdatePost(props) {
       .catch((err) => {
         throw err;
       });
-  };
+  }
 
   return (
-    <form className="form--post form--post__update" onSubmit={handleSubmit(updatePost)}>
+    <form
+      className="form--post form--post__update"
+      onSubmit={handleSubmit(updatePost)}
+    >
       <div className="form--post__header">
         <textarea
           {...register("message")}
@@ -154,9 +167,7 @@ export default function FormUpdatePost(props) {
           </div>
         )
       )}
-
       <small className="form--post__error">{imgErr.message}</small>
-
       <button type="submit" className="form--post__submit">
         Modifier
       </button>

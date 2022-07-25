@@ -2,6 +2,7 @@ import React from "react";
 import logo from "../images/icon-left-font-monochrome-red.svg"
 
 export default function Error() {
+    // page 404
     return (
         <main className="page--error">
             <img src={logo} alt='logo de groupomania' />
