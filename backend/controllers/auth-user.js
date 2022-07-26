@@ -22,7 +22,7 @@ exports.signup = (req, res) => {
         firstName: req.body.firstName,
         imageUrl: `${req.protocol}://${req.get(
           "host"
-        )}/images/users/defaultpicture.svg`,
+        )}/profilePicture/defaultpicture.svg`,
       });
 
       // une fois le hash effectué, utilisation de la méthode mongoose 'save' pour enregistrer le nouvel utilisateur
