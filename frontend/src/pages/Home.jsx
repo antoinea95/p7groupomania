@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 
-
 import { Context } from "../components/Context";
 import Post from "../components/Post/Post";
 import FormPost from "../components/Post/FormPost";

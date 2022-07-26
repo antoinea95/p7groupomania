@@ -125,6 +125,6 @@
 // affichage des images
 @mixin displayImg {
   @include flex(row, center, flex-start);
-  height: 40rem;
+  max-height: 35rem;
   overflow: hidden;
 }

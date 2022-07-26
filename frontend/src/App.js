@@ -68,7 +68,8 @@ export default function App() {
             path="/profile/:id"
             element={
               <>
-                <Header /><UserProfile />
+                <Header />
+                <UserProfile />
               </>
             }
           />

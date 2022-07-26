@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext} from "react";
+import React, { useEffect, useState, useContext } from "react";
 import axios from "axios";
 
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -7,9 +7,7 @@ import * as Yup from "yup";
 
 import { Context } from "../Context";
 
-
 export default function FormPost() {
-  
   // import context
   const { userId, setAllPostsUpdate } = useContext(Context);
 
@@ -127,16 +125,14 @@ export default function FormPost() {
       .catch((err) => {
         throw err;
       });
-  };
+  }
 
   return (
     <form className="form--post" onSubmit={handleSubmit(createPost)}>
       <div className="form--post__header">
-        <img
-          src={user.imageUrl}
-          className="form--post__img"
-          alt="Photo de profil"
-        />
+        <div className="form--post__img">
+          <img src={user.imageUrl} alt="Photo de profil" />
+        </div>
         <textarea
           aria-required="true"
           {...register("message")}

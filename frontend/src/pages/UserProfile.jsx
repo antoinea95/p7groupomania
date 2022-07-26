@@ -1,5 +1,5 @@
 import React, { useEffect, useContext, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
 import axios from "axios";
@@ -43,7 +43,7 @@ export default function UserProfile() {
 
   // état qui stock l'id de l'utilisataur
   let { id } = useParams();
-  const [profileId, setProfileId] = useState(null);
+  const [profileId, setProfileId] = useState(id);
 
   // stock les posts de l'utilisateur
   const [userPost, setUserPost] = useState([]);
@@ -51,7 +51,6 @@ export default function UserProfile() {
   // requête pour récupérer les informations de l'utilisateur
   useEffect(() => {
     // isLoading permet d'afficher le loader lorsque la page charge les informations
-    setProfileId(id);
     setIsLoading(true);
 
     axios({
@@ -66,7 +65,7 @@ export default function UserProfile() {
         setIsLoading(false);
       })
       .catch((err) => console.log(err));
-  }, [id, profileId, isUserPut, setIsLoading]);
+  }, [profileId, isUserPut, setIsLoading]);
 
   // requête pour récupérer les posts de l'utilisateur
   useEffect(() => {
@@ -212,6 +211,8 @@ export default function UserProfile() {
         // mise à jour des états et reset du formulaire
         setIsUserPut(true);
         setIsPutPicture(false);
+        setFile(null);
+        setFileDataURL(null);
       })
       .catch((err) => console.log(err));
   }

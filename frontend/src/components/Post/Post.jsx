@@ -2,11 +2,10 @@ import React, { useEffect, useState, useContext } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 
-import { Context } from "../Context"
+import { Context } from "../Context";
 import Comment from "../Comment/Comment";
 import FormUpdatePost from "./FormUpdatePost";
 import FormComment from "../Comment/FormComment";
-
 
 export default function Post(props) {
   // import context
@@ -31,6 +30,9 @@ export default function Post(props) {
   // stock le nombre de commentaires d'un post
   const [commentsNumber, setCommentsNumber] = useState(0);
 
+  // stock la date de création du post
+  const [date, setDate] = useState("");
+
   // requête pour récupérer les données de chaque post
   useEffect(() => {
     axios({
@@ -50,6 +52,11 @@ export default function Post(props) {
         } else {
           setIsLiked(false);
         }
+
+        // date de création du post
+        let createdDate = new Date(post.createdAt);
+        let formatCreatedDate = createdDate.toLocaleDateString("fr");
+        setDate(formatCreatedDate);
 
         // remise à 0 des états gérant le rendu du component
         setPostUpdate(false);
@@ -166,11 +173,8 @@ export default function Post(props) {
             {usersData.map((user) => {
               if (user._id === post.userId)
                 return (
-                  <h2 className="post--header__userName"  key={user._id}>
-                    <Link
-                      to={`/profile/${user._id}`}
-                      id="userLink"
-                    >
+                  <h2 className="post--header__userName" key={user._id}>
+                    <Link to={`/profile/${user._id}`} id="userLink">
                       {user.firstName}
                     </Link>
                   </h2>
@@ -234,6 +238,7 @@ export default function Post(props) {
             </button>
             <span className="post--footer__number">{post.likes}</span>
           </div>
+          <span className="post--footer__date"> Publié le {date}</span>
         </footer>
         {isComment && (
           <section className="post--comment">

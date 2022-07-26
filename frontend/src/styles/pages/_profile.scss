@@ -10,13 +10,27 @@
 
 // card de l'utilisateur
 .user {
+  position: relative;
   width: 45%;
   max-width: 50rem;
   @include blocStlye;
   margin: 13rem auto 3rem auto;
   @include flex(column, center, space-between);
   animation: displayComponent 300ms ease-in-out;
+  overflow: hidden;
 
+  &::before {
+    position: absolute;
+    width: 70rem;
+    right: 0;
+    top: 0;
+    height: 70rem;
+    content: "  ";
+    opacity: 0.2;
+    background-image: url("../../images/logo-left-font.svg");
+    background-repeat: no-repeat;
+    background-size: 70rem 70rem;
+  }
 
   @include tabletScreen {
     width: 80%;
@@ -31,7 +45,7 @@
     //box-shadow: inset 0 1rem 1.5rem -1.5rem rgba($color: black, $alpha: 0.2);
     text-align: center;
     position: relative;
-    padding: 2rem;
+    padding: 1rem;
     width: 100%;
 
     // style de la photo de profil
@@ -101,6 +115,7 @@
       &Name {
         font-weight: 700;
         font-size: 3rem;
+        color: $primary;
       }
 
       &Btn {
@@ -120,8 +135,8 @@
 
     // description de l'utilisateur
     &__bio {
-      width: 100%;
-      overflow-wrap: break-word;
+      width: 80%;
+      text-align: center;
       margin: 2rem 0;
     }
 
@@ -177,7 +192,6 @@
     max-height: 50rem;
     overflow: scroll;
     width: 50%;
-
 
     @include tabletScreen {
       width: 90%;

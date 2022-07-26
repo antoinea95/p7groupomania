@@ -1,4 +1,4 @@
-import React, { useState, useContext} from "react";
+import React, { useState, useContext } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
@@ -60,11 +60,9 @@ export default function Comment(props) {
           if (user._id === props.comment.commenterId) {
             return (
               <div className="comment--header__user" key={props.comment._id}>
-                <img
-                  className="comment--header__userImg"
-                  src={user.imageUrl}
-                  alt="photo de profil"
-                />
+                <div className="comment--header__userImg">
+                  <img src={user.imageUrl} alt="photo de profil" />
+                </div>
                 <h3 className="post--header__userName">
                   <Link to={`/profile/${user._id}`} id="userLink">
                     {user.firstName}
@@ -76,11 +74,11 @@ export default function Comment(props) {
         })}
         {userId === props.comment.commenterId || userRole === "admin" ? (
           <div className="comment--header__btn">
-            <button 
-               aria-label="modifer le commentaire"
+            <button
+              aria-label="modifer le commentaire"
               className="comment--header__btnModify"
               onClick={handlePut}
-              >
+            >
               <i className="fa-solid fa-pencil"> </i>
             </button>
             <button

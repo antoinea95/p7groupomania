@@ -24,6 +24,10 @@
     @include profilePic;
     margin-left: 0.5rem;
 
+    img {
+      object-fit: cover;
+    }
+
     @include mobileScreen {
       margin-left: 1rem;
     }

@@ -40,6 +40,10 @@
         @include profilePic;
         width: 2rem;
         height: 2rem;
+
+        img {
+          object-fit: cover;
+        }
       }
 
       // nom de l'utilisateur
