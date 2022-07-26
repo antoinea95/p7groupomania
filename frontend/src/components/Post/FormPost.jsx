@@ -22,14 +22,21 @@ export default function FormPost() {
   //stock les infos de l'utilisateurs connecté
   const [user, setUser] = useState("");
 
+  //etat qui permet d'attendre les données de l'utilisateur pour afficher le component
+  const [isUserdata, setIsUserData] = useState(false);
+
   // useEffect qui récupère les informations de l'utilisateur connecté
   useEffect(() => {
+    setIsUserData(true);
     axios({
       method: "get",
       url: `${process.env.REACT_APP_API_URL}/auth/user/${userId}`,
       withCredentials: true,
     })
-      .then((res) => setUser(res.data))
+      .then((res) => {
+        setUser(res.data);
+        setIsUserData(false);
+      })
       .catch((err) => console.log(err));
   }, [userId]);
 
@@ -128,57 +135,59 @@ export default function FormPost() {
   }
 
   return (
-    <form className="form--post" onSubmit={handleSubmit(createPost)}>
-      <div className="form--post__header">
-        <div className="form--post__img">
-          <img src={user.imageUrl} alt="Photo de profil" />
-        </div>
-        <textarea
-          aria-required="true"
-          {...register("message")}
-          className="form--post__text"
-          placeholder={`Quoi de neuf ${user.firstName} ?`}
-        ></textarea>
+    !isUserdata && (
+      <form className="form--post" onSubmit={handleSubmit(createPost)}>
+        <div className="form--post__header">
+          <div className="form--post__img">
+            <img src={user.imageUrl} alt="Photo de profil" />
+          </div>
+          <textarea
+            aria-required="true"
+            {...register("message")}
+            className="form--post__text"
+            placeholder={`Quoi de neuf ${user.firstName} ?`}
+          ></textarea>
 
-        <input
-          type="file"
-          id="file"
-          onChange={handleFile}
-          className="form--post__input"
-          accept="image/png, image/jpeg, image/jpg"
-        />
-        <label
-          htmlFor="file"
-          className="form--post__btnImg"
-          aria-label="ajouter une image"
-        >
-          <i className="fa-regular fa-image"></i>
-        </label>
-
-        {file !== null && (
-          <button
-            className="form--post__deleteImg"
-            type="button"
-            onClick={resetFile}
-            aria-label="supprimer l'image"
+          <input
+            type="file"
+            id="file"
+            onChange={handleFile}
+            className="form--post__input"
+            accept="image/png, image/jpeg, image/jpg"
+          />
+          <label
+            htmlFor="file"
+            className="form--post__btnImg"
+            aria-label="ajouter une image"
           >
-            <i className="fa-solid fa-trash"></i>
-          </button>
-        )}
-      </div>
+            <i className="fa-regular fa-image"></i>
+          </label>
 
-      <small className="form--post__error">{errors.message?.message}</small>
-
-      {fileDataURL ? (
-        <div className="form--post__previewImg">
-          <img src={fileDataURL} alt="preview" />
+          {file !== null && (
+            <button
+              className="form--post__deleteImg"
+              type="button"
+              onClick={resetFile}
+              aria-label="supprimer l'image"
+            >
+              <i className="fa-solid fa-trash"></i>
+            </button>
+          )}
         </div>
-      ) : null}
 
-      <small className="form--post__error">{imgErr.message}</small>
-      <button type="submit" className="form--post__submit">
-        Publier
-      </button>
-    </form>
+        <small className="form--post__error">{errors.message?.message}</small>
+
+        {fileDataURL ? (
+          <div className="form--post__previewImg">
+            <img src={fileDataURL} alt="preview" />
+          </div>
+        ) : null}
+
+        <small className="form--post__error">{imgErr.message}</small>
+        <button type="submit" className="form--post__submit">
+          Publier
+        </button>
+      </form>
+    )
   );
 }

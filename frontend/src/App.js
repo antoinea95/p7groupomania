@@ -35,7 +35,7 @@ export default function App() {
     }).then((res) => {
       setUserId(res.data.userId);
       setUserRole(res.data.userRole);
-    });
+    }).catch(err => console.log(err));
   }, [userId, userRole]);
 
   return (
