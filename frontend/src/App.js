@@ -12,7 +12,7 @@ import Error from "./pages/Error";
 
 export default function App() {
   // stock l'id de l'utilisateur connecté
-  const [userId, setUserId] = useState(null);
+  const [userId, setUserId] = useState('');
 
   // stock le role de l'utilisateur connecté
   const [userRole, setUserRole] = useState(null);
