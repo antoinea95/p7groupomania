@@ -26,4 +26,4 @@ A la racine du dossier **`frontend/`** du projet, lancez la commande **`npm inst
 A la racine du dossier  **`frontend/`** vous trouverez un ficher **`.env`** . Veuillez mettre à jour l'URL avec celle de votre API, veillez à ce que l'URL se termine par **`/api`**
 
 ### Lancement de l'application
-Toujours à la racine du dossier **`frontend/`**, lancez la commande **`npm run start`** pour lancez l'application
+Toujours à la racine du dossier **`frontend/`**, lancez la commande **`npm run start`** pour lancer l'application
