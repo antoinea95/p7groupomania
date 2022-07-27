@@ -1,5 +1,5 @@
 import React, { useEffect, useContext, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
 import axios from "axios";

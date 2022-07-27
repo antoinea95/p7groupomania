@@ -47,6 +47,8 @@ export default function FormUpdatePost(props) {
     };
   }, [file]);
 
+  console.log(file)
+
   // gestion et validation du fichier de l'utilisateur
   function handleFile(e) {
     const file = e.target.files[0];
@@ -62,10 +64,9 @@ export default function FormUpdatePost(props) {
 
   // fonction qui permet de supprimer le fichier selectionné par l'utilisateur
   function resetFile() {
-    const input = document.querySelector("#file");
-    input.value = "";
     setFile(null);
     setFileDataURL(null);
+    reset();
   }
 
   // Objet Yup qui permet de contrôler le formulaire
@@ -162,7 +163,6 @@ export default function FormUpdatePost(props) {
             <img
               src={props.imageUrl}
               alt="image du post"
-              crossOrigin="anonymous"
             />
           </div>
         )

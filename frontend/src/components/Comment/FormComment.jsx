@@ -1,4 +1,4 @@
-import React, {useContext} from "react";
+import React, { useContext } from "react";
 import axios from "axios";
 
 import { yupResolver } from "@hookform/resolvers/yup";
@@ -8,7 +8,6 @@ import * as Yup from "yup";
 import { Context } from "../Context";
 
 export default function FormComment(props) {
-
   // import du context
   const { userId, setPostUpdate } = useContext(Context);
 

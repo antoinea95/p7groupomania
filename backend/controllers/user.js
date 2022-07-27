@@ -1,6 +1,5 @@
 const User = require("../models/user");
 const fs = require("fs");
-const cookie = require("cookie-parser");
 
 //////////////////////////////////////////////////////get user
 exports.getUser = (req, res) => {
