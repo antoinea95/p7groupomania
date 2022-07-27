@@ -1,8 +1,6 @@
 // import des paquets de sécurité
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
-const cryptoJs = require("crypto-js");
-const cookie = require("cookie-parser");
 
 // import des modèles de donnée
 const User = require("../models/user");
@@ -15,14 +13,12 @@ exports.signup = (req, res) => {
     .then((hash) => {
       const user = new User({
         // email crypté à l'aide de cryptoJs
-        email: cryptoJs
-          .HmacSHA256(req.body.email, process.env.EMAIL_KEY)
-          .toString(),
+        email: req.body.email,
         password: hash,
         firstName: req.body.firstName,
         imageUrl: `${req.protocol}://${req.get(
           "host"
-        )}/profilePicture/defaultpicture.svg`,
+        )}/images/users/defaultpicture.svg`,
       });
 
       // une fois le hash effectué, utilisation de la méthode mongoose 'save' pour enregistrer le nouvel utilisateur
@@ -38,13 +34,9 @@ exports.signup = (req, res) => {
 };
 
 exports.login = (req, res) => {
-  // email crypté avec crypto JS
-  const emailCrypt = cryptoJs
-    .HmacSHA256(req.body.email, process.env.EMAIL_KEY)
-    .toString();
 
   // Méthode 'findOne' qui nous permet de retrouver l'utilisateur dans la BD à l'aide de son mail unique
-  User.findOne({ email: emailCrypt })
+  User.findOne({ email: req.body.email})
     .then((user) => {
       if (!user) {
         return res
