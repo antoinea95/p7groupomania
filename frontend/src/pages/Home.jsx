@@ -42,7 +42,7 @@ export default function Home() {
 
   // pour chaque post, affichage du component Post
   const post = allPosts.map((post) => {
-    return <Post key={post._id} postId={post._id} />;
+    return <Post key={post._id} postId={post._id} post={post} />;
   });
 
   return (

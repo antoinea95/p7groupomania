@@ -240,7 +240,10 @@ export default function UserProfile() {
 
   // suppression du compte de l'utilisateur et de tous ses posts
   function deleteUser() {
+
     deleteAllPostsUser();
+  
+    
 
     axios({
       method: "delete",

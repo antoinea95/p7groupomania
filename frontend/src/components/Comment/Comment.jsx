@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import axios from "axios";
 import { Link } from "react-router-dom";
 
@@ -12,10 +12,35 @@ export default function Comment(props) {
   //Etat qui permet d'afficher le formulaire pour modifier le commentaire
   const [isPut, setIsPut] = useState(false);
 
+  // Stock les informations de l'utilisateur qui a commenté
+  const [user, setUser] = useState({});
+
+  // Permet de savoir si l'utilisateur existe encore
+  const [oldUser, setOldUser] = useState(false);
+
   // fonction qui permet d'afficher et de masquer le formulaire de modification du commentaire
   function handlePut() {
     setIsPut((prevIsPut) => !prevIsPut);
   }
+
+  // requête pour récupérer les informations de l'utilisateur
+  useEffect(() => {
+    axios({
+      method: "get",
+      url: `${process.env.REACT_APP_API_URL}/auth/user/${props.comment.commenterId}`,
+      withCredentials: true,
+    })
+      .then((res) => {
+        // si l'utilisateur n'existe pas on change l'état de OldUser si non on stock les informations
+        res.data === null ? setOldUser(true) : setUser(res.data);
+      })
+      .catch((err) => console.log(err));
+  }, [props.comment.commenterId]);
+
+  // useEffect qui supprime les commentaires d'un utilisateur supprimé
+  useEffect(() => {
+    oldUser && deleteComment();
+  }, [oldUser]);
 
   // requête axios pour supprimer le commentaire
   function deleteComment() {
@@ -54,54 +79,55 @@ export default function Comment(props) {
   }
 
   return (
-    <div className="comment">
-      <div className="comment--header">
-        {props.users.map((user) => {
-          if (user._id === props.comment.commenterId) {
-            return (
-              <div className="comment--header__user" key={props.comment._id}>
-                <div className="comment--header__userImg">
-                  <img src={user.imageUrl} alt="photo de profil" />
-                </div>
-                <h3 className="post--header__userName">
-                  <Link to={`/profile/${user._id}`} id="userLink">
-                    {user.firstName}
-                  </Link>
-                </h3>
-              </div>
-            );
-          }
-        })}
-        {userId === props.comment.commenterId || userRole === "admin" ? (
-          <div className="comment--header__btn">
-            <button
-              aria-label="modifer le commentaire"
-              className="comment--header__btnModify"
-              onClick={handlePut}
-            >
-              <i className="fa-solid fa-pencil"> </i>
-            </button>
-            <button
-              aria-label="supprimer le commentaire"
-              className="comment--header__btnDelete"
-              onClick={deleteComment}
-            >
-              <i className="fa-solid fa-xmark"></i>
-            </button>
+    props.isComment && (
+      <div className="comment">
+        <div className="comment--header">
+          <div className="comment--header__user">
+            <div className="comment--header__userImg">
+              {!oldUser && <img src={user.imageUrl} alt="photo de profil" />}
+            </div>
+            {!oldUser ? (
+              <h3 className="post--header__userName">
+                <Link to={`/profile/${user._id}`} id="userLink">
+                  {user.firstName}
+                </Link>
+              </h3>
+            ) : (
+              <h3>Ancien utilisateur</h3>
+            )}
           </div>
-        ) : null}
+
+          {userId === props.comment.commenterId || userRole === "admin" ? (
+            <div className="comment--header__btn">
+              <button
+                aria-label="modifer le commentaire"
+                className="comment--header__btnModify"
+                onClick={handlePut}
+              >
+                <i className="fa-solid fa-pencil"> </i>
+              </button>
+              <button
+                aria-label="supprimer le commentaire"
+                className="comment--header__btnDelete"
+                onClick={deleteComment}
+              >
+                <i className="fa-solid fa-xmark"></i>
+              </button>
+            </div>
+          ) : null}
+        </div>
+        {/* si l'utilisateur clique sur le bouton modifié, modification de l'état isPut et affichage du component formComment*/}
+        {isPut ? (
+          <FormComment
+            isPut={isPut}
+            comment={props.comment}
+            postId={props.postId}
+            putComment={putComment}
+          />
+        ) : (
+          <p className="comment--message">{props.comment.text}</p>
+        )}
       </div>
-      {/* si l'utilisateur clique sur le bouton modifié, modification de l'état isPut et affichage du component formComment*/}
-      {isPut ? (
-        <FormComment
-          isPut={isPut}
-          comment={props.comment}
-          postId={props.postId}
-          putComment={putComment}
-        />
-      ) : (
-        <p className="comment--message">{props.comment.text}</p>
-      )}
-    </div>
+    )
   );
 }

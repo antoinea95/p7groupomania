@@ -1,4 +1,5 @@
 const Post = require("../models/post");
+const User = require("../models/user");
 
 //////////////////////////////////////////create comment
 exports.createComment = (req, res) => {
@@ -83,7 +84,17 @@ exports.deleteComment = (req, res) => {
           )
           .catch((error) => res.status(400).json({ error }));
       } else {
-        return res.status(403).json({ message: "Non autorisé" });
+        User.findOne({ _id: deleteComment.commenterId }).then((user) => {
+          if (user === null) {
+            Post.updateOne({ _id: req.params.id }, { comments: newComments })
+              .then(() =>
+                res.status(200).json({ message: "commentaires supprimé!" })
+              )
+              .catch((error) => res.status(400).json({ error }));
+          } else {
+            res.status(403).json({ message: "Non autorisé" });
+          }
+        });
       }
     })
     .catch((error) => res.status(500).json({ error }));

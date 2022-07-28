@@ -18,6 +18,9 @@ export default function Post(props) {
   // stockage des donées du post
   const [post, setPost] = useState({});
 
+  // stockage des commentaires du post
+  const [comments, setComments] = useState([]);
+
   // permet de gérer l'affichage des commentaires
   const [isComment, setIsComment] = useState(false);
 
@@ -42,6 +45,7 @@ export default function Post(props) {
     })
       .then((res) => {
         const post = res.data;
+        setComments(post.comments);
 
         // vérification des posts déjà likés par l'utilisateur
         const postLiked = post.usersLiked.includes(userId);
@@ -240,11 +244,12 @@ export default function Post(props) {
           </div>
           <span className="post--footer__date"> Publié le {date}</span>
         </footer>
-        {isComment && (
+        {
           <section className="post--comment">
-            {post.comments.map((comment) => {
+            {comments.map((comment) => {
               return (
                 <Comment
+                  isComment={isComment}
                   comment={comment}
                   key={comment._id}
                   users={usersData}
@@ -252,9 +257,9 @@ export default function Post(props) {
                 />
               );
             })}
-            <FormComment postId={post._id} />
+            {isComment && <FormComment postId={post._id} />}
           </section>
-        )}
+        }
       </article>
     );
   }
