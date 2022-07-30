@@ -25,7 +25,7 @@ Dans le dossier **`/backend/config`** vous trouverez un ficher **`.env.example`*
 ### Lancement du serveur
 Pour lancer le serveur, vous devez effectuer la commande 
 ```
-npm install
+npm start
 ```
 toujours à la racine du dossier **`backend`** dans votre terminal
 
