@@ -82,13 +82,13 @@ exports.updatePost = (req, res) => {
           { _id: req.params.id },
           { ...postObject, _id: req.params.id }
         )
-          .then(() => res.status(200).json({ message: req.body }))
+          .then(() => res.status(200).json({ message: 'Post modifié' }))
           .catch((error) => res.status(400).json({ error }));
       } else {
         res.status(401).json({ error: "Non autorisé" });
       }
     })
-    .catch((error) => res.status(500).json(req.body));
+    .catch((error) => res.status(500).json({error}));
 };
 
 /////////////////////////////////////////////delete post

@@ -49,7 +49,7 @@ exports.updateComment = (req, res) => {
       ) {
         Post.updateOne({ _id: req.params.id }, { comments: newComments })
           .then(() =>
-            res.status(200).json({ message: "commentaires modifié!" })
+            res.status(200).json({ message: "commentaire modifié!" })
           )
           .catch((error) => res.status(400).json({ error }));
       } else {
@@ -80,7 +80,7 @@ exports.deleteComment = (req, res) => {
       ) {
         Post.updateOne({ _id: req.params.id }, { comments: newComments })
           .then(() =>
-            res.status(200).json({ message: "commentaires supprimé!" })
+            res.status(200).json({ message: "commentaire supprimé!" })
           )
           .catch((error) => res.status(400).json({ error }));
       } else {
@@ -88,7 +88,7 @@ exports.deleteComment = (req, res) => {
           if (user === null) {
             Post.updateOne({ _id: req.params.id }, { comments: newComments })
               .then(() =>
-                res.status(200).json({ message: "commentaires supprimé!" })
+                res.status(200).json({ message: "commentaire supprimé!" })
               )
               .catch((error) => res.status(400).json({ error }));
           } else {
