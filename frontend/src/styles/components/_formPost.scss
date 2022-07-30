@@ -36,6 +36,10 @@
   &__text {
     @include inputText;
 
+    &:focus {
+      height: 8rem;
+    }
+
     @include mobileScreen {
       width: 70%;
     }

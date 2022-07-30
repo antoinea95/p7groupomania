@@ -77,7 +77,7 @@ exports.logout = (req, res) => {
   res.redirect("/");
 };
 
-// rout pour récupérer le token et décrypter l'userId et le rôle de l'utilisateur
+// routes pour récupérer le token et décrypter l'userId et le rôle de l'utilisateur
 exports.getToken = (req, res) => {
   const token = req.cookies.jwt;
 
