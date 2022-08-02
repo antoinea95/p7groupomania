@@ -42,8 +42,9 @@ export default function UserProfile() {
   const [imgErr, setImgErr] = useState({ type: "", erreur: "" });
 
   // état qui stock l'id de l'utilisataur
-  const [profileId, setProfileId] = useState('');
   let { id } = useParams();
+  const [profileId, setProfileId] = useState(id);
+  
 
   // stock les posts de l'utilisateur
   const [userPost, setUserPost] = useState([]);
@@ -52,7 +53,6 @@ export default function UserProfile() {
   useEffect(() => {
     // isLoading permet d'afficher le loader lorsque la page charge les informations
     setIsLoading(true);
-    setProfileId(id)
 
     axios({
       method: "get",

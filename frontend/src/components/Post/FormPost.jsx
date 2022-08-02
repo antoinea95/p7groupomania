@@ -23,11 +23,11 @@ export default function FormPost() {
   const [user, setUser] = useState("");
 
   //etat qui permet d'attendre les données de l'utilisateur pour afficher le component
-  const [isUserdata, setIsUserData] = useState(false);
+  const [isUserdata, setIsUserData] = useState(true);
 
   // useEffect qui récupère les informations de l'utilisateur connecté
   useEffect(() => {
-    setIsUserData(true);
+
     axios({
       method: "get",
       url: `${process.env.REACT_APP_API_URL}/auth/user/${userId}`,
