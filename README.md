@@ -1,10 +1,10 @@
-# Projet 7: Créez un réseau social d'entreprise
+# Projet 7: Créez un réseau social d'entreprise - MERN stack
 
 
 
 
 Pitch:  Développeur dans une agence Web, je devais réaliser un réseau social
-- Une page d'accueil où les posts des utilisateurs sont affichés dans l'ordre antéchronologue
+- Une page d'accueil où les posts des utilisateurs sont affichés dans l'ordre antéchronologique
 - L'utilisateur doit pouvoir créer un post avec un image, le supprimer et le modifier
 - L'utilisateur doit pouvoir liker les posts des autres utilisateurs
 - Un utilisateur admin pourra modifier/supprimer les posts des utilisateurs
